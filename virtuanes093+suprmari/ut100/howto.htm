@@ -1,0 +1,720 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=x-sjis">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<title>smb Utilityの使い方</title>
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" link="#00FF00"
+vlink="#000000" alink="#00FF00">
+
+<p><font size="4"><b>使い方</b></font></p>
+
+<p><font size="2">　使用する上で、疑問となりそうな点や知っておくと便利な機能などを説明・紹介します。なお、文章中の”オリジナル”とは、改造されていないスーパーマリオブラザーズのことです。</font></p>
+
+<p><font size="4"><b>１．基本操作</b></font></p>
+
+<p><font size="2"><b>ファイルを開く</b></font></p>
+
+<blockquote>
+    <p><font size="2">　”開く”ダイアログボックスの他に、ドラッグ＆ドロップによっても、ファイルを開くことができます。smb          
+    UtilityのアイコンにROMファイルをドラッグ&amp;ドロップするか、起動中のsmb          
+    UtilityにROMファイルをドラック＆ドロップします。　</font></p>
+    <p><font size="2">※ 対応ROMファイルフォーマットは、.NESフォーマットのみです。また、smb          
+    Utilityは、ROMを開く前に、最大限のROMのチェックは行いますが、そのチェックをパスしてしまうような他のROMを読み込んだ場合、その動作は未知です。</font></p>
+</blockquote>
+
+<p><font size="2"><b>元に戻す</b></font></p>
+
+<blockquote>
+    <p><font size="2"><b>　</b>メニュー [ 編集 ] - [          
+    元に戻す ]          
+    を選択することで、一つ前の処理を元に戻すことができます。1回前の操作に対してだけ行うことができます。</font></p>
+</blockquote>
+
+<p><font size="4"><b>2．オブジェクトの編集</b></font></p>
+
+<p>　<font size="2">はじめに、オリジナルマップを作成する上で理解しておく必要のあるルームとページという用語について簡単に説明します。土管や豆の木などで、行き来する場所を          
+1つの<b>ルーム</b>と呼びます。また、エリアのスタート地点となるルームを<b>メインルーム</b>、メインルームから豆の木や土管で移動可能なルームを<b>サブルーム</b>と呼びます。例えば、オリジナルの          
+1-1には、地上面と地下面（コイン部屋）の 2つのルームがあり、前者がメインルーム、後者がサブルームです。また、<b>ページ</b>は、ルームを分割した単位のことで、1画面に表示できる幅（16キャラクタ分）を          
+1ページとします。例えば、オリジナルの 1-1の地下面（コイン部屋）は、1ページで終わります。また、ルームにおけるページは、ルームの始まりから          
+0ページ、1ページ、2ページ、･･･          
+と数えます。<b>オブジェクト</b>は、?ブロックやクリボーなどのマップを構成する部品で、<b>敵オブジェク</b>トと<b>地形オブジェクト</b>に大別されます。</font></p>
+
+<p><font size="2"><b>編集するルームの変更</b></font></p>
+
+<blockquote>
+    <p><font size="2">　メニュー [編集] - [ルームの変更]          
+    または、ツールバーの土管の絵のボタンをクリックして、”ルームの変更”ダイアログを開きます。ツリービューの          
+    1項目が、1ルームに対応しています。ツリービューの最も左側にある項目がメインルームです。メインルームの項目の左にボタン（□の中に＋があるボタン）がある場合、そのメインルームのサブルームが存在します。ボタンをクリックするか、項目をダブルクリックすることで、メインルームの下にサブルームが表示されます。ルームを変更するには、目的のルームを選択して、”OK”ボタンをクリックします。</font></p>
+</blockquote>
+
+<p><font size="2"><b>敵・地形オブジェクトの切り替え</b></font></p>
+
+<blockquote>
+    <p><font size="2">　地形を編集する場合は、メニュー          
+    [ 編集 ] - [ 地形 ]          
+    または、ツールバーのショベルカーの絵をクリック、敵を編集する場合は、メニュー          
+    [ 編集 ] - [ 敵 ]          
+    または、ツールバーのカメの絵をクリックします。</font></p>
+</blockquote>
+
+<p><font size="2"><b>ウインドウとその役割</b></font></p>
+
+<blockquote>
+    <div align="left"><table border="1" cellspacing="1"
+    width="90%">
+        <tr>
+            <td align="center" width="30%"><font size="2"><b>　オブジェクトリストウインドウ</b></font></td>
+            <td width="50%"><font size="2">リストによってオブジェクトを確認できます。</font></td>
+        </tr>
+        <tr>
+            <td align="center" width="30%"><font size="2"><b>　オブジェクトビューウインドウ</b></font></td>
+            <td width="50%"><font size="2">視覚的にオブジェクトを確認できます。</font></td>
+        </tr>
+        <tr>
+            <td align="center" width="30%"><font size="2"><b>　エミュレータウインドウ</b></font></td>
+            <td width="50%"><font size="2">エミュレータ実行用のウインドウです。</font></td>
+        </tr>
+    </table>
+    </div><p><font size="2">選択されて編集の対象になっているオブジェクトのことを<b>アクティブオブジェクト</b>と呼びます。オブジェクトリストウインドウとオブジェクトビューウインドウにおけるアクティブオブジェクトの表現については、それぞれのウインドウの項目を参照してください。</font></p>
+    <p><font size="2">オブジェクトリストウインドウとオブジェクトビューウインドウからは、”編集”ダイアログと”移動先指定”ダイアログの2つのダイアログを使用できます。それぞれのウインドウからのダイアログの表示の方法については、それぞれのウインドウの項目を、ダイアログについての説明は、「オブジェクト          
+    ビュー／リストの補助ダイアログ」の項目を参照してください。</font></p>
+</blockquote>
+
+<p><font size="2"><b>オブジェクトリストウインドウ</b></font></p>
+
+<blockquote>
+    <p><font size="2">　オブジェクトリストウインドウは、リストビューで構成されるウインドウで、オブジェクトをリストとして見ることができ、オブジェクトの詳細・バイナリデータを確認するのに使用します。</font></p>
+    <p><font size="2">① アクティブオブジェクト</font></p>          
+    <p><font size="2">　1行が1つのオブジェクトに対応しており、強調表示になっている行がアクティブオブジェクトを表しています。選択したいオブジェクトの行をクリック、または、十字キーでアクティブオブジェクトを変更できます。</font></p>
+    <p><font size="2">② ”編集”ダイアログの表示</font></p>          
+    <p><font size="2">　目的のオブジェクトの行をダブルクリック、または、Enterキーを押すと、”編集”ダイアログボックスが表示されます。</font></p>
+    <p><font size="2">③          
+    ”移動先の指定”ダイアログの表示</font></p>
+    <p><font size="2">　目的のオブジェクトの行を右クリックすると、”移動先の指定”ダイアログが表示されます。</font></p>
+</blockquote>
+
+<p><font size="2"><b>オブジェクトビューウインドウ</b></font></p>
+
+<blockquote>
+    <p><font size="2">　オブジェクトビューウインドウは、垂直方向と水平方向の目盛りとビューで構成されるウインドウで、オブジェクトを視覚的に確認でき、オブジェクトの選択が容易に行うことができます。</font></p>
+    <p><font size="2">① オブジェクトの表現</font></p>          
+    <p><font size="2">　色のついた正方形（地形オブジェクトは緑系の色、敵オブジェクトは、青系の色）1つが、1つのオブジェクトに対応しています。この正方形のことを<b>オブジェクトスクエア</b>と呼びます。また、明るい色の正方形の部分がアクティブオブジェクトを、暗い色の正方形の部分がそれ以外のオブジェクトを表しており、前者を<b>アクティブ（オブジェクト）スクエア</b>と呼ぶことにします。オブジェクトビューウインドウでアクティブオブジェクトを選択するには、目的のオブジェクトスクエアをクリックします。また、オブジェクトスクエアをマウスでポイントするとツールチップが表示され、オブジェクトの種類を確認できます。</font></p>
+    <p><font size="2">② ”編集”ダイアログの表示</font></p>          
+    <p><font size="2">　ウインドウをダブルクリック、または、ウインドウを右クリックで表示されるポップアップメニューで”編集”を選択すると、”編集”ダイアログボックスが表示されます。</font></p>
+    <p><font size="2">③          
+    ”移動先の指定”ダイアログの表示</font></p>
+    <p><font size="2">　ウインドウを右クリックすると表示されるポップアップメニューで”送る”を選択すると、”移動先の指定”ダイアログが表示されます。</font></p>
+    <p><font size="2">④ ウインドウのサイズ</font></p>          
+    <p><font size="2">　ウインドウの右端をドラッグすると1ページずつ段階的にウインドウのサイズを変更することができます。なお、オブジェクトビューウインドウの描画が遅い場合、ウインドウの表示範囲を小さくして使用すると、緩和されます。</font></p>
+    <p><font size="2">⑤ 目盛りの補助線の表示</font></p>          
+    <p><font size="2">　座標を読み取りやすくするための補助線を表示することができます。垂直方向の補助線は、横位置目盛りを、水平方向の補助線は、縦位置目盛りをクリックすることで表示します。また、もう一度クリックすることで、非表示にすることができます。</font></p>
+    <p><font size="2">⑥ マウスによる編集</font></p>   
+    <p><font size="2">　オブジェクトビューでは、マウスによるオブジェクトの移動と種類の変更を行うことができます。アクティブオブジェクトをドラッグするとアクティブスクエアの4辺それぞれに接する4つの四角形が表示されます。ドラッグしたまま、表示された四角形へマウスを移動させるとその四角形の位置へオブジェクトが移動されます。また、Windows(R)98かそれ以降のOS上で、ホイールマウスを使用している場合、ホイールを回転させることによって種類を変更することができます。何もキーを押さない状態でホイールを回転させた場合、1ずつ種類が変化していきますが、Ctrlキーを押しながらホイールを回転させた場合、16ずつ種類が変化していきます。なお、ホイールを使用して種類を変更する場合、オブジェクトビューウインドウがアクティブな状態になっていることを確認してください。<br>
+    </font></p>
+</blockquote>
+
+<p><font size="2"><b>オブジェクト
+ビュー／リストの補助ダイアログ</b></font></p>
+
+<blockquote>
+    <p><font size="2">① ”編集”ダイアログ</font></p>         
+    <p><font size="2">　このダイアログは、アクティブオブジェクトを編集するときに使用します。</font></p>
+    <p style="margin-bottom: 0"><font size="2"><i>改ページフラグ</i></font></p>
+    <p style="margin-top: 0"><font size="2">　<b>改ページフラグ</b>は、各ページの先頭のオブジェクトがもつフラグです。</font></p>
+    <p style="margin-bottom: 0"><font size="2"><i>ページ送りコマンド</i></font></p>
+    <p style="margin-top: 0; margin-bottom: 5"><font size="2">　<b>ページ送りコマンド</b>は、その次のオブジェクトのページを設定するオブジェクトです。このオブジェクトによって、空白のページを作成することができます。”敵”オブジェクト用のページ送りコマンドは、ページ送りコマンドのチェックボックスをオンにして、その隣のエディットボックスで指定ページを設定します。”地形”オブジェクト用のページ送りコマンドは、縦位置を13、種類を”ページ送りコマンド”に設定して、長さで指定ページを設定します。ページ送りコマンドを配置する際には、以下の3点に注意します。</font></p>
+    <p style="line-height: 100%; margin-top: 0; margin-bottom: 0"><font
+    size="2">　・
+    ページ送りコマンドの改ページフラグは、オフにする。</font></p>
+    <p style="line-height: 100%; margin-top: 0; margin-bottom: 0"><font
+    size="2">　・
+    ページ送りコマンドの次のオブジェクトの改ページフラグも、オフにしておく。
+    </font></p>
+    <p style="line-height: 100%; margin-top: 0; margin-bottom: 0"><font
+    size="2">　・
+    逆戻りするようなページの指定はしない。</font></p>
+    <p style="margin-bottom: 0"><font size="2"><i>バイナリ入力</i></font></p>
+    <p style="margin-top: 0"><font size="2">　バイナリ入力は、エディトボックスに入力した数値がそのまま書きこまれます。この数値の入力には、16進数を用い、数値（1バイト）と数値（1バイト）の間は、必ずスペース1個分空けてください。マップ編集の場合は、3バイトまで、敵編集の場合は、4バイトまで入力できます。入力したデータのサイズが編集しているオブジェクトのデータのサイズを超えた場合、残りのバイトは、編集しているデータを超えたところからコピーされます。</font></p>
+    <p style="margin-top: 0"><font size="2"><i>ルーム間移動の命令
+    （敵オブジェクト）</i><b><i>&nbsp;&nbsp;<br>
+    </i></b>　このオブジェクトによって豆の木や土管などによるルーム変更時の移動先の指定を行います。”ワールド”は、このオブジェクトが有効になるワールドで、誤った設定を行った場合、移動先の指定は有効になりません。”ルーム”と”ページ”で、それぞれ移動先のルームとそのルーム内のページを設定します。この際、”プレビュー”ボタンをクリックすると表示されるプレビューによって、移動先を視覚的に確認することができます。</font></p>
+    <p><font size="2">② ”移動先指定”ダイアログ</font></p>        
+    <p><font size="2">　このダイアログでは、アクティブオブジェクトを他のルームへ移動させることができます。移動先のパラメータとしてルームとページの指定します。プレビューには、移動先のページが表示されます。OKをクリックすると実際に移動されます。<u>ただし、次のような場合、移動できません。<br>
+    </u></font>　<font size="2">・
+    移動するオブジェクトが改ページフラグを持っているかページ送りコマンドである（移動元のエラー）。<br>
+    </font>　<font size="2">・
+    移動先のページ（オブジェクトの全くないルームを除く）には、オブジェクトがない（移動先のエラー）。</font></p>
+</blockquote>
+
+<p><font size="2"><b>キーボードによる編集</b></font></p>
+
+<blockquote>
+    <p><font size="2">　テン・キー または、Z, X, C, S,        
+    Q, W, E, R, A, D        
+    を使用すると、アクティブオブジェクトに対するスピーディな編集を行うことができます。下の表は、キーと操作の対応表です。テン・キーを使用する際には、NumLockがオンになっている必要があります。また、キーボードの入力に対するオブジェクトビューの反応の速さは、キーボードの設定の内容の影響も受けます。</font></p>
+    <p><font size="2"><b>&nbsp;キーの詳細</b></font></p>
+    <div align="left"><table border="1" width="80%" height="231">
+        <tr>
+            <td align="center" width="20%" height="15"><font
+            size="2">テン・キーの 8</font></td>        
+            <td width="50%" height="15"><font size="2">アクティブオブジェクトの位置を上へ移動する。</font></td>
+        </tr>
+        <tr>
+            <td align="center" width="20%" height="16"><font
+            size="2">テン・キーの 4</font></td>        
+            <td width="50%" height="16"><font size="2">アクティブオブジェクトの位置を左へ移動する。</font></td>
+        </tr>
+        <tr>
+            <td align="center" width="20%" height="16"><font
+            size="2">テン・キーの 2</font></td>        
+            <td width="50%" height="16"><font size="2">アクティブオブジェクトの位置を下へ移動する。</font></td>
+        </tr>
+        <tr>
+            <td align="center" width="20%" height="16"><font
+            size="2">テン・キーの 6</font></td>        
+            <td width="50%" height="16"><font size="2">アクティブオブジェクトの位置を右へ移動する。</font></td>
+        </tr>
+        <tr>
+            <td align="center" width="20%" height="19"><font
+            size="2">+</font></td>
+            <td width="50%" height="19"><font size="2">アクティブオブジェクトの種類のデータを1だけ増やす。</font></td>
+        </tr>
+        <tr>
+            <td align="center" width="20%" height="19"><font
+            size="2">-</font></td>
+            <td width="50%" height="19"><font size="2">アクティブオブジェクトの種類のデータを1だけ減らす。</font></td>
+        </tr>
+        <tr>
+            <td align="center" width="20%" height="19"><font
+            size="2">*</font></td>
+            <td width="50%" height="19"><font size="2">アクティブオブジェクトの種類のデータを16だけ増やす。</font></td>
+        </tr>
+        <tr>
+            <td align="center" width="20%" height="19"><font
+            size="2">/</font></td>
+            <td width="50%" height="19"><font size="2">アクティブオブジェクトの種類のデータを16だけ減らす。</font></td>
+        </tr>
+        <tr>
+            <td align="center" width="20%" height="16"><font
+            size="2">テン・キーの 9</font></td>        
+            <td width="50%" height="16"><font size="2">アクティブオブジェクトをその次のページの先頭のオブジェクトに変更する。</font></td>
+        </tr>
+        <tr>
+            <td align="center" width="20%" height="16"><font
+            size="2">テン・キーの 3</font></td>        
+            <td width="50%" height="16"><font size="2">アクティブオブジェクトをその1つ前のページの先頭のオブジェクトに変更する。</font></td>
+        </tr>
+        <tr>
+            <td align="center"><font size="2">テン・キーの        
+            7</font></td>
+            <td><font size="2">アクティブオブジェクトをその次のオブジェクトに変更する。</font></td>
+        </tr>
+        <tr>
+            <td align="center"><font size="2">テン・キーの        
+            1</font></td>
+            <td><font size="2">アクティブオブジェクトをその1つ前のオブジェクトに変更する。</font></td>
+        </tr>
+    </table>
+    </div><p style="margin-bottom: 5"><font size="2"><u>※        
+    キー入力の際、次のようなオブジェクトの移動はできません。
+    </u></font></p>
+    <p style="line-height: 100%; margin-top: 0; margin-bottom: 0"><font
+    size="2">　・ オブジェクトの第１バイト目にFDH（地形）、FFH（敵）を入力してしまうような移動。</font></p>        
+    <p style="line-height: 100%; margin-top: 0; margin-bottom: 0"><font
+    size="2">　・ 1ページに1つしかないオブジェクトを他のページに移動させる。</font></p>        
+    <p style="line-height: 100%; margin-top: 0; margin-bottom: 0"><font
+    size="2">※        
+    これらのキーの割り当ては、変更することもできます。&quot;5.        
+    カスタマイズ&quot;を参照してください。</font></p>
+</blockquote>
+
+<p><font size="2"><b>エミュレータウインドウ</b></font></p>
+
+<blockquote>
+    <p><font size="2">① 入力デバイス</font></p>        
+    <p><font size="2">　キーボードかジョイスティックを使用します。</font></p>
+    <div align="left"><table border="1" width="50%">
+        <tr>
+            <td align="center" width="33%"><font size="2">キーボード</font></td>
+            <td align="center" width="33%"><font size="2">ジョイスティック</font></td>
+            <td align="center" width="33%">　</td>
+        </tr>
+        <tr>
+            <td align="center" width="33%"><font size="2">十字キー</font></td>
+            <td align="center" width="33%"><font size="2">十字ボタン</font></td>
+            <td align="center" width="33%"><font size="2">移動ボタン</font></td>
+        </tr>
+        <tr>
+            <td align="center" width="33%"><font size="2">Backspace</font></td>
+            <td align="center" width="33%"><font size="2">ボタン３</font></td>
+            <td align="center" width="33%"><font size="2">SELECT</font></td>
+        </tr>
+        <tr>
+            <td align="center" width="33%"><font size="2">Enter</font></td>
+            <td align="center" width="33%"><font size="2">ボタン４</font></td>
+            <td align="center" width="33%"><font size="2">START</font></td>
+        </tr>
+        <tr>
+            <td align="center" width="33%"><font size="2">B</font></td>
+            <td align="center" width="33%"><font size="2">ボタン1</font></td>
+            <td align="center" width="33%"><font size="2">B</font></td>
+        </tr>
+        <tr>
+            <td align="center" width="33%"><font size="2">N</font></td>
+            <td align="center" width="33%"><font size="2">ボタン２</font></td>
+            <td align="center" width="33%"><font size="2">A</font></td>
+        </tr>
+    </table>
+    </div><p><font size="2">※　ジョイスティックの中には、エミュレータウインドウやオブジェクトビューウインドウに致命的なパフォーマンスの低下をもたらすものも存在します。そのような場合、メニュー       
+    [ツール] - [オプション]　で”オプション”ダイアログを開き、”エミュレータ”のページの”ジョイスティックを使用しない。”をチェックして、ジョイスティックの使用を無効にしてください。</font></p>
+    <p><font size="2">※　キーボード入力に関しては、カスタマイズ可能です。デフォルトのキー割り当てでは、同時に効かないキーがある場合、カスタマイズを利用して変更します。これについての詳細は、&quot;5.カスタマイズ&quot;を参照してください。</font></p>
+    <p><font size="2">② 実行の種類</font></p>      
+    <p><font size="2"><u>通常起動</u>　タイトル画面から実行します。</font></p>
+    <p><font size="2"><u>テストプレイ</u>　現在編集しているルームの先頭ページ（0ページ）にプレイヤーを置いた状態で実行します。開始の際の縦位置は、そのルームの”出現位置”になります。</font></p>
+    <p><font size="2"><u>ページテストプレイ</u>　テストプレイとの違いは、プレイヤーの置かれるページが、アクティブオブジェクトのあるページか、指定したページ（”テストプレイの設定”ダイアログで変更可能）であるということと、開始の際のプレイヤーの縦位置を”テストプレイの設定”で変更することができるということです。なお、地形オブジェクトの全くないページを開始ページとして設定できません。</font></p>
+    <p><font size="2"><u>途中ページテストプレイ</u>　テストプレイとの違いは、プレイヤーの置かれるページが、途中開始ページであるということと、開始の際のプレイヤーの縦位置は、地面上のみであることです。なお、途中開始ページに地形オブジェクトが全くない場合、途中ページテストプレイは行えません。</font></p>
+    <p style="margin-bottom: 0"><font size="2">③      
+    テストプレイの設定”ダイアログ</font></p>
+    <p style="margin-bottom: 0">　<font size="2">このダイアログ内の設定は、テストプレイの時のみ有効で、実際のROMファイルへの影響はありません。また、このダイアログ内のデフォルトの（起動時に設定される）値を変更することもできます。&quot;5.      
+    カスタマイズ&quot;を参照してください。</font></p>
+    <p><font size="2">④</font><font size="2"> ウインドウのサイズ</font></p>     
+    <p><font size="2">　ウインドウの右・下端をドラッグすると段階的にウインドウのサイズを変更することができます。なお、描画が遅い場合、ウインドウの表示範囲を小さくして使用すると、緩和されます。</font></p>
+    <p><font size="2">⑤ セーブ・ロード機能</font></p>     
+    <p><font size="2">　セーブされたデータは、アプリケーションを終了すると消去されます。また、セーブ後にオブジェクトを移動し、その後、ロードを行うと正常に実行されない恐れがあります。</font></p>
+</blockquote>
+
+<p><font size="2"><b>ルーム・エリアの設定の変更</b></font></p>
+
+<blockquote>
+    <p><font size="2">　メニュー [ 編集 ] - [ 設定 ]      
+    で”設定”ダイアログを開きます。”エリア”に関する項目は、エリアの開始ルームを編集しているときのみ有効になります。”途中の開始ページ”では、プレイヤーがミスしたときの中間スタートのページを設定します。</font></p>
+</blockquote>
+
+<p><font size="4"><b>3．ツール</b></font></p>
+
+<p><font size="2">　ツールは、ゲーム全体にかかわる設定や、オブジェクトの補助的なデータなどを変更する際に使用します。</font></p>
+
+<p><font size="2"><b>文字列編集ツール</b></font></p>
+
+<blockquote>
+    <p><font size="2">　このツールでは、画面上側にあるゲームステータスの部分の表示や、ワールドクリアした際に表示される文字列等の編集を行うことができます。</font></p>
+    <p style="margin-bottom: 0"><font size="2"><i>特殊文字の入力</i></font></p>
+    <p style="margin-top: 0"><font size="2">　通常のアルファベット・数字・記号（'      
+    . ',　' ! ',　' - ',　' * ' [ = 'x' ],　' @ ' [ = '(C)' ]）の他に、タイルの番号による指定も可能です。具体的には、#xx（xxは、16進数のタイルの番号）と入力することで、その番号（xx）に対応するタイルを指定できます。なお、<u>xxは必ず2文字でなければいけません</u>（例えば#Aと指定するのではなく#0Aと指定する）。タイルの番号の確認は、Nesticleで行えます。</font></p>      
+</blockquote>
+
+<p><font size="2"><b>ループ編集ツール</b></font></p>
+
+<blockquote>
+    <p><font size="2">&nbsp;　ループデータをバイナリ入力によって変更できます。スペースで区切られた数字1つが、1バイトに対応しており、その数字は<u>16進数</u>です。</font></p>
+    <p><font size="2"><b>■　ループとその作成法</b></font></p>
+    <p><font size="2">　ループは、オリジナルのの4-4,7-4,8-4で見られる、ある地点において、ある高さを通れば、次に進むことができ、さもなければ、ある地点へマップが戻されてしまうというワナです。ループコマンド、ページ送りコマンドの2種類の地形オブジェクトとループデータの1種類のデータの合計3つ要素によって形成されます。</font></p>
+    <p><font size="2">　簡単にループの作成法について説明します。この説明のように作成すれば、ほとんどすべての場合、思い通りのループを作成可能ですが、何らかの未知の原因により、うまくいかない場合もあるということを頭の片隅に置いておいてください。また、この説明は非常に分かりにくいものになっています。オリジナルも参考にしてください。</font></p>
+    <p><font size="2">① ループデータのまとまり</font></p>      
+    <p><font size="2">　（”②      
+    データの意味”の表中の）a、b、c、d      
+    のデータは、まとまりがあります。具体的には、a、b、c、d      
+    のそれぞれ n バイト目が、n      
+    個目のループデータのまとまりになっています（n      
+    = 1、2、3、…、11）。例えば、オリジナルでは、03      
+    05 40 12（いずれも16進数）は、1つめのループデータのまとまり、03      
+    09 B0 36（いずれも16進数）は、2つ目のループデータのまとまりです。</font></p>      
+    <p><font size="2">② データの意味</font></p>      
+    <table border="1" width="95%">
+        <tr>
+            <td width="35%"><font size="2">&nbsp;a. ワールド</font></td>      
+            <td width="65%"><font size="2">　ループが有効になるワールドを指定します。（（ワールド）-1）で指定することに注意してください。</font></td>
+        </tr>
+        <tr>
+            <td width="35%"><font size="2">&nbsp;b. ページ</font></td>      
+            <td width="65%"><font size="2">　”③ 判定1つタイプの（オリジナルの4-4や8-4で見られる）ループの作成法&nbsp;”や”④　判定3つタイプの（オリジナルの7-4で見られる）ループの作成法”を参照してください。</font></td>
+        </tr>
+        <tr>
+            <td width="35%"><font size="2">&nbsp;c.      
+            縦位置の条件</font></td>
+            <td width="65%"><font size="2">　ループしないために通るべき縦位置を上位4ビットで指定します。例えば、00（16進数）は縦位置      
+            -1、10（16進数）は縦位置 0、20（16進数）は縦位置      
+            1、…、 F0（16進数）は 縦位置 15      
+            の指定になります。なお、下位4ビットは、特に理由がない限り、0にしておきます。</font></td>
+        </tr>
+        <tr>
+            <td width="35%"><font size="2">&nbsp;d. 戻り位置</font></td>      
+            <td width="65%"><font size="2">　ループした際に戻されるページの先頭にある<u>地形オブジェクト用</u>ページ送りコマンドをマップの先頭からの（0起算の）バイト数を指定します。このバイト数は、地形オブジェクト用ページ送りコマンドの”編集”ダイアログ内の”XXバイト目”の項目のXXをそのまま入力します。</font></td>
+        </tr>
+        <tr>
+            <td width="35%"><font size="2">&nbsp;e. ワールド7のループの設定</font></td>      
+            <td width="65%"><font size="2">　ワールド7のループを他のワールドで出す場合、この2つのデータを希望のワールドに変更します。（（ワールド）-1）で指定することに注意してください。</font></td>
+        </tr>
+    </table>
+    <p><font size="2">③ 判定1つタイプの（オリジナルの4-4や8-4で見られる）ループの作成法&nbsp;</font></p>      
+    <p><font size="2">　”a.      
+    ワールド”で、設定したワールド内のルームにおいて、次のような関係でデータ、オブジェクトを設定します。なお、ループのデータは、同じまとまりのデータを使用します。</font></p>
+    <table border="1" width="95%">
+        <tr>
+            <td align="center" width="15%"><font size="2">ページ</font></td>
+            <td align="center" width="16%"><font size="2">p</font>
+            </td>
+            <td align="center" width="16%"><font size="2">p + 1</font></td>
+            <td align="center" width="17%"><font size="2">p + 2</font></td>
+            <td align="center" width="17%"><font size="2">p + 3</font>
+            </td>
+            <td align="center" width="17%"><font size="2">p + 4</font></td>
+        </tr>
+        <tr>
+            <td align="center" width="15%"><font size="2">ループデータ</font></td>
+            <td align="center" width="16%"><p align="left"><font
+            size="2">”d. 戻り位置”を設定。<sup>注１</sup></font></p>      
+            </td>
+            <td align="center" width="16%">　</td>
+            <td align="center" width="17%">　</td>
+            <td align="center" width="17%"><p align="left"><font
+            size="2">”c. 縦位置の条件”を設定。</font></p>      
+            </td>
+            <td align="center" width="17%"><p align="left"><font
+            size="2">”b. ページ”のデータに ( p + 4 )      
+            を設定</font></p>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" width="15%"><font size="2">地形オブジェクト</font></td>
+            <td align="center" width="16%"><p align="left"><font
+            size="2"><u>ページの先頭に地形オブジェクトの</u>
+            p ページへのページ送りコマンド<sup>注2</sup></font></p>      
+            </td>
+            <td align="center" width="16%">　</td>
+            <td align="center" width="17%">　</td>
+            <td align="center" width="17%"><p align="center"><font
+            size="2">ループコマンド<sup>注3</sup></font></p>
+            </td>
+            <td align="center" width="17%">　</td>
+        </tr>
+        <tr>
+            <td align="center" width="15%"><font size="2">備考</font></td>
+            <td align="center" width="16%"><p align="left"
+            style="margin-top: 0; margin-bottom: 0"><font
+            size="2">ループした際に戻されるページ</font></p>
+            </td>
+            <td align="center" width="16%">　</td>
+            <td align="center" width="17%">　</td>
+            <td align="center" width="17%"><p align="left"><font
+            size="2">プレイヤーが<u>このページの横位置
+            0 </u>にやってきた時に、縦位置の判定が行われる。</font></p>
+            </td>
+            <td align="center" width="17%"><p align="left"><font
+            size="2">このページには、ループした場合、p      
+            ページが表示され、ループしなかった場合は、(      
+            p + 4 )ページが表示される。</font></p>      
+            </td>
+        </tr>
+    </table>
+    <p style="margin-bottom: 0"><font size="2">注 1　このバイト数は、地形オブジェクトのページ送りコマンドの”編集”ダイアログ内の”XXバイト目”の項目のXXをそのまま入力します。</font></p>
+    <p style="margin-top: 0; margin-bottom: 0"><font size="2">注      
+    2　たとえ、改ページフラグを使えば p      
+    ページになるとしても、必ずページ送りコマンドを使って      
+    p ページに設定し、そのページ送りコマンドは<u>ページの先頭</u>になるように配置します。</font></p>      
+    <p style="margin-top: 0; margin-bottom: 0"><font size="2">注      
+    3　地形オブジェクトの縦位置13のオブジェクトです。</font></p>
+    <p><font size="2">④　判定3つタイプの（オリジナルの7-4で見られる）ループの作成法</font></p>
+    <p>　<font size="2">まず、”e.ワールド7のループの設定”を、2つともループをこのタイプのループを作成するワールドに変更します（      
+    （（ワールド）-1）      
+    で指定することに注意してください。）。このワールドでは、”判定      
+    1つのタイプのループ”を作成することはできません。データとオブジェクトをどのように配置するかについては、まず、判定個所が3つあるため、ループデータは、3つのまとまりを使用します。この3つのまとまりに、”判定1つのタイプのループ”と同様に、”a      
+    ワールド”、”d 戻り位置”を設定し（それぞれのデータは、3つのまとまりとも等しくなる）、その他のデータ・オブジェクトについては、以下のように設定・配置します。</font></p>      
+    <table border="1" width="95%">
+        <tr>
+            <td align="center" colspan="2" width="15%"><font
+            size="2">ページ</font></td>
+            <td align="center" width="16%"><font size="2">p</font>
+            </td>
+            <td align="center" width="16%"><font size="2">p + 1</font></td>
+            <td align="center" width="17%"><font size="2">p + 2</font></td>
+            <td align="center" width="17%"><font size="2">p + 3</font>
+            </td>
+            <td align="center" width="17%"><font size="2">p + 4</font></td>
+        </tr>
+        <tr>
+            <td align="center" rowspan="3" width="8%"><font
+            size="2">データ</font></td>
+            <td align="center" width="7%"><font size="2">まとまり1</font></td>
+            <td align="center" rowspan="3" width="16%"><p
+            align="left"><font size="2">（”d. 戻り位置”を設定。）</font></p>      
+            </td>
+            <td width="16%"><font size="2">”c. 縦位置の条件”を設定。</font></td>      
+            <td width="17%"><p align="left"><font size="2">”b.      
+            ページ”のデータに ( p + 2 ) を設定</font></p>      
+            </td>
+            <td width="17%">　</td>
+            <td width="17%">　</td>
+        </tr>
+        <tr>
+            <td align="center" width="7%"><font size="2">まとまり2</font></td>
+            <td width="16%">　</td>
+            <td width="17%"><font size="2">”c. 縦位置の条件”を設定。</font></td>      
+            <td width="17%"><font size="2">”b.      
+            ページ”のデータに ( p + 3 ) を設定</font></td>      
+            <td width="17%">　</td>
+        </tr>
+        <tr>
+            <td align="center" width="7%"><font size="2">まとまり3</font></td>
+            <td width="16%">　</td>
+            <td width="17%">　</td>
+            <td width="17%"><font size="2">”c. 縦位置の条件”を設定。</font></td>      
+            <td width="17%"><font size="2">”b.      
+            ページ”のデータに ( p + 4 ) を設定</font></td>      
+        </tr>
+        <tr>
+            <td align="center" colspan="2" width="15%"><font
+            size="2">地形オブジェクト</font></td>
+            <td align="center" width="16%"><p align="left"><font
+            size="2"><u>ページの先頭に地形オブジェクトの</u>
+            p ページへのページ送りコマンド(③の注2      
+            を参照)</font></p>
+            </td>
+            <td align="center" width="16%"><font size="2">ループコマンド</font></td>
+            <td align="center" width="17%">　<font size="2">ループコマンド</font></td>
+            <td align="center" width="17%"><font size="2">ループコマンド</font></td>
+            <td align="center" width="17%">　</td>
+        </tr>
+        <tr>
+            <td align="center" colspan="2" width="15%"><font
+            size="2">備考</font></td>
+            <td align="center" width="16%"><p align="left"
+            style="margin-top: 0; margin-bottom: 0"><font
+            size="2">ループした際に戻されるページ</font></p>
+            </td>
+            <td width="16%"><font size="2">プレイヤーが<u>このページの横位置
+            0 </u>にやってきた時に、縦位置の判定が行われる。</font></td>
+            <td width="17%"><font size="2">プレイヤーが<u>このページの横位置
+            0 </u>にやってきた時に、縦位置の判定が行われる。</font></td>
+            <td width="17%"><p align="left"><font size="2">プレイヤーが<u>このページの横位置
+            0 </u>にやってきた時に、縦位置の判定が行われる。</font></p>
+            </td>
+            <td width="17%"><p align="left"><font size="2">このページには、ループした場合、p      
+            ページが表示され、ループしなかった場合は、(      
+            p + 4 )ページが表示される。</font></p>      
+            </td>
+        </tr>
+    </table>
+    <p style="margin-top: 0; margin-bottom: 0"><font size="2"><i>作成上のコツ</i></font></p>
+    <p style="margin-top: 0; margin-bottom: 0"><font size="2">・
+    ループコマンドをページの先頭に置くと、うまくいかなくなることがあります。</font></p>
+    <p style="margin-top: 0; margin-bottom: 0"><font size="2">・
+    戻り位置のページの前のページの敵が表示されてしまう場合、その敵を左に移動させる（横位置を減らす）か、最後の判定の行われるページのループコマンドを右に移動させる（横位置を増やす）ことで解決することがあります。</font></p>
+    <p style="margin-top: 0; margin-bottom: 0"><font size="2">・
+    ループするかの判定が行われる際、ループのデータの参照は、後ろの方のまとまりから順に行われます。</font></p>
+</blockquote>
+
+<p><font size="2"><b>ワールドの区分の更新ツール</b></font></p>
+
+<blockquote>
+    <p><font size="2">　ワールドとエリアの表示が、”エリアの変更”ダイアログと実際とで違う場合、このツールを実行してください。</font></p>
+</blockquote>
+
+<p><font size="2"><b>エリア開始ルームの編集ツール</b></font></p>
+
+<blockquote>
+    <p><font size="2">　このツールで、エリアの開始ルームの変更と並べ替え行うことができます。</font></p>
+    <p><font size="2">（1） エリア開始ルームの変更</font></p>      
+    <p><font size="2">　変更したいエリアをダブルクリックすると、”エリアの開始ルームの指定”ダイアログが表示されます。このダイアログで、新しいルームを選びます。</font></p>
+    <p><font size="2">（2）      
+    エリア開始ルームの並べ替え</font></p>
+    <p><font size="2">　移動したいエリアを選択して、右側にある↑ボタンで、始めのほうに、↓ボタンで後のほうに移動します。</font></p>
+    <p><font size="2">　エリアの開始ルームの変更によって、土管や豆の木によるルーム間の移動が正常に行われなくなることがありますが、これは、ルーム間移動の命令のワールドの設定の関係でルーム間移動の命令が無効になったことが原因です。ルーム間移動の命令のワールドの設定を適切に変更することで解決します。</font></p>
+</blockquote>
+
+<p><font size="2"><b>デモレコーダー</b></font></p>
+
+<blockquote>
+    <p><font size="2">　このツールでは、タイトル画面中のデモプレイを作成することができます。何かのボタンを押した時点で記録が開始され、保存できる容量を越えた時点で記録が終了します。</font></p>
+</blockquote>
+
+    <p><font size="2"><b>全般の設定ツール</b></font></p>
+<blockquote>
+  <p><font size="2"><i>クリアーとなるワールド</i></font><font size="2"><br>
+  　ここで指定したワールドをクリアーするとエンディングとなります。このワールドは、1から8の間のワールドで指定します。この変更は、”元に戻す”機能で元に戻すことはできません。また、ここでの指定より後のワールドのルームは、”ルームの変更”ダイアログで選択できなくなります。</font></p>
+</blockquote>
+
+<p><font size="2"><b>その他の設定ツール</b></font></p>
+
+<blockquote>
+    <p style="margin-top: 0; margin-bottom: 0"><font size="2"><i>ワープゾーン</i></font></p>
+    <p style="margin-top: 0; margin-bottom: 0">　<font size="2">オリジナルでは、ワールドとして36を設定すると表示なしとなります。</font></p>
+    <p style="margin-top: 0; margin-bottom: 0"><font size="2"><i>1UPキノコ　</i></font></p>
+    <p style="margin-top: 0; margin-bottom: 0"><font size="2">　隠れブロックの1UPキノコには、獲得権のようなものが存在し、この獲得権がない場合、配置した隠れブロックの1UPキノコは、表示されません。この獲得権の取得・喪失の条件はどのようになっているかについては、まず、スタート時にはすでに与えられています。その後、プレイヤーが隠れブロックの1UPキノコの付近にやってきた時点で、失います。隠れブロックの1UPキノコの獲得権を失った後で、再び獲得権を得るための方法は、2つあります。1つは、ワープゾーンに入ることです。もう1つは、各ワールドの3番目のエリアで、”ある枚数”以上のコインを取って、ゴールすることです。この”ある枚数”をここで設定することができます。</font></p>
+    <p style="margin-top: 0; margin-bottom: 0"><font size="2"><i>ワールド（難易度の境目）</i></font></p>
+    <p style="margin-top: 0; margin-bottom: 0"><font size="2">　ここで設定したワールドとエリア以降では、次のような難易度の変化があります。</font></p>
+    <blockquote>
+        <p style="margin-top: 10; margin-bottom: 10"><font
+        size="2">・ リフトが短くなる。</font></p>
+        <p style="margin-top: 10; margin-bottom: 10"><font
+        size="2">・ ”5-3以降表示”の敵が表示されるようになる。</font></p>      
+    </blockquote>
+</blockquote>
+
+<p><font size="4"><b>4．その他の機能</b></font></p>
+
+<p><font size="2"><b>キャラクタROMの読み込み機能</b></font></p>
+
+<blockquote>
+    <p><font size="2">　メニュー [ファイル] - [キャラクタROMの読み込み]      
+    で、”開く”ダイアログを開き、読み込み元のROMファイルを指定します。読み込み元のROMファイルからキャラクタROMが、現在編集しているROMへ読み込まれます。</font></p>
+</blockquote>
+
+<p><font size="2"><b>外部エディタによるファイル変更の監視機能</b></font></p>
+
+<blockquote>
+    <p><font size="2">　開いた（または、保存した）ファイルに対して外部のプログラムが、何らかの書き込みを行った場合、smb      
+    Utility は、再度そのファイルを読み直すかどうかの確認をします。<u>読み直した場合、smb      
+    Utility      
+    で開いた時または、前回の保存時からの変更は、すべて無効になりますのでご注意ください。</u></font></p>
+</blockquote>
+
+<p><font size="2"><b>ルームごとのオブジェクトの保護機能</b></font></p>
+
+<blockquote>
+    <p><font size="2">　この機能は、編集しているルーム内のオブジェクトのみを表示・編集できるようにします。この機能を有効にしておくと、オブジェクトの終了を示すデータが無効になっても、編集しているルームのオブジェクトのみ表示され、誤って他のルームのデータを編集してしまうといったことを防止します。</font><font size="2">メニュー 
+    [ツール]      
+    - [オプション]      
+    で、”オプション”ダイアログを開き、エディタのページ内の”ルームごとのオブジェクトの保護機能を有効にする”チェックボックスによって、この機能を有効・無効にすることができます。</font></p>
+</blockquote>
+
+<p><font size="4"><strong>5．カスタマイズ</strong></font></p>
+
+<p><font size="2">　より使いやすくするために、好みに応じて変更できる部分があります。</font></p>
+
+<p><font size="2"><strong>起動時に設定されるデフォルト値の変更</strong></font></p>
+
+<blockquote>
+    <p><font size="2">　起動時に設定されるデフォルト値は、smb      
+    Utility      
+    実行可能ファイルのあるディレクトリにある初期化ファイル&quot;smbutil.ini&quot;に保存されています。これをテキストエディタを使用して編集することにより、変更できます。</font></p>
+    <p style="margin-bottom: 0"><font size="2">（１）　”テストプレイの設定”のデフォルト値</font></p>
+    <p style="margin-bottom: 0"><font size="2">　テストプレイの設定のデフォルト値（起動時に設定される値）を変更することができます。&quot;smbutil.ini&quot;をテキストエディタで開き、次の部分を見つけてください。</font></p>
+    <blockquote>
+        <p style="margin-bottom: 0"><font size="2">[TESTPLAYDEFAULTS]<br>
+        HARD = 0<br>      
+        STATE = 0<br>      
+        BADGUYS = 0<br>      
+        PAGE = 256<br>      
+        POS = 8</font></p>      
+    </blockquote>
+    <p style="margin-bottom: 0"><font size="2">ここが、テストプレイの設定のデフォルト値を指定した部分です。”[TESTPLAYDEFAULTS]”      
+    の下の5行のそれぞれについて、左辺がキー名、右辺が値となっています。それぞれのキー名に対応する設定の内容と有効な値は、以下のようになっています。</font></p>
+    <div align="left"><table border="1" width="95%">
+        <tr>
+            <td align="center" width="20%"><font size="2">キー名</font></td>
+            <td align="center" width="30%"><font size="2">対応する設定の内容</font></td>
+            <td align="center" width="50%"><font size="2">有効な値</font></td>
+        </tr>
+        <tr>
+            <td align="center" width="20%"><font size="2">HARD</font></td>
+            <td align="center" width="30%"><font size="2">裏面として出す</font></td>
+            <td width="50%"><font size="2">0: オフ、1: オフ</font></td>      
+        </tr>
+        <tr>
+            <td align="center" width="20%"><font size="2">STATE</font></td>
+            <td align="center" width="30%"><font size="2">マリオの状態</font></td>
+            <td width="50%"><font size="2">0: マリオ、1:      
+            スーパーマリオ、2: ファイアーマリオ</font></td>      
+        </tr>
+        <tr>
+            <td align="center" width="20%"><font size="2">BADGUYS</font></td>
+            <td align="center" width="30%"><font size="2">開始ページの敵も出現させる。</font></td>
+            <td width="50%"><font size="2">0: オフ、1: オフ</font></td>      
+        </tr>
+        <tr>
+            <td align="center" width="20%"><font size="2">PAGE</font></td>
+            <td align="center" width="30%"><font size="2">ページテストプレイの開始ページ</font></td>
+            <td width="50%"><font size="2">0-255:      
+            指定したページから<br>
+            256:      
+            選択しているオブジェクトのあるページから</font></td>
+        </tr>
+        <tr>
+            <td align="center" width="20%"><font size="2">POS</font></td>
+            <td align="center" width="30%"><font size="2">ページテストプレイの開始位置</font></td>
+            <td width="50%"><font size="2">0: 高さ-1、横位置1.5<br>      
+            1: ｴﾘｱの始まり：×。他ﾙｰﾑからの移動：高さ-1、横位置1.5&quot;<br>      
+            2: 高さ10、横位置1.5&quot;<br>      
+            3: 高さ4 、横位置1.5&quot;<br>      
+            4: 高さ-1、横位置1.5&quot;<br>      
+            5: 高さ-1、横位置1.5&quot;<br>      
+            6: 高さ10、横位置1.5（自動歩行）<br>      
+            7: 高さ10、横位置1.5（自動歩行）<br>      
+            8: 指定なし（有効をオフ）</font></td>      
+        </tr>
+    </table>
+    </div><p><font size="2">（２）　”ルームごとのオブジェクトの保護機能を有効にする。”のデフォルト値</font></p>
+    <p><font size="2">　エディターのオプション”ルームごとのオブジェクトの保護機能を有効にする。”を起動時に、オンにするかオフにするかの設定です。&quot;smbutil.ini&quot;をテキストエディタで開き、次の部分を見つけてください。</font></p>
+    <p><font size="2">[EDITOR]<br>
+    PROTECT = 1</font></p>      
+    <p><font size="2">”PROTECT”キーが1の場合はオン、0の場合はオフになります。</font></p>
+</blockquote>
+
+<p><font size="2"><strong>キーボードのキー設定の変更</strong></font></p>
+
+<blockquote>
+    <p><font size="2">　メニュー [ツール]-[カスタマイズ]      
+    で表示される”カスタマイズ”ダイアログの”キーボード”で行います。Ctrl・Alt・Shiftチェックボックスは、オンにすると、それぞれCtrlキー・Altキー・Shiftキーを同時に押しながらという設定になります。キーボードアクセレレータとエミュレータのキー割り当ては、重複してはいけません。また、”プリセットキー”では、キーボードの種類やユーザーの好みにあわせた予め設定されたキーをまとめて設定できます。この設定は、次回の起動時から有効になります。</font></p>
+</blockquote>
+
+<p><font size="4"><b>6．トラブルシューティング</b></font></p>
+
+<p><font size="2">　問題に遭遇した場合の解決法として、参考にしてください。</font></p>
+
+<p><font size="2"><strong>アプリケーション関連</strong></font></p>
+
+<p><font size="2">（1）    
+キーボードによる編集で、オブジェクトを動かせない。</font></p>
+
+<blockquote>
+    <p><font size="2">→　オブジェクトの第1バイトにマップの場合はFDH、敵の場合はFFH（それぞれ、オブジェクトの終了示す。）を作るような移動は、行えないようになっています。</font></p>
+    <p><font size="2">→　1ページに1つしかない改ページフラグを持つオブジェクトを他のページに移動させることは、行えないようになっています。</font></p>
+    <p><font size="2">→　最後のページのオブジェクトを次のページへ動かす場合は、改ページフラグを利用します。</font></p>
+</blockquote>
+
+<p><font size="2">（2）    
+ワールドやエリアの表示が、”ルームの変更”ダイアログボックスと実際とで違っている。</font></p>
+
+<blockquote>
+    <p><font size="2">→　ワールドの区分を設定するデータが適切でないことが原因です。”ワールドの区分の更新”ツールを実行して解決します。</font></p>
+</blockquote>
+
+<p><font size="2">（３）
+ルーム間移動の命令がうまく働かない。</font></p>
+
+<blockquote>
+    <p><font size="2">→　ルーム間移動の命令を有効にしたいワールドを正しく設定する必要があります。</font></p>
+</blockquote>
+
+<p><font size="2"><strong>マップ作成関連</strong></font></p>
+
+<p><font size="2">（１） 
+斧を踏んだときにクッパの橋が落ちない。</font></p>
+
+<blockquote>
+    <p><font size="2">→　クッパの橋や斧のあるページが奇数ページである場合、そのようなことが状態が発生します。偶数ページに変更してください。</font></p>
+</blockquote>
+
+<p><font size="2">（２） 地形オブジェクトが消えてしまう。</font></p>
+<blockquote>
+  <p><font size="2">→　縦に多数のオブジェクトを（約4つ以上）配置している場合、そのようなことが起こります。縦にあまり重ならないよう工夫して配置してみてください。</font></p>
+</blockquote>
+
+<p><font size="4"><b>7．参考文献</b></font></p>
+
+<p><font size="2">ｋ1氏：　スーパーマリオオリジナルマップ作成講座<br>
+　ルーム、ページ、改ページフラグ、ページ送りコマンド、ルーム間移動の命令、ループ、ループコマンドの用語が定義されている他、敵・地形オブジェクトのデータの詳細について分かりやすく書かれています。</font></p>
+
+<hr>
+
+<p style="margin-top: 0; margin-bottom: 0"><font size="2"><b>
+(C) 1999-2001 M.K.S.<br>  
+本文書に登場する登場する会社名・商品名は、一般に各社の商標または登録商標です。</b></font></p>
+</body>
+</html>
