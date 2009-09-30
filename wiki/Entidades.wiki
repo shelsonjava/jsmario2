@@ -8,6 +8,7 @@ Seres:
     - estrella
     - disparo
     - explosión
+    - tortuga_aerea
 
 Objetos:
     - cubo
@@ -20,6 +21,7 @@ Objetos:
     - tubo2
     - tubo3
     - tubo4
+    - plataforma1
     - castillo1
 
 Figuras:
