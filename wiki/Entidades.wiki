@@ -1,5 +1,5 @@
 Por entidades se entiende todos los enemigos, hongos, estrellas, etc. ("seres"), cubos, tubos, fuego y agua, etc. ("objetos") e imágenes de fondo ("figuras"), además del mismo mario.
-
+<pre>
 Seres:
     - bicho
     - tortuga
@@ -61,3 +61,4 @@ Mario:
         - agachado
         - trepando
         - disparando
+</pre>
