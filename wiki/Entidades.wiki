@@ -1,4 +1,4 @@
-Por entidades se entiende todos los enemigos, hongos, estrellas, etc. ("seres"), cubos, tubos, fuego y agua, etc. ("objetos") e imágenes de fondo ("figuras"), además del mismo mario.
+Por entidades se entiende todos los enemigos, hongos, estrellas, etc. ("seres"), cubos, tubos, monedas, etc. ("objetos") e imágenes de fondo ("figuras"), además del mismo mario.
 <pre>
 Seres:
     - bicho
