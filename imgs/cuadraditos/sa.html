@@ -1,0 +1,499 @@
+<html>
+<head>
+<style type='text/css'>
+span
+{
+    font-weight:bold;
+}
+</style>
+<script type='text/javascript' src='jquery.js'></script>
+<script type='text/javascript'>
+var EE1_cantidad;
+var EE2_cantidad;
+var EE3_cantidad;
+var CFM = Array();
+var IVA = 1.21;
+var precio_final;
+var neto;
+
+function roundNumber(num, dec)
+{
+    var result = Math.round(num*Math.pow(10,dec))/Math.pow(10,dec);
+        return result;
+}
+var Calculate = function()
+{
+    $('span').html('');
+    var tiempo = parseInt(document.getElementById('tiempo').value);
+    var consumo = parseInt(document.getElementById('consumo').value);
+    if(consumo > 0 && tiempo > 0 )
+    {
+        CFM_CTFO_transac(consumo, tiempo);
+        EE1(consumo, tiempo);
+        EE2(consumo, tiempo);
+        EE3(consumo, tiempo);
+        EE4(consumo, tiempo);
+        $('#neto').html(roundNumber(neto, 2));
+        Impuestos(consumo, tiempo);
+		alert(precio_final);
+        $('#final').html(roundNumber(precio_final, 2));
+    }
+}
+var CFM_CTFO_transac = function(consumo, tiempo)
+{
+    var consumo_diario = consumo/tiempo;
+    var transac_tarifa = "0"; // se sobreescribe en caso de superar cierto monto
+    var CTFO_tarifa = "0"; // se sobreescribe en caso de superar cierto monto
+
+    if((consumo_diario) <= 2.67)
+    {
+        var cmf_tarifa = 4.8067; // hasta 80 kWh por mes
+    }
+    else
+    {
+        if((consumo_diario) <= 4)
+        {
+            var cmf_tarifa = 4.8776; // entre 81 y 120 kWh por mes
+        }
+        else
+        {
+            if(consumo_diario > 16.67)
+            {
+
+                var cmf_tarifa = 8.2600; // mas de 500 kWh por mes 
+                var transac_tarifa = 2.46;
+                var CTFO_tarifa = 2.5375; 
+            }
+            else
+            {
+
+                var cmf_tarifa = 6.0971; // entre 121 y 500 kWh por mes
+                var transac_tarifa = 1.89;
+                var CTFO_tarifa = 1.8125; 
+            }
+        }
+    } // calculo de tarifa
+
+    // calculo de precio unitario
+
+    var cmf_precio_unitario = (cmf_tarifa*IVA)/30;
+
+    var transac_precio_unitario = (transac_tarifa*IVA)/30;
+    if(transac_precio_unitario == 0)
+        transac_precio_unitario = "0"; // overraidea con un string para ser mostrado en el formulario
+
+    var CTFO_precio_unitario = (CTFO_tarifa*IVA)/30;
+    if(CTFO_precio_unitario == 0)
+        CTFO_precio_unitario = "0"; // overraidea con un string para ser mostrado en el formulario
+
+    //calculo de importe
+    var cmf_importe = cmf_precio_unitario * tiempo;
+    var transac_importe = transac_precio_unitario * tiempo;
+    var CTFO_importe = CTFO_precio_unitario * tiempo;
+
+    neto = cmf_importe + transac_importe + CTFO_importe;
+
+    if(transac_importe == 0)
+        transac_importe= "0"; // overraidea con un string para ser mostrado en el formulario
+
+    if(CTFO_importe == 0)
+        CTFO_importe= "0"; // overraidea con un string para ser mostrado en el formulario
+
+    $('#CFM_tarifa').html(roundNumber(cmf_tarifa, 2));
+    $('#CFM_precio_unitario').html((cmf_precio_unitario, 4));
+    $('#CFM_IVA').html('%21');
+    $('#CFM_importe').html(roundNumber(cmf_importe , 2));
+
+    if(transac_importe != "0")
+    {
+        $('#transac_tarifa').html(roundNumber(transac_tarifa, 2));
+        $('#transac_precio_unitario').html(roundNumber(transac_precio_unitario, 4));
+        $('#transac_IVA').html('%21');
+        $('#transac_importe').html(roundNumber(transac_importe, 2));
+    }
+    if(CTFO_importe != "0")
+    {
+        $('#CTFO_tarifa').html(roundNumber(CTFO_tarifa, 2));
+        $('#CTFO_precio_unitario').html(roundNumber(CTFO_precio_unitario, 4));
+        $('#CTFO_IVA').html('%21');
+        $('#CTFO_importe').html(roundNumber(CTFO_importe, 2));
+    }
+    return;
+}
+function getCantidadEE1(consumo, tiempo) // obtener el campo cantidad del escalon 1
+{
+    consumo_diario = consumo / tiempo
+    if(consumo_diario<=(20/30))
+        return roundNumber((tiempo*20/30), 2);
+    if(consumo_diario<=2.67)
+        return consumo;
+    if(consumo_diario>=2.67 && consumo_diario < 4)
+        return roundNumber((tiempo*80/30),2);
+    if(consumo_diario>4)
+        return roundNumber((tiempo*120/30),0);
+    else
+        return consumo;
+}
+
+var EE1  = function(consumo, tiempo)
+{
+    var consumo_diario = consumo/tiempo;
+    EE1_cantidad = getCantidadEE1(consumo, tiempo);
+
+    if(consumo_diario<=2.67)
+        var EE1_tarifa = 0.1137;
+    else if(consumo_diario<=4)
+        var EE1_tarifa = 0.12742;
+    else if(consumo_diario <= 16.67)
+        var EE1_tarifa = 0.15421
+    else if(consumo_diario <= 23.33)
+        var EE1_tarifa = 0.20502;
+    else if(consumo_diario <= 23.33)
+        var EE1_tarifa = 0.25414;
+    else
+        var EE1_tarifa = 0.29783;
+    var precio_unitario = EE1_tarifa * IVA;
+    var total = precio_unitario * EE1_cantidad;
+    neto = neto+total;
+    $('#EE1_cantidad').html(EE1_cantidad);
+    $('#EE1_precio_unitario').html(roundNumber(precio_unitario, 4));
+    $('#EE1_IVA').html('%21');
+    $('#EE1_importe').html(roundNumber(total, 2));
+    $('#EE1_tarifa').html(roundNumber(EE1_tarifa, 2));
+
+}
+var _EE2_cantidad = function(consumo, tiempo)
+{
+    var consumo_diario = consumo/ tiempo;
+    if((consumo- EE1_cantidad)<=0)
+        return false;
+        if(consumo_diario<=2.67)
+            return false;
+        if(consumo_diario>2.67 && consumo_diario<=4)
+            return consumo - EE1_cantidad;
+        if(consumo_diario>4 && consumo_diario<=6.67)
+            return (consumo-EE1_cantidad);
+        if(consumo_diario>6.67)
+            return tiempo*(80/30);
+        return consumo;
+}
+var EE2 = function(consumo, tiempo)
+{
+    EE2_cantidad = Math.round(_EE2_cantidad(consumo,tiempo));
+    if(EE2_cantidad == false)
+        return;
+    var tarifa = EE2_tarifa(consumo, tiempo);
+    var precio_unitario = tarifa * IVA;
+    var total = precio_unitario * EE2_cantidad;
+    neto = total + neto;
+    $('#EE2_cantidad').html(EE2_cantidad);
+    $('#EE2_precio_unitario').html(roundNumber(precio_unitario, 4));
+    $('#EE2_IVA').html('%21');
+    $('#EE2_importe').html(roundNumber(total, 2));
+    $('#EE2_tarifa').html(roundNumber(tarifa, 2));
+}
+var EE2_tarifa = function(consumo, tiempo)
+{
+    if(consumo/tiempo<=2.67) 
+         return false;
+    if(consumo/tiempo <= 16.67)
+        return 0.24605;
+    if(consumo/tiempo < 23.33)
+        return 0.29686;
+    if(consumo/tiempo  > 23.33 && consumo/tiempo <= 46.67)
+        return 0.34596;
+    return 0.38967; 
+}
+var _EE3_cantidad = function(consumo, tiempo)
+{
+    var consumo_diario = consumo/tiempo;
+    if(consumo_diario<=6.67)
+        return false;
+    if(consumo_diario>=6.67 && consumo_diario<=16.67)
+        return consumo-EE1_cantidad-EE2_cantidad;
+    if(consumo_diario >16.67)
+        return (tiempo*300/30)
+    else
+        return false;
+}
+var EE3_tarifa = function(consumo, tiempo)
+{
+        if(consumo/tiempo < 2.67)
+            return 0;
+        else if(consumo/tiempo <=  16.67)
+            return 0.25394;
+        else if(consumo/tiempo <= 23.33)
+            return 0.30475;
+        else if( consumo/tiempo > 23.33 && consumo/tiempo <= 46.67)
+            return 0.35387;
+        else
+            return 0.39755;
+}
+var EE3 = function(consumo, tiempo)
+{
+    EE3_cantidad = _EE3_cantidad(consumo, tiempo);
+    if(EE3_cantidad == false)
+        return;
+    var tarifa = EE3_tarifa(consumo, tiempo); 
+    var precio_unitario = tarifa * IVA;
+    var total = precio_unitario * EE3_cantidad;
+    neto = total + neto;
+    $('#EE3_cantidad').html(EE3_cantidad);
+    $('#EE3_precio_unitario').html(roundNumber(precio_unitario, 4));
+    $('#EE3_IVA').html('%21');
+    $('#EE3_importe').html(roundNumber(total, 2));
+    $('#EE3_tarifa').html(roundNumber(tarifa, 2));
+}
+var EE4_tarifa = function(consumo, tiempo)
+{
+    if(consumo/tiempo <= 16.67)
+        return 0;
+    else if(consumo/tiempo <= 23.33)
+        return 0.30771;
+    else if(consumo/tiempo > 23.33 && consumo/tiempo <= 46.67)
+        return 0.35683;
+    return 0.40052;
+}
+var EE4 = function(consumo, tiempo)
+{
+    EE4_cantidad = _EE4_cantidad(consumo, tiempo);
+    if(EE4_cantidad == false)
+        return;
+    var tarifa = EE4_tarifa(consumo, tiempo); 
+    var precio_unitario = tarifa * IVA;
+    var total = precio_unitario * EE4_cantidad;
+    neto = total + neto;
+    $('#EE4_cantidad').html(EE4_cantidad);
+    $('#EE4_precio_unitario').html(roundNumber(precio_unitario, 4));
+    $('#EE4_IVA').html('%21');
+    $('#EE4_importe').html(roundNumber(total, 2));
+    $('#EE4_tarifa').html(roundNumber(tarifa, 2));
+}
+var _EE4_cantidad = function(consumo, tiempo)
+{
+    var consumo_diario = consumo/tiempo;
+    if(consumo_diario<=16.67)
+        return false;
+    return consumo-EE1_cantidad-EE2_cantidad-EE3_cantidad
+}
+var Impuestos = function(consumo, tiempo)
+{
+    var OIM = (neto * 0.1) / 1.21;
+    $('#oim').html(roundNumber(OIM,2));
+    precio_final = OIM;
+
+    var SRC = (neto * 0.006) / 1.21;
+    $('#src').html(roundNumber(SRC, 2));
+    precio_final = precio_final+SRC;
+
+    var DTO = neto * 0.004 / 1.21;
+    $('#dto').html(roundNumber(DTO, 2));
+    precio_final = precio_final+DTO;
+
+    var infra = infraestructura(consumo, tiempo);
+    var precio_final = precio_final + infra;
+    $('#infra').html(roundNumber(infra,2));
+
+    var fondo = fondo_fuego(consumo, tiempo);
+    $('#fondo').html(roundNumber(fondo,2));
+    precio_final = precio_final + fondo;
+alert(precio_final);
+    precio_final = neto+precio_final
+}
+function infraestructura(consumo, tiempo)
+{
+    var consumo_diario = consumo/tiempo;
+    if(consumo_diario > 16.67)
+        return (neto * 0.015) / 1.21;
+    return 0;
+}
+function fondo_fuego(consumo, tiempo)
+{
+    var consumo_diario = consumo/tiempo;
+    if(consumo_diario<=4)
+        return 0.55;
+    if(consumo_diario>4 && consumo_diario < 6.67)
+        return 8.4;
+    return 10.5
+
+}
+</script>
+</head>
+<body>
+    <div id='Titulo'>
+        Servicio: Residencial
+    </div>
+    <div id='Inputs'>
+
+        <table>
+            <tr>
+                <td>Consumo(kWh)</td>
+                <td><input type='text' id='consumo'></td>
+            </tr>
+            <tr>
+                <td>Tiempo(Dias)</td>
+                <td><input type='text' id='tiempo'></td>
+
+            </tr>
+            <tr>
+                <td></td>
+                <td><a onclick="Calculate()">Calcular</a>
+            </tr>
+        </table>
+    </div>
+    <div id='CFM'>
+
+        <table>
+            <tr>
+                <td>Impuesto</td>
+                <td>Tarifa:</td>
+                <td>Precio Unitario:</td>
+                <td>IVA:</td>
+                <td>Importe:</td>
+
+            </tr>
+            <tr>
+                <td>Cargo Fijo / CMF </td>
+                <td><span id='CFM_tarifa'> </span></td>
+                <td><span id='CFM_precio_unitario'></span></td>
+                <td><span id='CFM_IVA'></span></td>
+                <td><span id='CFM_importe'></span></td>
+            </tr>
+
+            <tr id = 'transac' style='display:visible;'>
+                <td>Cargo Fijo / Trans.AC </td>
+                <td><span id='transac_tarifa'> </span></td>
+                <td><span id='transac_precio_unitario'></span></td>
+                <td><span id='transac_IVA'></span></td>
+                <td><span id='transac_importe'></span></td>
+            </tr>
+            <tr id = 'CTFO' style='display:visible;'>
+
+                <td>CTFO</td>
+                <td><span id='CTFO_tarifa'> </span></td>
+                <td><span id='CTFO_precio_unitario'></span></td>
+                <td><span id='CTFO_IVA'></span></td>
+                <td><span id='CTFO_importe'></span></td>
+            </tr>
+            <tr id = 'EE1' style='display:visible;'>
+                <td>EE1</td>
+
+                <td><span id='EE1_tarifa'></span></td>
+                <td><span id='EE1_precio_unitario'></span></td>
+                <td><span id='EE1_IVA'></span></td>
+                <td><span id='EE1_importe'></span></td>
+            </tr>
+            <tr id = 'EE2' style='display:visible;'>
+                <td>EE2</td>
+                <td><span id='EE2_tarifa'></span></td>
+
+                <td><span id='EE2_precio_unitario'></span></td>
+                <td><span id='EE2_IVA'></span></td>
+                <td><span id='EE2_importe'></span></td>
+            </tr>
+             <tr id = 'EE3' style='display:visible;'>
+                <td>EE3</td>
+                <td><span id='EE3_tarifa'></span></td>
+                <td><span id='EE3_precio_unitario'></span></td>
+
+                <td><span id='EE3_IVA'></span></td>
+                <td><span id='EE3_importe'></span></td>
+            </tr>
+              <tr id = 'EE4' style='display:visible;'>
+                <td>EE4</td>
+                <td><span id='EE4_tarifa'></span></td>
+                <td><span id='EE4_precio_unitario'></span></td>
+                <td><span id='EE4_IVA'></span></td>
+
+                <td><span id='EE4_importe'></span></td>
+            </tr>
+              <tr>
+                <td><hr/></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><hr/></td>
+            </tr>
+
+              <tr id = 'Neto' style=''>
+                <td><b>Neto Epec mas IVA</b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><span id='neto'></span></td>
+            </tr>
+              <tr>
+
+                <td><hr/></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><hr/></td>
+            </tr>
+ 
+          <tr style='display:visible;'>
+                <td>Ord. Impuesto Municipal</td>
+
+                <td>%10</td>
+                <td></td>
+                <td></td>
+                <td><span id='oim'></span></td>
+            </tr>
+
+
+          <tr style='display:visible;'>
+                <td>Ley Santa Cruz</td>
+
+                <td>%0.60</td>
+                <td></td>
+                <td></td>
+                <td><span id='src'></span></td>
+            </tr>
+
+
+          <tr style='display:visible;'>
+                <td>Decreto 2298</td>
+
+                <td>%0.40</td>
+                <td></td>
+                <td></td>
+                <td><span id='dto'></span></td>
+            </tr>
+
+
+          <tr style='display:visible;'>
+                <td>Fondo Fuego</td>
+
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><span id='fondo'></span></td>
+            </tr>
+          <tr style='display:visible;'>
+                <td>Fondo Infraestructura Electrica</td>
+                <td></td>
+
+                <td></td>
+                <td></td>
+                <td><span id='infra'></span></td>
+            </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+                <td><hr/></td>
+            </tr>
+              <tr style='display:visible;'>
+                <td><b>Final</b></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><span id='final'></span></td>
+
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
