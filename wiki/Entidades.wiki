@@ -1,0 +1,63 @@
+Por entidades se entiende todos los enemigos, hongos, estrellas, etc. ("seres"), cubos, tubos, fuego y agua, etc. ("objetos") e imágenes de fondo ("figuras"), además del mismo mario.
+
+Seres:
+    - bicho
+    - tortuga
+    - planta
+    - hongo
+    - estrella
+    - disparo
+    - explosión
+
+Objetos:
+    - cubo
+    - signo
+    - ladrillos
+    - barra
+    - moneda
+    - bandera
+    - tubo1
+    - tubo2
+    - tubo3
+    - tubo4
+    - castillo1
+
+Figuras:
+    - figura1
+    - figura2
+    - figura3
+    - figura4
+    - figura5
+    - figura6
+    - figura7
+    - figura8
+
+Mario:
+    - chico:
+        - normal
+        - corriendo
+        - corriendo_rapido
+        - saltando
+        - patinando
+        - trepando
+        - escalando
+        - muerto
+    - grande:
+        - corriendo
+        - corriendo_rapido
+        - escalando
+        - normal
+        - patinando
+        - saltando
+        - agachado
+        - trepando
+    - super:
+        - corriendo
+        - corriendo_rapido
+        - escalando
+        - normal
+        - patinando
+        - saltando
+        - agachado
+        - trepando
+        - disparando
