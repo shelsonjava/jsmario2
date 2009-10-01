@@ -1,0 +1,21 @@
+body{
+	margin: 0px;
+	color: #222;
+	height: 100%;
+	width: 100%;
+	background: #99D5FF url(top.jpg) no-repeat;
+	font-family: "Trebuchet MS", Trebuchet, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 16px;
+}
+#cargando{
+	overflow: hidden;
+	height: 25px;
+	width: 250px;
+	background: url(progreso.gif);
+	border: 8px solid #79B5FB;
+	margin: 0 auto;
+}
+#texto{
+	margin-top: 80px;
+	text-align: center;
+}
