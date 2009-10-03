@@ -1,14 +1,29 @@
 Por entidades se entiende todos los enemigos, hongos, estrellas, etc. ("seres"), cubos, tubos, monedas, etc. ("objetos") e imágenes de fondo ("figuras"), además del mismo mario.
+
 <pre>
 Seres:
     - bicho
-    - tortuga
-    - planta
-    - hongo
     - estrella
+    - hongo
+    - planta
+    - tortuga
+    - explosion
+    - cadena
+    - dragon
+    - planta2
+    - burbuja
+    - pulpo
+    - pez
     - disparo
-    - explosión
-    - tortuga_aerea
+    - disparo2
+    - disparo3
+    - disparo4
+    - tortuga_asesina
+    - martillo
+    - carpincho
+    - nube_asesisina
+    - acorazado
+    - canion
 
 Objetos:
     - cubo
@@ -21,46 +36,38 @@ Objetos:
     - tubo2
     - tubo3
     - tubo4
-    - plataforma1
     - castillo1
+    - puente
+    - trampolin
+    - agua
+    - plataforma
+    - moneda2
 
 Figuras:
-    - figura1
-    - figura2
-    - figura3
-    - figura4
-    - figura5
-    - figura6
-    - figura7
-    - figura8
+    - castillo1
+    - castillo2
+    - fuego
+    - montania1
+    - montania2
+    - nube1
+    - nube2
+    - nube3
+    - planta1
+    - planta2
+    - planta3
+    - poste1
+    - poste2
+    - poste3
+    - poste4
+    - princesa
+    - reja1
+    - riel
+    - nube1_gris
+    - nube2_gris
+    - nube3_gris
+    - castillo2_gris
+    - castillo1_gris
 
 Mario:
-    - chico:
-        - normal
-        - corriendo
-        - corriendo_rapido
-        - saltando
-        - patinando
-        - trepando
-        - escalando
-        - muerto
-    - grande:
-        - corriendo
-        - corriendo_rapido
-        - escalando
-        - normal
-        - patinando
-        - saltando
-        - agachado
-        - trepando
-    - super:
-        - corriendo
-        - corriendo_rapido
-        - escalando
-        - normal
-        - patinando
-        - saltando
-        - agachado
-        - trepando
-        - disparando
+---
 </pre>
