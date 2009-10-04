@@ -67,5 +67,37 @@
   # castillo2_gris
   # castillo1_gris
 
- * Mario:
-  # ---
+ * Mario->chico:
+  # normal
+  # corriendo
+  # corriendo_rapido
+  # saltando
+  # patinando
+  # escalando
+  # muerto
+  # trepando
+  # nadando
+  # brazaleando
+ * Mario->grande:
+  # corriendo
+  # corriendo_rapido
+  # escalando
+  # normal
+  # patinando
+  # saltando
+  # agachado
+  # trepando
+  # nadando
+  # brazaleando
+ * Mario->super:
+  # corriendo
+  # corriendo_rapido
+  # escalando
+  # normal
+  # patinando
+  # saltando
+  # agachado
+  # disparando
+  # trepando
+  # nadando
+  # brazaleando
