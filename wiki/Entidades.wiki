@@ -1,7 +1,7 @@
 #summary Por entidades se entiende todos los enemigos, hongos, estrellas, etc. ("seres"), cubos, tubos, monedas, etc. ("objetos") e imágenes de fondo ("figuras"), además del mismo mario.
 
 <pre>
-Seres:
+*Seres:*
     - bicho
     - estrella
     - hongo
@@ -25,7 +25,7 @@ Seres:
     - acorazado
     - canion
 
-Objetos:
+*Objetos:*
     - cubo
     - signo
     - ladrillos
@@ -43,7 +43,7 @@ Objetos:
     - plataforma
     - moneda2
 
-Figuras:
+*Figuras:*
     - castillo1
     - castillo2
     - fuego
@@ -68,6 +68,6 @@ Figuras:
     - castillo2_gris
     - castillo1_gris
 
-Mario:
+*Mario:*
 ---
 </pre>
