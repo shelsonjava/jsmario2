@@ -78,6 +78,7 @@
   # trepando
   # nadando
   # brazaleando
+  
  * Mario->grande:
   # corriendo
   # corriendo_rapido
@@ -89,6 +90,7 @@
   # trepando
   # nadando
   # brazaleando
+  
  * Mario->super:
   # corriendo
   # corriendo_rapido
