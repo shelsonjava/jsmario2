@@ -1,0 +1,61 @@
+Scroll Vs Left(css) para mover el escenario
+Test en mi p4 simple core 2.4 (win xp) -- 4/10/09
+
+Firefox 3.5: de 0 a 2000 pixels
+
+	Scroll		Left
+	6271ms		61ms
+	6100ms		65ms
+	5858ms		57ms
+	
+	Media
+	6076ms		61ms --> 100 veces mas rapido Left que Scroll
+
+
+IE 7: de 0 a 2000 pixels
+	
+	Scroll		Left
+	5656ms		172ms
+	5594ms		172ms
+	5500ms		172ms
+	
+	Media
+	5584ms		172ms --> 32 veces mas rapido Left que Scroll
+
+
+Safari 4.0.3: 0 a 2000 pixels
+	
+	Scroll		Left
+	1603ms		22ms
+	1732ms		23ms
+	1659ms		22ms
+	
+	Media
+	1665ms		22.3ms --> 75 veces mas rapido Left que Scroll
+	
+
+Opera 10: de 0 a 2000 pixels
+	
+	Scroll		Left
+	31ms		16ms
+	31ms		16ms
+	31ms		16ms
+	
+	Media
+	31ms		16ms --> 1.9 veces mas rapido Left que Scroll
+
+
+Chrome 4: de 0 a 2000 pixels
+	
+	Scroll		Left
+	1811ms		28ms
+	1982ms		30ms
+	2193ms		27ms
+	
+	Media
+	1995ms		28.3ms --> 70 veces mas rapido Left que Scroll
+
+
+Conclusion
+Los numeros hablan por si solos.
+JSMario 2.0 va a usar Left :-)
