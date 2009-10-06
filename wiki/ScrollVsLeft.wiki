@@ -16,4 +16,5 @@ Los resultados son impresionantes. En Firefox 3.5 left es _100_ veces mas rápid
 Me parecen algo anti intuitivo, ya que uno pensaría que al no tocar ninguna propiedad css el contenido no se debiera redibujar y andaría mas rápido, pero se ve que scroll es demasiado lento.
 
 
+---
 PD: Los archivos del test y los resultados están en el svn.
