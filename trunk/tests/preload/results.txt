@@ -1,0 +1,3 @@
+Ya que xhtml no soporta la propiedad onload en imagenes, y a que el preloader debe ser cross browser, la solucion fue hacer un intervalo que toma la propiedad complete de cada imagen.
+
+Testeado que anda en IE6+, Firefox 3.5 ( no testeado aun en otras versiones ), Safari 4.0.3, Chrome 4 y Opera 10.
