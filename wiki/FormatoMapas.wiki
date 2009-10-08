@@ -72,7 +72,7 @@ CustomMap = {
 			],
 			[ // Warper 2
 				...
-			],
+			]
 			[ // Warper 3
 				...
 			]
