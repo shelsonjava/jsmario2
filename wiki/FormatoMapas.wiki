@@ -67,12 +67,12 @@ CustomMap = {
 				],
 				[ // Columna 3
 					-- Objetos --
-				],
+				]
 				... hasta llegar completar los 16
 			],
 			[ // Warper 2
 				...
-			]
+			],
 			[ // Warper 3
 				...
 			]
