@@ -1,0 +1,21 @@
+#scr{
+	position: absolute;
+	width: 510px;
+	height: 450px;
+	overflow: auto;
+	border: 2px solid #DDD;
+	background: #5C94FC;
+}
+#imagesWarp{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	overflow: auto;
+	height: 100%;
+	width: 6800px;
+	background: #CCC;
+}
+
+#scr img{
+	position: absolute;
+}

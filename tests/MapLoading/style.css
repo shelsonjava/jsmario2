@@ -1,0 +1,32 @@
+#game{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 712px;
+	height: 450px;
+	overflow: hidden;
+	border: 2px solid #DDD;
+}
+#warp{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	overflow: hidden;
+	height: 450px;
+	width: 512px;
+	background: #5C94FC;
+}
+
+.bloque{
+	position: absolute;
+	top: 0px;
+	height: 447px;
+	width: 510px;
+	border-left: 2px solid #FFFFFF;
+}
+
+#top{
+	position: absolute;
+	top: 2px;
+	left: 2px;
+}
