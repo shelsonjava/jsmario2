@@ -104,7 +104,7 @@ var map = {
 			background: "#5C94FC",
 			spawns: [[1,1,8]],
 			gravity: 1 // normal
-		}
+		},
 		warpers: [
 			[ // Warper 1
 				[
