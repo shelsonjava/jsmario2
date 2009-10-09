@@ -1,7 +1,7 @@
 #summary El formato en el que se guardan los mapas del juego.
 = Almacenamiento =
 Los mapas en jsmario 2.0, al igual que en la primera versión se van a guardar como objetos javascript, ya sea en un archivo .js que los defina, como en un fichero json para luego ser interpretado cuando se lo quiera cargar.
-La variable dentro de código que define el mapa actualmente en uso se llama `map`.
+La variable dentro de código que define el mapa actualmente en uso se llama `mapa`.
 
 = Mapas =
 Cada mapa tiene sus propiedades y contiene uno o mas niveles.
