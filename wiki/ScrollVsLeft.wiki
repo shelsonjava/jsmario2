@@ -20,4 +20,4 @@ Sin embargo, y como demuestra el test "MapMoving", a la hora de hacer su tarea c
 Por ahora JSMario 2.0 seguirá usando scroll debido a esto, podrá ser mas rápido pero no necesariamente mejor.
 
 ----
-PD: Los archivos del test y los resultados están en el svn.
+PD: Los archivos de los dos tests (este y MapMoving) y los resultados están en el svn.
