@@ -27,7 +27,7 @@ function docLoad(){
 	generarBloque();generarBloque();generarBloque();
 	generarBloque();generarBloque();generarBloque();
 	generarBloque();generarBloque();generarBloque();
-	setInterval(update, 30);
+	setInterval(update, 10);
 }
 
 function generarBloque(){
@@ -52,7 +52,7 @@ function generarBloque(){
 function llenarBloque(bloque){
 	for( var x = 0; x < 16; x++ ){
 		for( var y = 0; y < 14; y++ ){
-			if( (x + y % 2 ) % 2 ){
+			if( x % 2 || y % 2 ){
 				continue;
 			}
 			var img = document.createElement("img");
@@ -80,4 +80,11 @@ function update(){
 	if(mapLeft + 512 + 100 > warpWidth){
 		//generarBloque();
 	}
+}
+
+
+function restart(){
+	mapLeft = 0;
+	get("warp").style.marginLeft = "0px";
+	get("game").scrollLeft = 0;
 }

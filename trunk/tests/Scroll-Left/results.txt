@@ -57,5 +57,6 @@ Chrome 4: de 0 a 2000 pixels
 
 
 Conclusion
-Los numeros hablan por si solos.
-JSMario 2.0 va a usar Left :-)
+Los numeros hablan por si solos, es mucho mas rapido, pero, sin embargo, y como demuestra el test "MapMoving", a la hora de hacer su tarea consume muchos mas recursos que scroll, a tal punto que deja de ser fluido y scroll pasa a andar mejor.
+
+Por ahora JSMario 2.0 seguirá usando scroll debido a esto, podrá ser mas rápido pero no necesariamente mejor.
