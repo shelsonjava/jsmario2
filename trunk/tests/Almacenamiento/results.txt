@@ -1,0 +1,1 @@
+Almacenamiento dinamico de variable usando json en las cookies o es base de datos local en caso de que este disponible.

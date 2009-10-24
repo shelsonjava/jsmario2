@@ -1,3 +1,5 @@
+// alert("works cargado");
+
 function Work( settings ){ // Clase Work ( trabajo, movimiento, animacion, ... ) es aplicable a todos los objetos
 	for( var s in settings ){
 		this[s] = settings[s];

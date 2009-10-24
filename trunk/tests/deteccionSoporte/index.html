@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Test de prestaciones</title>
+	
+	<script type="text/javascript" src="script.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="style.css" />
+
+</head>
+<body>
+	Comprobar:
+	<br />
+	<input type="button" value="Navegador" 
+	onclick="alert(soporte.navegador.nombre + ' ' + soporte.navegador.version + ' en ' + soporte.navegador.os);" />
+	-
+	<input type="button" value="Zoom" onclick="alert(soporte.test.zoom());" />
+	<input type="button" value="Zoom Manualmente" onclick="testZoomManual();" />
+	-
+	<input type="button" value="Base de datos local" onclick="alert(soporte.test.db());" />
+	-
+	<input type="button" value="Font-face" onclick="soporte.test.fontFace(alert);" />
+	-
+	<input type="button" value="Png transparente" onclick="alert(soporte.test.pngTrans());" />
+	-
+	<input type="button" value="Box Shadow" onclick="alert(soporte.test.css3Prop('box-shadow', '0px 0px 20px #BBB'));" />
+	<input type="button" value="Border Color" onclick="alert(soporte.test.css3Prop('border-color', '#BBB'));" />
+	-
+	<input type="button" value="<audio>" onclick="
+		soporte.test.audio();
+		alert('Basico: ' + soporte.html5.audio.basico + '\n---'
+			+ '\nOgg: ' + soporte.html5.audio.ogg
+			+ '\nMp3: ' + soporte.html5.audio.mp3
+			+ '\nWav: ' + soporte.html5.audio.wav
+			);
+		
+	" />
+	
+	<br />
+	<br />
+	<span id="fontFaceTest">test</span>
+	<br />
+	<br />
+	<div id="testObj">
+		<div id="obj1">OLYZ!</div>
+		<img id="obj2" src="obj2.gif" alt="" />
+		<img id="obj3" src="transparencia.png" alt="" />
+		<div id="obj4">
+			<center>HI!</center>
+		</div>
+	</div>
+	<br />
+</body>
+</html>

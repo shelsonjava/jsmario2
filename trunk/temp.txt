@@ -1,0 +1,152 @@
+#summary El formato en el que se guardan los mapas del juego.
+= Almacenamiento =
+Los mapas en jsmario 2.0, al igual que en la primera versión se van a guardar como objetos javascript, ya sea en un archivo .js que los defina, como en un fichero json para luego ser interpretado cuando se lo quiera cargar.
+La variable dentro de código que define el mapa actualmente en uso se llama `map`.
+
+= Mapas =
+Cada mapa tiene sus propiedades y contiene uno o mas niveles.
+
+Una variable de mapa en principio seria un objeto estandar de javascript. Este debe tener una propieda settings, dentro de la cual se define la configuracion del mapa.
+
+Los demas seran objetos tomados cada uno como un nivel individual, y su nombre debe estar formado por `level_` + el numero que se usara para ideantificarlo. (El nombre del mapa es independiente de su numero de identificacion).
+
+== Configuracion de un mapa ==
+La propiedad settings es, tambien, un objeto estandar. Tiene una propiedad obligatoria, las demas son opcionales.
+
+====Propiedades aceptadas:====
+ # `order` <font color="#444444">,,[array],,</font>: <font color="#880000">(obligatoria)</font> Un array de strings, formados por `_level` + id, que define el orden de los niveles.
+ # `lifes` <font color="#AA0000">,,[number],,</font>: <font color="#008800">(opcional)</font> Las vidas iniciales del mapa.
+ # `score` <font color="#AA0000">,,[number],,</font>: <font color="#008800">(opcional)</font> El puntaje inical.
+ # `money` <font color="#AA0000">,,[number],,</font>: <font color="#008800">(opcional)</font> La cantidad de monedas iniciales.
+
+
+== Niveles ==
+Cada nivel tiene 3 propiedades:
+ # `displayName` <font color="#808080">,,[string],,</font>: <font color="#880000">(obligatoria)</font> El nombre del mapa.
+ # `settings` <font color="#008800">,,[Object],,</font>: <font color="#880000"> (obligatoria)</font>La configuracion propia del nivel.
+ # `warpers` <font color="#444444">,,[array],,</font>: <font color="#880000">(obligatoria)</font> Los contenedores de objetos.
+ 
+=== Configuracion de un nivel ===
+La propiedades que pude tener settings en un nivel son las siguientes:
+ # `spawns` <font color="#444444">,,[array],,</font>: <font color="#880000">(obligatoria)</font> Array de arrays, indican los puntos del mapa donde debe nacer Mario.
+ # `background` <font color="#808080">,,[string],,</font>: <font color="#008800">(opcional)</font> El color de fondo del nivel, en hexadecimal. Ej.: #5C94FC.
+ # `gravity` <font color="#AA0000">,,[number],,</font>: <font color="#008800">(opcional)</font> Numero que define la gravedad del nivel, 1 es lo normal.
+
+=== Warpers de un nivel ===
+Al igual que en el Mario original, JSMario 2.0 va a dividir los niveles en porciones de 16 cuadrados de largo ( cuadrados de 32px `*` 32px ). A cada una de estas divisiones se las va a llamar warper, y cada nivel debe tener uno o mas warpers. Un warper es un array, y debe contener otros 16 arrays adentro, uno por cada columna del warper. Dentro de cada uno de estos 16 arrays se van a guardar finalmente los objetos individuales.
+
+Entonces, cada nivel esta dividido en warpers, cada warper esta dividido en 16 columnas, y dentro de cada columna van a estar los objetos.
+
+=== Spawns de un nivel ===
+Los spawns son los puntos en los que Mario nace, y revive en caso de que haya muerto. Son arrays de 3 numeros, el primero indica el numero de warp del nivel, el segundo la columna del warper (Posicion X), y el tercero la fila (Posicion Y).
+
+== En Resumen ==
+
+{{{
+CustomMap = {
+	settings: {
+		order: ["level_X", "level_Y", "level_Z"],
+		lifes: [number],
+		score: [number],
+		money: [number]
+	},
+	level_X: {
+		displayName: [string],
+		settings: {
+			spawns: [[Warper, posX, posY], [W, X, Y], ...
+			],
+			background: [string],
+			gravity: [number]
+		},
+		warpers: {
+			[ // Warper 1
+				[ // Columna 1 dentro de Warper
+					-- Algunos objetos individuales --
+				],
+				[ // Columna 2
+					-- Objetos --
+				],
+				[ // Columna 3
+					-- Objetos --
+				]
+				... hasta llegar completar los 16
+			],
+			[ // Warper 2
+				...
+			],
+			[ // Warper 3
+				...
+			]
+		}
+	},
+	level_Y: {
+		...
+	},
+	level_Z: {
+		...
+	}
+}
+}}}
+
+== Ejemplo ==
+Un ejemplo de un mapa valido seria el siguiente:
+{{{
+var map = {
+	settings: {
+		order: ["level_1", "level_2"],
+		lifes: 3, // Cantidad de vidas
+		score: 0,
+		money: 0
+	},
+	level_1: {
+		displayName: "1-1",
+		settings: {
+			background: "#5C94FC",
+			spawns: [[1,1,8]],
+			gravity: 1 // normal
+		}
+		warpers: [
+			[ // Warper 1
+				[
+					{
+						type: "objeto:cubo",
+						skin: "dia",
+						top: 10
+					},
+					{
+						type: "objeto:signo",
+						skin: "dia",
+						top: 8,
+						settings: {
+							drop: "hongo",
+							visible: true,
+							
+						}
+					}
+				], 
+				[],[],[],[],[],[],[],[],[],[],[]
+			]
+		]
+	},
+	level_2: {
+		displayName: "1-2",
+		settings: {
+			background: "#000000",
+			spawns: [[1,1,0]],
+			gravity: 1 // normal
+		},
+		warpers: [
+			[ // Warper 1
+				[
+					{
+						type: "objeto:cubo",
+						skin: "dia",
+						top: 10
+					}
+				], 
+				[],[],[],[],[],[],[],[],[],[],[]
+			]
+		]
+	}
+}
+}}}

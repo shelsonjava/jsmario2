@@ -4,27 +4,24 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>JSMario 2.0 -- The Super Mario complete reconstruction plus Map Editor.</title>
 	
-	<script type="text/javascript" src="works.js"></script>
-	<script type="text/javascript" src="precarga.js"></script>
-	<script type="text/javascript" src="eventos.js"></script>
-	<script type="text/javascript" src="nucleo.js"></script>
-	<script type="text/javascript" src="misc.js"></script>
-	<script type="text/javascript" src="resize.js"></script>
-	<script type="text/javascript" src="seres.js"></script>
-	<script type="text/javascript" src="mapa.js"></script>
+	<script type="text/javascript" src="scripts/nucleo.js"></script>
 	
 	<link rel="stylesheet" type="text/css" href="styles/general.css" />
 </head>
 <body>
 	<div id="topWarper">
+		<!-- Titulo -->
 		<div id="title">JSMario 2.0</div>
 		<div id="subTitle">Super Mario Bross totally reconstructed using only javascript.</div>
 	</div>
+	
 	<div id="centerWarper">
-		
+		<!-- Juego -->
+		<div id="debug"></div>
 	</div>
+	
 	<div id="bottomWarper">
-		
+		<!-- Comentarios -->
 	</div>
 </body>
 </html>
