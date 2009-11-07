@@ -54,7 +54,8 @@ CustomMap = {
 	level_X: {
 		displayName: [string],
 		settings: {
-			spawns: [[Warper, posX, posY], [W, X, Y], ...
+			spawns: [
+				[Warper, posX, posY], [W, X, Y], ...
 			],
 			background: [string],
 			gravity: [number]
