@@ -1,0 +1,2 @@
+eventos.teclado.crear("control + !shift + N5 + *");
+eventos.teclado.crear("control+!shift+a");
