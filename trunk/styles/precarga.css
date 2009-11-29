@@ -1,0 +1,14 @@
+#precarga{
+	width: 510px;
+	height: 16px;
+	margin: 0px auto;
+	overflow: hidden;
+	
+	border: 6px solid #79B5FB;
+}
+
+.precargaImg{
+	float: left;
+	width: auto;
+	margin-top: 4px;
+}

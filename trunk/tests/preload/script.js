@@ -7,9 +7,9 @@ function debug(txt){
 	document.getElementById("debug").innerHTML = txt;
 }
 
-var preloader = {
+var precarga = {
 	urlBase: "http://jsmario.com.ar/2.0/tests/preload/images/", // Url base para las imagenes
-	images: [ // Lista de imagenes, cada una es un array con su url y su peso en kb
+	imagenes: [ // Lista de imagenes, cada una es un array con su url y su peso en kb
 		["img0.gif", 100],
 		["img1.gif", 100],
 		["img2.gif", 100],
@@ -42,55 +42,57 @@ var preloader = {
 		["img29.gif", 100],
 		["img30.gif", 100]
 	],
-	totalSize: 0, // El tamaño total de las iamgenes
-	loadedSize: 0, // El tamaño de las imagenes que ya se terminaron de cargar
-	checkInterval: false, // El intervalo que chequea la carga de las imagenes
-	percentCallback: false,
-	onComplete: false // la funcion que se corre cuando se terminan de precargar las imagenes
+	tamTotal: 0, 		// El tamaño total de las iamgenes
+	tamCargado: 0, 		// El tamaño de las imagenes que ya se terminaron de cargar
+	intervalo: false, 	// El intervalo que chequea la carga de las imagenes
+	callBack: false, 	// Los callbacks de porcentaje
+	onComplete: false, 	// la funcion que se corre cuando se terminan de precargar las imagenes
+	empezar: null, 		// La funcion que empieza la precarga
+	check: null 		// La funcion que checkea si las imagenes cargaron
 };
 
-preloader.percentCallback = function(percent){
-	debug(percent + "%");
+precarga.callBack = function(percent){
+	debug(percent + "% Precargado");
 }
 
-preloader.onComplete = function(){
+precarga.onComplete = function(){
 	debug("Finished!");
 }
 
-function preloadImages(){
-	for( var i = 0; i < preloader.images.length; i++ ){
-		var url = preloader.urlBase + preloader.images[i][0];
-		var size = preloader.images[i][1];
-		preloader.totalSize += size;
+precarga.empezar = function(){
+	for( var i = 0; i < precarga.imagenes.length; i++ ){
+		var url = precarga.urlBase + precarga.imagenes[i][0];
+		var size = precarga.imagenes[i][1];
+		precarga.tamTotal += size;
 		
-		var image = document.createElement("img");
-		image.src = url;
-		preloader.images[i].push(image);
-		get("preload").appendChild(image);
+		var imagen = document.createElement("img");
+		imagen.src = url;
+		precarga.imagenes[i].push(imagen);
+		get("preload").appendChild(imagen);
 	}
 	
-	preloader.checkInterval = setInterval(checkPreload, 200);
+	precarga.intervalo = setInterval(precarga.check, 200);
 }
 
-function checkPreload(){
-	preloader.loadedSize = 0;
+precarga.check = function(){
+	precarga.tamCargado = 0;
 	
-	for( var i = 0; i < preloader.images.length; i++ ){
-		if( preloader.images[i][2].complete ){
-			preloader.loadedSize += preloader.images[i][1];
+	for( var i = 0; i < precarga.imagenes.length; i++ ){
+		if( precarga.imagenes[i][2].complete ){
+			precarga.tamCargado += precarga.imagenes[i][1];
 		}
 	}
 	
-	var percent = Math.round(preloader.loadedSize / preloader.totalSize * 100);
-	if( preloader.percentCallback ){
-		preloader.percentCallback(percent);
+	var porcentaje = Math.round(precarga.tamCargado / precarga.tamTotal * 100);
+	if( precarga.callBack ){
+		precarga.callBack(porcentaje);
 	}
 	
-	if( preloader.loadedSize >= preloader.totalSize ){
-		clearInterval(preloader.checkInterval);
+	if( precarga.tamCargado >= precarga.tamTotal ){
+		clearInterval(precarga.intervalo);
 		
-		if( preloader.onComplete ){
-			preloader.onComplete();
+		if( precarga.onComplete ){
+			precarga.onComplete();
 		}
 	}
 }

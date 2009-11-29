@@ -6,6 +6,7 @@
 	
 	<link rel="stylesheet" type="text/css" href="styles/general.css" />
 	<link rel="stylesheet" type="text/css" href="styles/debug.css" />
+	<link rel="stylesheet" type="text/css" href="styles/precarga.css" />
 </head>
 <body>
 	
@@ -28,8 +29,10 @@
 	<br />
 	
 	<div id="contenedorMedio">
-		<!-- Juego -->
-		
+		<!-- Precarga, Juego -->
+		<div id="precarga">
+			<div id="precargaContent"></div>
+		</div>
 	</div>
 	
 	<div id="contenedorAbajo">

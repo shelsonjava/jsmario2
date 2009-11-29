@@ -164,7 +164,7 @@ var dom = {
 /*
 	Crea un objeto del dom y le pone propiedades.
 */
-dom.crear = function(tipo, propiedades){
+dom.crear = function(tipo, propiedades, padre){
 	propiedades = propiedades || {};
 	
 	var objeto = document.createElement(tipo);
@@ -175,6 +175,10 @@ dom.crear = function(tipo, propiedades){
 	extender(objeto, propiedades);
 	if(estilo){
 		extender(objeto.style, estilo);
+	}
+	
+	if( padre ){
+		dom.agregar(padre, objeto);
 	}
 	
 	return objeto;
