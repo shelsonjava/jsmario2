@@ -9,17 +9,28 @@ if(window.modulos){
 	Configuracion de la consola.
 */
 var consola = {
+	limpiar: null,		// Limpia la consola
+	cargar: null,		// Carga la consola
+	cargarInput: null,	// Carga el cuadro de texto de la consola	
+	toogle: null,		// Muestra / Oculta la consola
+	actualizar: null,	// Actualiza la posicion de la consola
+	evaluar: null,		// Evalua lo que se escribio en el input de la consola
+	inputMemoria: null,	// Navega en la memoria del input de la consola.
+	domObj: get("consola"), 		// El div que sirve de contendor
+	content: get("conContent"),		// El div con el contenido de la consola
+	input: get("conInput"),			// El input de la consola
+	
 	activa: true, 	// Si la consola esta activa
 	oculta: false, 	// Si la consola esta oculta
 	convinacion: "Ctrl Space", 	// La convinacion de teclado para ocultarla o mostrarla
 	objetos: [], 	// Los objetos que se debuguean
 	lineas: 400, 	// Cantidad de objetos almacenados
 	posY: 0, 		// La posicion Y
-	lastY: 0, 		// La ultima posicion Y
-	alto: 201, 		// El alto de la consola en pixels
+	lastY: 0, 		// La ultima posicion Y (para actualizar el alto solo cuando cambia)
+	alto: 201, 		// El alto de la consola en pixels (sin el input)
 	inputAlto: 19, 	// El alto del input de la consola
 	inputArr: [], 	// Donde se guarda lo que se escribe en el input
-	inputArrPos: 0	// La posicion dentro de "inputArray" actual
+	inputArrPos: 0	// La posicion dentro de "inputArray" para poder navegar por este
 };
 
 function log(objeto){
@@ -37,7 +48,7 @@ function log(objeto){
 	
 	switch( tipo(objeto) ){
 		case "array":
-			html = "Array[" + objeto.length + "]: " + htmlentities(String(objeto));
+			html = "Array[" + objeto.length + "]: " + htmlentities( objeto.join(", ") );
 			clase = "debug_array";
 		break;
 		
@@ -71,7 +82,11 @@ function log(objeto){
 		break;
 		
 		default:
-			html = htmlentities(String(objeto));
+			var str = htmlentities(String(objeto))
+			str = String(str).replace(/[^\/]\$([^\s^:]*)(:(\S*))*/g, " <label id=\"$1\">$3</label>");
+			str = String(str).replace(/\/\$/g, "$");
+			
+			html = str;
 			clase = "debug_default";
 		break;
 	}
@@ -93,43 +108,42 @@ function log(objeto){
 }
 
 /*
-	"cargarConsola" Carga la nueva consola que ya no es provisoria.
+	Funcion que limpia la consola.
 */
-function cargarConsola(){
-	
-	consola.domObj = get("consola");
-	consola.content = get("conContent");
-	consola.input = get("conInput");
-	
+consola.limpiar = function(){
+	consola.objetos = [];
 	consola.content.innerHTML = "";
+	return "Cosola Limpia";
+}
+
+/*
+	Carga la nueva consola que ya no es provisoria.
+*/
+consola.cargar = function(){
+	consola.limpiar();
+	
 	for( var d in debugArray ){
 		log(debugArray[d]);
 	}
+	debugArray = [];
 	
 	log("-- Debug avanzado cargado --");
 	log(consola.convinacion + " para Mostrar / Ocultar Consola");
-	
+
 	log(["t", "e", "s", "t"]);
-	
-	log(155.222);
-	log(/TU \H\E\R\A\M\A\n\A/g);
-	
-	log(true);
-	log(false);
-	
 	log({
-		tipo: 1,
+		tipo: "test",
 		velocidad: 20,
-		nombre: "Juan"
+		posicion: 520
 	});
 	
 }
-cargarConsola();
+consola.cargar();
 
 /*
 	Carga el input de la consola.
 */
-function cargarConsolaInput(){
+consola.cargarInput = function(){
 	log("-- Input de la consola activado --");
 	consola.input.style.display = "";
 	
@@ -138,13 +152,13 @@ function cargarConsolaInput(){
 	
 	eventos.agregar(consola.input, "keydown", function(evento){
 		if( evento.keyCode == 13 ){
-			inputEvaluar();
+			consola.evaluar();
 		}
 		else if(evento.keyCode == 38){
-			inputMemoria(+1);
+			consola.inputMemoria(+1);
 		}
 		else if(evento.keyCode == 40){
-			inputMemoria(-1);
+			consola.inputMemoria(-1);
 		}
 	});
 }
@@ -152,7 +166,7 @@ function cargarConsolaInput(){
 /*
 	Muestra u oculta la consola.
 */
-function consolaToogle(){
+consola.toogle = function(){
 	consola.oculta = !consola.oculta;
 	
 	if( consola.fx ){
@@ -182,12 +196,12 @@ function consolaToogle(){
 crearModuloCB("eventos", function(){
 	teclado.crearAtajo("Ctrl Space", {
 		down: function(e){
-			consolaToogle();
+			consola.toogle();
 		},
 		prevenirDef: true
 	});
 	
-	cargarConsolaInput();
+	consola.cargarInput();
 });
 
 /*
@@ -200,7 +214,7 @@ crearModuloCB("fx", function(){
 /*
 	Actualiza la posicion de la consola en la DOM.
 */
-function actualizarConsola(){
+consola.actualizar = function(){
 	if( consola.fx ){
 		consola.actualizarFx();
 	}
@@ -215,19 +229,19 @@ function actualizarConsola(){
 /*
 	Evalua lo que dice el input de la consola (se corre cuando cuando se apreta enter).
 */
-function inputEvaluar(){
+consola.evaluar = function(){
 	var js = consola.input.value;
 	consola.inputArr.push(js);
 	consola.input.value = "";
 	
-	log(">>> " + js);
+	log("<<< " + js);
 	log(eval(js));
 }
 
 /*
 	Escribe en el input las ultimas cosas que se hayan evaluado.
 */
-function inputMemoria(posicionDelta){
+consola.inputMemoria = function(posicionDelta){
 	var arrLength = consola.inputArr.length;
 	
 	var posicion = arrLength - consola.inputArrPos - 1;

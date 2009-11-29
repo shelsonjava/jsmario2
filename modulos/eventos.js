@@ -10,22 +10,22 @@ if(window.modulos){
 */
 
 var eventos = {
-	agregar: null, // Agrega un evento a un objeto.
-	quitar: null, // Saca un evento de un objeto.
-	prevenirDef: null, // Previene el default de un evento.
+	agregar: null, 		// Agrega un evento a un objeto.
+	quitar: null, 		// Saca un evento de un objeto.
+	prevenirDef: null, 	// Previene el default de un evento.
 	/*
 		Funciones multiplataforma que a partir de objetos de tipo event extraen informacion 
 		y la devuelven.
 	*/
-	mouseInfo: null // Devuelve la posicion del mouse y si esta disponible con que boton se hizo click
+	mouseInfo: null 	// Devuelve la posicion del mouse y si esta disponible con que boton se hizo click
 };
 
 var teclado = {
-	crearAtajo: null, // Crear un atajo.
+	crearAtajo: null, 		// Crear un atajo.
 	convinacionParse: null, // Parsear una convinacion de teclado.
-	down: null, // Se corre en el evento keydown del documento.
-	up: null, // Se corre en el evento keyup del documento.
-	atajosCheck: null, // Revisa los atajos cuando alguna tecla es apretada o soltada.
+	down: null, 			// Se corre en el evento keydown del documento.
+	up: null, 				// Se corre en el evento keyup del documento.
+	atajosCheck: null, 		// Revisa los atajos cuando alguna tecla es apretada o soltada.
 	/*
 		"teclas" contiene los nombres de las teclas en orden segun su codigo.
 	*/
@@ -47,8 +47,7 @@ var teclado = {
 	],
 	/*
 		"activas" contiene las teclas actualmente apretadas.
-		Por ejemplo si la tecla con codigo 13 esta apretada, entonces activas[13] va 
-		a ser true.
+		Por ejemplo si la tecla con codigo 13 esta apretada, entonces activas[13] va a ser true.
 	*/
 	activas: [],
 	/*

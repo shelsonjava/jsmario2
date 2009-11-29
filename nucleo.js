@@ -11,9 +11,23 @@ function get(id){
 }
 
 /*
-	Debug provisorio.
+	"general" guarda la configuracion general del juego y la pagina, como por ejemplo si estan 
+	habilitados los efectos, el tamaño del juego si se cambió, etc.
+	
+	Primero se define el default, y despues cuando se carga el modulo almacenamiento se carga 
+	la configuracion guardada previamente en el cliente.
 */
+var general = {
+	efectos: true, 		// Si los efectos estan habilitados
+	comentarios: true, 	// Si estan habilitados los comentarios
+	precarga: true, 	// Si esta habilitada la precarga de imagenes
+	ancho: 510,			// El ancho del juego
+	alto: 450			// El alto del juego
+};
+
+
 /*
+	Debug provisorio.
 	"debugArray" almacena lo que se escribe en el debug provisorio.
 */
 var debugArray = [];
@@ -26,9 +40,6 @@ function log(txt){
 }
 
 log("-- Debug provisorio cargado --");
-log({
-	test: true
-});
 
 /*
 	Cada script tiene su objeto que lo identifica en el nucleo, de clase "Modulo" que contiene
@@ -85,7 +96,7 @@ function Modulo(url){
 		"Modulo.cargadoListo" lo llama el propio modulo cuando empieza a ser interpretado
 	*/
 	this.cargadoListo = function(){
-		// log(this.url + " cargado");
+		// log("Cargado: " + this.url);
 		this.cargado = true;
 	}
 	
@@ -93,7 +104,7 @@ function Modulo(url){
 		"Modulo.interpretadoListo" lo llama el propio modulo cuando termina de ser interpretado
 	*/
 	this.interpretadoListo = function(){
-		log(this.url + " interpretado");
+		log("Interpretado: " + this.url);
 		this.interpretado = true;
 		// Checkea los callbacks para correr el que este listo
 		moduloCBCheck();
@@ -226,8 +237,23 @@ var actualizacion = {
 
 function actualizar(){
 	if(modulos.debug.interpretado){
-		actualizarConsola();
+		consola.actualizar();
+	}
+	if( modulos.precarga.interpretado && precarga.activa ){
+		precarga.check();
 	}
 }
 
 actualizacion.intevalo = setInterval(actualizar, actualizacion.tiempo);
+
+
+/*
+	Al terminar de cargar todos los modulos se empieza la precarga de imagenes.
+*/
+crearModuloCB(
+	["debug", "eventos", "soporte", "fx", "almacenamiento", "precarga", "resize", "seres", "mapas"],
+	function(){
+		//almacenamiento.cargarConfig();
+		precarga.empezar();
+	}
+);
