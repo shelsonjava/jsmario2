@@ -1,0 +1,1 @@
+Script multiplataforma con utilidades para gestionar mas facil los eventos del DOM.
