@@ -28,9 +28,9 @@ var soporte = {
 	test: {}
 };
 
-// ----------------------
-//	Detecta la plataforma del usuario (navegador, version y sistema operativo)
-// ----------------------
+/*
+	Detecta la plataforma del usuario (navegador, version y sistema operativo)
+*/
 soporte.test.navegador = function(){
 	var userAgent = navigator.userAgent;
 	var vendor = navigator.vendor;
@@ -94,9 +94,9 @@ soporte.test.navegador = function(){
 soporte.test.navegador();
 
 
-// ----------------------
-//	Comprobacion de disponibilidad de algun propiedad css (propiedad) poniendole un valor (valor)
-// ----------------------
+/*
+	Comprobacion de disponibilidad de algun propiedad css (propiedad) poniendole un valor (valor)
+*/
 soporte.test.cssProp = function(cssProp, jsProp, valor){
 	if( !soporte.testObj ){ // Crea el objeto de prueba si no estaba creado
 		soporte.testObj = document.createElement("test_obj");
@@ -110,9 +110,9 @@ soporte.test.cssProp = function(cssProp, jsProp, valor){
 	return typeof objStyle[jsProp] != "undefined";
 }
 
-// ----------------------
-//	Comprobacion de disponibilidad de algun propiedad css3 (propiedad) poniendole un valor (valor)
-// ----------------------
+/*
+	Comprobacion de disponibilidad de algun propiedad css3 (propiedad) poniendole un valor (valor)
+*/
 soporte.test.css3Prop = function(cssProp, valor){
 	var test = soporte.test.cssProp;
 	
@@ -132,9 +132,9 @@ soporte.test.css3Prop = function(cssProp, valor){
 }
 
 
-// ----------------------
-//	Comprobacion de disponibilidad de bases de datos locales.
-// ----------------------
+/*
+	Comprobacion de disponibilidad de bases de datos locales.
+*/
 
 // Comprobacion por script:
 soporte.test.db = function(){
@@ -146,9 +146,9 @@ soporte.test.db = function(){
 }
 
 
-// ----------------------
-//	Comprobacion de disponibilidad font-face (css)
-// ----------------------
+/*
+	Comprobacion de disponibilidad font-face (css)
+*/
 
 // Comprobacion por script:
 soporte.test.fontFace = function(onFinish){
@@ -174,9 +174,9 @@ soporte.test.fontFace = function(onFinish){
 }
 
 
-// ----------------------
-//	Comprobacion de disponibilidad zoom (css)
-// ----------------------
+/*
+	Comprobacion de disponibilidad zoom (css)
+*/
 
 // Comprobacion por script:
 soporte.test.zoom = function(){
@@ -201,9 +201,9 @@ var testZoomManual = function(){
 }
 
 
-// ----------------------
-//	Comprobacion de disponibilidad transparencia en png
-// ----------------------
+/*
+	Comprobacion de disponibilidad transparencia en png
+*/
 
 // Comprobacion por script:
 soporte.test.pngTrans = function(){
@@ -220,9 +220,9 @@ soporte.test.pngTrans = function(){
 }
 
 
-// ----------------------
-//	Comprobacion de disponibilidad de audio nativo
-// ----------------------
+/*
+	Comprobacion de disponibilidad de audio nativo
+*/
 
 // Comprobacion por script:
 soporte.test.audio = function(){

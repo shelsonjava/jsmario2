@@ -202,6 +202,16 @@ dom.agregar = function(padre, objeto){
 	padre.appendChild(objeto);
 }
 
+
+/*
+	Le cambia la opacidad a un objeto de la dom.
+*/
+function opacidad( objeto, porcentaje ){
+	objeto.style.opacity = porcentaje / 100;
+	objeto.style.filter = "Alpha(opacity = " + porcentaje + " )";
+}
+
+
 // --------------------
 if(window.modulos){
 	modulos.misc.interpretadoListo();

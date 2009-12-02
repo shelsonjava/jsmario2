@@ -39,6 +39,14 @@
 	filter: alpha(opacity = 95); */
 }
 
+#conContent .conSeparador{
+	height: 8px;
+	margin-bottom: 2px 0px;
+	
+	border-bottom: 1px solid #666;
+	background: #24323C;
+}
+
 #conContent .debug{
 	border-bottom: 1px solid #666;
 	padding: 1px 0px 0px 0px;

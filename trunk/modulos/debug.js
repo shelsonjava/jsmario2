@@ -10,12 +10,14 @@ if(window.modulos){
 */
 var consola = {
 	limpiar: null,		// Limpia la consola
+	separador: null, 	// Muestra un separador en la consola
 	cargar: null,		// Carga la consola
 	cargarInput: null,	// Carga el cuadro de texto de la consola	
 	toogle: null,		// Muestra / Oculta la consola
 	actualizar: null,	// Actualiza la posicion de la consola
 	evaluar: null,		// Evalua lo que se escribio en el input de la consola
 	inputMemoria: null,	// Navega en la memoria del input de la consola.
+	set: null, 			// Le cambia el valor a una "variable" que haya sido craeda dentro de la consola
 	domObj: get("consola"), 		// El div que sirve de contendor
 	content: get("conContent"),		// El div con el contenido de la consola
 	input: get("conInput"),			// El input de la consola
@@ -24,7 +26,7 @@ var consola = {
 	oculta: false, 	// Si la consola esta oculta
 	convinacion: "Ctrl Space", 	// La convinacion de teclado para ocultarla o mostrarla
 	objetos: [], 	// Los objetos que se debuguean
-	lineas: 400, 	// Cantidad de objetos almacenados
+	lineas: 600, 	// Cantidad de objetos almacenados
 	posY: 0, 		// La posicion Y
 	lastY: 0, 		// La ultima posicion Y (para actualizar el alto solo cuando cambia)
 	alto: 201, 		// El alto de la consola en pixels (sin el input)
@@ -108,6 +110,23 @@ function log(objeto){
 }
 
 /*
+	Cambia el mensaje que aparece cuando se esta cargando el juego.
+*/
+function msgGeneral(msg){
+	get("msgGeneral").innerHTML = msg;
+}
+
+/*
+	Le agrega un separador a la consola.
+*/
+consola.separador = function(){
+	dom.crear("div", {
+		className: "conSeparador",
+		innerHTML: "&nbsp;"
+	}, consola.content);
+}
+
+/*
 	Funcion que limpia la consola.
 */
 consola.limpiar = function(){
@@ -127,6 +146,7 @@ consola.cargar = function(){
 	}
 	debugArray = [];
 	
+	consola.separador();
 	log("-- Debug avanzado cargado --");
 	log(consola.convinacion + " para Mostrar / Ocultar Consola");
 
@@ -136,6 +156,7 @@ consola.cargar = function(){
 		velocidad: 20,
 		posicion: 520
 	});
+	consola.separador();
 	
 }
 consola.cargar();
@@ -208,7 +229,7 @@ crearModuloCB("eventos", function(){
 	Cuando se interpreta el modulo fx se activan los efectos de la consola.
 */
 crearModuloCB("fx", function(){
-	extender(consola, Fx.metodos);
+	Fx.agregarMetodos(consola);
 });
 
 /*
@@ -263,6 +284,19 @@ consola.inputMemoria = function(posicionDelta){
 	
 	var posicion = arrLength - consola.inputArrPos - 1;
 	consola.input.value = consola.inputArr[posicion];
+}
+
+/*
+	Le cambia el valor a una "variable" que haya sido craeda dentro de la consola
+*/
+consola.set = function(variable, html){
+	var objeto = get(variable);
+	if( objeto ){
+		objeto.innerHTML = html;
+	}
+	/*else{
+		log("Variable " + variable + " no pudo ser encontrada en la consola.");
+	}*/
 }
 
 /*

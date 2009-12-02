@@ -1,14 +1,23 @@
 #precarga{
-	width: 510px;
-	height: 16px;
+	width: 250px;
+	height: 20px;
+	padding: 0px;
 	margin: 0px auto;
+	
+	border: 5px solid #79B5FB;
 	overflow: hidden;
 	
-	border: 6px solid #79B5FB;
+	display: none;
 }
 
-.precargaImg{
-	float: left;
-	width: auto;
-	margin-top: 4px;
+#precBarra{
+	background: #9CD6FF;
+	width: 0px;
+	height: 20px;
+	overflow: hidden;
+}
+
+.precFila{
+	width: 300px;
+	height: 1px;
 }

@@ -254,6 +254,10 @@ crearModuloCB(
 	["debug", "eventos", "soporte", "fx", "almacenamiento", "precarga", "resize", "seres", "mapas"],
 	function(){
 		//almacenamiento.cargarConfig();
-		precarga.empezar();
+		
+		soporte.test.todo(function(){
+			precarga.empezar();
+		});
+		
 	}
 );
