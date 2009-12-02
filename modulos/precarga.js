@@ -8,14 +8,36 @@ if(window.modulos){
 var precarga = {
 	intervalo: null, 	// El intervalo que chequea la carga de las imagenes
 	callBack: null, 	// Los callbacks de porcentaje
-	onComplete: null, 	// la funcion que se corre cuando se terminan de precargar las imagenes
-	empezar: null, 		// La funcion que empieza la precarga
-	check: null, 		// La funcion que checkea si las imagenes cargaron
-	domObj: get("precarga"),			// El div que sirve de contendor
-	content: get("precargaContent"),	// El div donde se ponen las imagenes
+	onComplete: null, 	// La funcion que se corre cuando se terminan de precargar las imagenes
+	empezar: null, 		// Inicia la precarga
+	check: null, 		// Checkea si las imagenes cargaron
+	crearEfectos: null,			// Crea las filas del efecto de precarga
+	actualizarEfectos: null,	// Actualiza las filas del efecto
+	calcularAngulo: null, 		// Calcula el angulo del efecto
 	
-	activa: false,
-	urlBase: "imagenes/", // Url base para las imagenes
+	domObj: get("precarga"),	// El div que sirve de contendor
+	barra: get("precBarra"),	// La barra de loading
+	
+	urlBase: "http://jsmario.com.ar/2.0/beta/imagenes/", // Url base para las imagenes
+	filaImg: "imagenes/loading.gif", // La imagen de cada fila
+	
+	activa: false,	// Si la precarda se esta realizando
+	largo: 250, 	// El largo en pixels de la consla
+	alto: 20, 		// El alto en pixels de la consla
+	tamTotal: 0, 	// El tamaño total de las iamgenes
+	tamCargado: 0, 	// El tamaño de las imagenes que ya se terminaron de cargar
+	ultimoTam: 0, 	// El ultimo tamaño de imagenes cargado, que sirve para saber si cambio y llamar al callbak
+	tiempo: 0, 		// Para medir el tiempo que tarda
+	
+	barrasX: 0,			// La posicion X de la barra, que se mueve todo el tiempo para la izquierda
+	filas: [], 			// Array que almacena las filas del efecto visual al precargar
+	dash: 12, 			// El ancho de cada unidad en una fila
+	anguloMouse: 1, 	// El angulo entre el centro del div con el efecto y el mouse
+	angulo: 1, 			// El angulo de las barras, que va con un delay con respecto al del mouse
+	maxAngulo: 1,		// El angulo maximo que pueden tener las filas
+	opacidad: 0,		// La opacidad del div con el efecto, hace un fade in al principio
+	lastOpacidad: 0,	// El ultimo valor de opcidad para saber si cambio.
+	
 	imagenes: [ // Lista de imagenes, cada una es un array con su url y su peso en bytes
 		["selector.gif", 99],
 		["figuras/castillo1.gif", 1533],
@@ -324,7 +346,7 @@ var precarga = {
 		["seres/carpincho/skin/muerto_derecha.gif", 218],
 		["seres/carpincho/skin/muerto_izquierda.gif", 332],
 		["seres/disparo/skin/normal.gif", 396],
-		["seres/disparo2/skin/normal.gif", 26412],
+		["seres/disparo2/skin/normal.gif", 274],
 		["seres/disparo3/skin/abajo.gif", 300],
 		["seres/disparo3/skin/arriba.gif", 206],
 		["seres/disparo4/skin/derecha.gif", 194],
@@ -381,28 +403,63 @@ var precarga = {
 		["seres/tortuga_asesina/skin/muerto_izquierda.gif", 455],
 		["seres/tortuga_asesina/skin/normal_derecha.gif", 991],
 		["seres/tortuga_asesina/skin/normal_izquierda.gif", 582]
-	],
-	tamTotal: 0, 	// El tamaño total de las iamgenes
-	tamCargado: 0, 	// El tamaño de las imagenes que ya se terminaron de cargar
-	ultimoTam: 0, 	// El ultimo tamaño de imagenes cargado, que sirve para saber si cambio y llamar al callbak
-	tiempo: 0 		// Para medir el tiempo que tarda
+	]
 };
 
-precarga.callBack = function(percent){
-	var cargado = Math.round(precarga.tamCargado / 10);
-	var total = Math.round(precarga.tamTotal / 10);
+/*
+	Cuando se interpreta el modulo fx se activan los efectos de precarga.
+*/
+crearModuloCB("fx", function(){
+	Fx.agregarMetodos(precarga);
+});
+
+
+precarga.callBack = function(porcentaje){
+	var cargado = Math.round(precarga.tamCargado / 100);
+	var total = Math.round(precarga.tamTotal / 100);
 	
-	get("prec_porcentaje").innerHTML = (percent + "% (" + cargado + " / " + total + " kb)");
+	consola.set("prec_porcentaje", porcentaje + "% (" + cargado + " / " + total + " kb)");
+	msgGeneral("Preloading images " + porcentaje + "%");
+	
+	precarga.barra.style.width = (porcentaje * 250 / 100) + "px";
 }
 
 precarga.onComplete = function(tiempo){
-	log("Precarga finalizada! (" + Math.round(tiempo / 1000) + " Segundos)");
+	
 }
 
 /*
 	Empieza la precarga de imagenes.
 */
 precarga.empezar = function(){
+	consola.separador();
+	
+	if( !general.precarga ){
+		/*
+			Si la precarga esta desactivada solo se corre el onComplete.
+		*/
+		log("Precarga desactivada");
+		
+		if(precarga.onComplete){
+			precarga.onComplete(0);
+		}
+		return false;
+	}
+	
+	log("Precargando imagenes: $prec_porcentaje:0%");
+	msgGeneral("Preloading images...");
+	precarga.crearEfectos();
+	
+	/*
+		El div del efecto hace un fade in al principio.
+	*/
+	
+	opacidad(precarga.domObj, 0);
+	precarga.domObj.style.display = "block";
+	
+	/*
+		Se crean las imagenes, no es necesario agregarlas al documento, solas empiezan a cargarse.
+	*/
 	for( var i = 0; i < precarga.imagenes.length; i++ ){
 		
 		var url = precarga.urlBase + precarga.imagenes[i][0];
@@ -410,21 +467,12 @@ precarga.empezar = function(){
 		
 		precarga.tamTotal += tamanio;
 		
-		var imagen = dom.crear("img", {
-			src: url,
-			className: "precargaImg",
-			style: {
-				height: "0px"
-			}
-		}, precarga.content);
+		var imagen = dom.crear( "img", {src: url} );
 		
-		precarga.imagenes[i].push(imagen); 		// Se agrega el objeto de la dom
-		precarga.imagenes[i].push(false); 	// Si ya se cargo
+		precarga.imagenes[i].push(imagen); 	// Se agrega el objeto que las carga
 	}
 	
 	precarga.tiempo = ( new Date() ).getTime();
-	log("Precargando imagenes: $prec_porcentaje:0%");
-	
 	precarga.activa = true;
 }
 
@@ -432,14 +480,17 @@ precarga.empezar = function(){
 	Checkea todas las imagenes de la precarga para ver cuales estan cargadas y llama a los callbacks.
 */
 precarga.check = function(){
+	
+	if( !general.precarga ){
+		return false;
+	}
+	
+	precarga.actualizarEfectos();
+	
 	precarga.tamCargado = 0;
 	
 	for( var i = 0; i < precarga.imagenes.length; i++ ){
 		if( precarga.imagenes[i][2].complete ){
-			if( !precarga.imagenes[i][3] ){
-				precarga.imagenes[i][2].style.height = "16px";
-			}
-			precarga.imagenes[i][3] = true;
 			precarga.tamCargado += precarga.imagenes[i][1];
 		}
 	}
@@ -450,21 +501,117 @@ precarga.check = function(){
 		Si hay callback y el tamaño cargado cambió se lo llama.
 	*/
 	if( precarga.callBack && precarga.tamCargado != precarga.ultimoTam ){
-		precarga.domObj.scrollTop += 200;
 		precarga.callBack(porcentaje);
 	}
 	
 	if( precarga.tamCargado >= precarga.tamTotal ){
 		clearInterval(precarga.intervalo);
+		eventos.quitar(document, "mousemove", precarga.calcularAngulo);
 		
 		if( precarga.onComplete ){
 			precarga.activa = false;
 			precarga.tiempo = ( new Date() ).getTime() - precarga.tiempo;
+			
+			log("Precarga finalizada! (" + Math.round(precarga.tiempo / 1000) + " Segundos)");
 			precarga.onComplete(precarga.tiempo);
 		}
 	}
 	
 	precarga.ultimoTam = precarga.tamCargado;
+}
+
+
+/*
+	Crea las filas y crea el evento mousemove para calcular el angulo con el mouse.
+	Empieza el fade in del div de precarga.
+*/
+precarga.crearEfectos = function(){
+	for( var n = 1; n <= precarga.alto; n++ ){
+		var fila = {
+			posY: n,
+			domObj: null
+		};
+		
+		fila.domObj = dom.crear("img", {
+			src: precarga.filaImg,
+			className: "precFila",
+			style: {
+				marginLeft: ( n - precarga.dash ) + "px"
+			}
+		}, precarga.barra);
+		
+		precarga.filas.push(fila);
+	}
+	
+	eventos.agregar(document, "mousemove", precarga.calcularAngulo);
+	
+	precarga.superponerFx("opacidad", {
+		hasta: 100,
+		tiempo: 1000,
+		efecto: "linear"
+	});
+}
+
+/*
+	Actualiza las filas, moviendolas para la izquierda al mismo tiempo que calcula y mueve su angulo.
+	Actualiza la opcidad del div cuando esta haciendo fade in.
+*/
+precarga.actualizarEfectos = function(){
+	
+	precarga.actualizarFx();
+	
+	if( precarga.opacidad != precarga.lastOpacidad ){
+		opacidad(precarga.domObj, Math.round(precarga.opacidad));
+		precarga.lastOpacidad = precarga.opacidad;
+	}
+	
+	if( !general.efectos ){
+		return false;
+	}
+	
+	precarga.barrasX -= 1;
+	if( -precarga.barrasX > (precarga.dash * 2) ){
+		precarga.barrasX = 0;
+	}
+	
+	if( precarga.angulo < precarga.anguloMouse ){
+		precarga.angulo += (precarga.anguloMouse - precarga.angulo) / 5;
+	}
+	if( precarga.angulo > precarga.anguloMouse ){
+		precarga.angulo -= (precarga.angulo - precarga.anguloMouse) / 5;
+	}
+	
+	for( var f = 0; f < precarga.filas.length; f++ ){
+		var fila = precarga.filas[f];
+		
+		
+		var x = precarga.barrasX - (precarga.alto * precarga.maxAngulo);
+		x += + ( fila.posY * precarga.angulo );
+		
+		fila.domObj.style.marginLeft = x + "px";
+	}
+}
+
+/*
+	Calcula el angulo entre el centro del div de preload y el mouse.
+*/
+precarga.calcularAngulo = function(evento){
+	var mouse = eventos.mouseInfo(evento);
+	
+	var centroX = precarga.domObj.offsetLeft + ( precarga.domObj.offsetWidth / 2 );
+	var centroY = precarga.domObj.offsetTop + ( precarga.domObj.offsetHeight / 2 );
+	
+	var xDiff = mouse.x - centroX;
+	var yDiff = mouse.y - centroY;
+	
+	precarga.anguloMouse = xDiff / yDiff;
+	
+	if( precarga.anguloMouse > precarga.maxAngulo ){
+		precarga.anguloMouse = precarga.maxAngulo;
+	}
+	else if( precarga.anguloMouse < -precarga.maxAngulo ){
+		precarga.anguloMouse = -precarga.maxAngulo;
+	}
 }
 
 // --------------------

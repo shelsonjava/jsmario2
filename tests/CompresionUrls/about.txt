@@ -1,0 +1,1 @@
+Test de compresion de urls para las imagenes de la precarga.

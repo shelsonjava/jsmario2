@@ -9,10 +9,10 @@ if(window.modulos){
 */
 
 var Fx = {
-	crear: null,
-	actualizar: null,
-	metodos: null,
-	efectos: null
+	crear: null, 			// Crea un fx
+	actualizar: null,		// Actualiza los fxs de un objeto
+	agregarMetodos: null,	// Agrega los metodos fx a un objeto
+	efectos: null			// La lista con los efectos
 }
 
 /*
@@ -47,8 +47,8 @@ Fx.crear = function(propiedad, settings){
 		}
 		
 		settings.porcentaje = 0; // El efecto va 0%
-		settings.velocidad = 100 / ( settings.tiempo / actualizacion.tiempo );
 		
+		settings.velocidad = 100 / ( settings.tiempo / actualizacion.tiempo );
 	}
 	
 	/*
@@ -56,12 +56,12 @@ Fx.crear = function(propiedad, settings){
 	*/
 	this.fx[propiedad].push(settings);
 }
-
+var n = 0;
 Fx.actualizar = function( objeto ){ // Actualiza los fx de un objeto
 	
 	for( var propiedad in objeto.fx ){
-		fx = objeto.fx[propiedad];
 		
+		fx = objeto.fx[propiedad];
 		settings = fx[0];
 		
 		if( settings && !settings.finalizado ){
@@ -97,6 +97,13 @@ Fx.actualizar = function( objeto ){ // Actualiza los fx de un objeto
 				
 				if( settings.porcentaje >= 100 ){
 					settings.porcentaje = 100;
+					settings.finalizado = true;
+				}
+				
+				if( !general.efectos ){
+					/*
+						Si los efectos estan desactivados se lo finaliza.
+					*/
 					settings.finalizado = true;
 				}
 				
@@ -153,34 +160,34 @@ Fx.actualizar = function( objeto ){ // Actualiza los fx de un objeto
 }
 
 /*
-	Los metodos que se deben agregar a un objeto para poder usar works sobre este.
+	Le agrega a un objeto los metodos que se deben agregar a un objeto para poder usar fx sobre este.
 */
-Fx.metodos = {
-	agregarFx: function(propiedad, _settings){
-		Fx.crear.call(this, propiedad, _settings);
-	},
+Fx.agregarMetodos = function(objeto){
 	
-	superponerFx: function(propiedad, _settings){
-		this.fx[propiedad] = [];
-		this.agregarFx(propiedad, _settings);
-	},
+	objeto.agregarFx = function(propiedad, settings){
+		Fx.crear.call(objeto, propiedad, settings);
+	};
 	
-	actualizarFx: function(){
-		Fx.actualizar(this, this.works);
-		return this;
-	},
+	objeto.superponerFx = function(propiedad, settings){
+		objeto.fx[propiedad] = [];
+		objeto.agregarFx(propiedad, settings);
+	};
 	
-	removerFx: function(propiedad){
+	objeto.actualizarFx = function(){
+		Fx.actualizar(objeto, objeto.fx);
+	};
+	
+	objeto.removerFx = function(propiedad){
 		if(propiedad){
-			this.fx[propiedad] = [];
+			objeto.fx[propiedad] = [];
 		}
 		else{
-			this.fx = [];
+			objeto.fx = {};
 		}
-	},
+	};
 	
-	fx: []
-};
+	objeto.fx = {};
+}
 
 /*
 	Los efectos de movimiento posibles, a un efecto se le pasa el porcentaje del

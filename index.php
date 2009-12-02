@@ -22,16 +22,19 @@
 	
 	<div id="contenedorArriba">
 		<!-- Titulo -->
-		<div id="title">JSMario 2.0</div>
+		<div id="title">Welcome to JSMario 2.0</div>
 		<div id="subTitle">Super Mario Bross totally reconstructed using only javascript.</div>
 	</div>
 	
 	<br />
-	
 	<div id="contenedorMedio">
 		<!-- Precarga, Juego -->
+		<div id="msgGeneral">Loading scripts and stuffs...</div>
+		
 		<div id="precarga">
-			<div id="precargaContent"></div>
+			<div id="precBarra">
+				
+			</div>
 		</div>
 	</div>
 	
