@@ -8,23 +8,30 @@ body{
 	height: 100%;
 	width: 100%;
 	background: #99D5FF;
-	font-family: Gill Sans, Gill Sans MT, sans-serif;
+	/*font-family: Gill Sans, Gill Sans MT, sans-serif;*/
 	font-size: 16px;
 }
 
 #contenedorArriba{
-	width: 100%;
-	height: 180px;
-	
-	padding: 15px 0px;
+	height: 220px;
 }
 
-#title{
+#contenedorMedio{
+	margin: 0px;
+	padding: 0px;
+}
+
+#contenedorAbajo{
+	height: 100px;
+}
+
+#titulo{
+	padding-top: 15px;
 	font-size: 36px;
 	text-align: center;
 }
 
-#subTitle{
+#subTitulo{
 	font-size: 28px;
 	text-align: center;
 }
@@ -32,4 +39,23 @@ body{
 #msgGeneral{
 	text-align: center;
 	font-size: 26px;
+}
+
+#sombra{
+	display: none;
+	margin: 0px auto;
+}
+
+#contenedorCentral{
+	position: relative;
+	overflow: hidden;
+	
+	width: 390px;
+	height: 346px;
+	padding: 0px;
+	margin: 34px auto 0px auto;
+	
+	background: #5C94FC;
+	
+	display: none;
 }

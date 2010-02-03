@@ -232,8 +232,8 @@ soporte.test.audio = function(){
 */
 soporte.test.todo = function(onFinish){
 	consola.separador();
-	
 	log("Detactando Soporte");
+	msgGeneral("Detecting Browser Support...");
 	
 	soporte.test.navegador();
 	log("Plataforma: " + soporte.navegador.nombre + "(" + soporte.navegador.version + ") en " + soporte.navegador.os);

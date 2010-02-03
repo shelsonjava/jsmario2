@@ -2,7 +2,8 @@ if(window.modulos){
 	modulos.debug.cargadoListo();
 }
 /*
-	El modulo debug avanzado reemplaza al provisorio. Se pueden debuguear tanto strings y numeros como arrays, objetos.
+	El modulo debug avanzado reemplaza al provisorio. Se pueden mostrar por consola todo tipo de variables: numeros, strings, arrays, funciones, booleanos,
+	expresiones regulares, objetos del dom, y objetos sin constructor.
 */
 
 /*
@@ -46,7 +47,7 @@ function log(objeto){
 	}
 	
 	var html = ""; // El html del objeto debugueado
-	var clase = ""; // La clase para el objeto de la DOM
+	var clase = ""; // La clase para el objeto del DOM
 	
 	switch( tipo(objeto) ){
 		case "array":
@@ -239,11 +240,23 @@ consola.actualizar = function(){
 	if( consola.fx ){
 		consola.actualizarFx();
 	}
+	
 	if(consola.posY != consola.lastY){
 		consola.lastY = consola.posY;
 		consola.domObj.style.top = consola.posY + "px";
 		
-		// log(consola.posY);
+		/*
+			Se calcula el alto del contenedor de arriba para aumentarlo si es necesario de forma 
+			que la consola no tape al juego.
+		*/
+		
+		var conArribaAlto = 100;
+		if( consola.posY + consola.alto + consola.inputAlto > conArribaAlto ){
+			conArribaAlto = consola.posY  + consola.alto;
+		}
+		
+		contenedores.arriba.style.height = conArribaAlto + "px";
+		
 	}
 }
 

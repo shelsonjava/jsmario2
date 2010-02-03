@@ -87,18 +87,25 @@ function docScroll(){
 /*
 	Recibe una variable y devuelve el tipo de variable que es.
 */
-function tipo( objeto ){
-	var tipo = typeof objeto, match;
+function tipo( objeto, comprobacion ){
+	/*
+		La comprobacion es opcional. Si el tipo de variable del "objeto" es igual a comprobacion se devuelve true, sino false.
+	*/
+	if(comprobacion){
+		return tipo(objeto) == comprobacion;
+	}
 	
-	if(tipo == "object" && !objeto){
+	var _tipo = typeof objeto, match;
+	
+	if(_tipo == "object" && !objeto){
 		return "null";
 	}
 	
-	if( tipo != "undefined" && objeto.nodeType ){
+	if( _tipo != "undefined" && objeto.nodeType ){
 		return "domObject";
 	}
 	
-	if(tipo == "object"){
+	if(_tipo == "object"){
 		if (!objeto.constructor){
 			return 'object';
 		}
@@ -119,9 +126,8 @@ function tipo( objeto ){
 		
 	}
 	
-	return tipo;
+	return _tipo;
 }
-
 
 /*
 	Agregar todas las propiedades del segundo objeto al prmiero.
@@ -207,8 +213,12 @@ dom.agregar = function(padre, objeto){
 	Le cambia la opacidad a un objeto de la dom.
 */
 function opacidad( objeto, porcentaje ){
-	objeto.style.opacity = porcentaje / 100;
-	objeto.style.filter = "Alpha(opacity = " + porcentaje + " )";
+	if( soporte.navegador.nombre == "iexplorer" ){
+		objeto.style.filter = "Alpha(opacity = " + porcentaje + " )";
+	}
+	else{
+		objeto.style.opacity = porcentaje / 100;
+	}
 }
 
 
