@@ -8,12 +8,10 @@
 	<link rel="stylesheet" type="text/css" href="styles/debug.css" />
 	<link rel="stylesheet" type="text/css" href="styles/precarga.css" />
 </head>
-<body>
+<body onkeydown="log(event.keyCode);">
 	
 	<!-- consola ( flotante ) -->
 	<div id="consola">
-		<!-- El background (transparente) de la consola -->
-		<!-- <div id="conBack"></div> -->
 		<!-- El contenido de la consola (donde se escribe) -->
 		<div id="conContent"></div>
 		<!-- El input de la consola (oculto al principio) -->
@@ -22,8 +20,8 @@
 	
 	<div id="contenedorArriba">
 		<!-- Titulo -->
-		<div id="title">Welcome to JSMario 2.0</div>
-		<div id="subTitle">Super Mario Bross totally reconstructed using only javascript.</div>
+		<div id="titulo">Welcome to JSMario 2.0</div>
+		<div id="subTitulo">Super Mario Bross totally reconstructed using only javascript.</div>
 	</div>
 	
 	<br />
@@ -36,10 +34,25 @@
 				
 			</div>
 		</div>
+		
+		<div id="contenedorSombra"></div>
+		
+		<div id="contenedorCentral">
+			<div id="contenedorMenu">
+				
+			</div>
+			<div id="contenedorJuego">
+				
+			</div>
+			<div id="contenedorEditor">
+				
+			</div>
+		</div>
+		
 	</div>
 	
 	<div id="contenedorAbajo">
-		<!-- Comentarios y  -->
+		<!-- Comentarios y footer -->
 	</div>
 	<!-- 
 		Luego de que la dom termine de formarse practicamente en su totalidad

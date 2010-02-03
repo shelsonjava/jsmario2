@@ -4,7 +4,6 @@ if(window.modulos){
 // --------------------
 
 /*
-	Requiere: misc.js
 	Script multiplataforma con utilidades para gestionar mas facil los eventos del DOM.
 	Incluye un gestor para convinaciones del teclado.
 */
@@ -152,7 +151,7 @@ teclado.convinacionParse = function(convinacion){
 }
 
 teclado.down = function(evento){
-	//log(evento.keyCode);
+	log(evento.keyCode);
 	/*
 		Se corre cuando una tecla es apretada en el documento.
 	*/
@@ -179,7 +178,8 @@ teclado.up = function(evento){
 
 teclado.atajosCheck = function(evento){
 	/*
-		Por cada atajo se comprueba si su estado cambio, es decir si 
+		Por cada atajo se comprueba si su estado cambio, es decir si cambio de estar inactivo a activo o viceversa.
+		En cualquiera de estos casos se corre el evento indicado: "onDown" u "onUp".
 	*/
 	for( var t in teclado.atajos ){
 		var atajo = teclado.atajos[t];
@@ -228,7 +228,6 @@ eventos.agregar(document, "keyup", teclado.up);
 	Scripts para parsear eventos.
 */
 eventos.mouseInfo = function(evento, scroll){
-	// Requiere misc.js -> docScroll
 	/*
 		A partir de un evento del mouse devuelve su posicion ("x" e "y") y, si esta disponible,
 		el boton del mismo que se utilizó ("derecho", "medio" o "izquierdo").
@@ -278,7 +277,5 @@ eventos.mouseInfo = function(evento, scroll){
 
 // --------------------
 if(window.modulos){
-	crearModuloCB("misc", function(){
-		modulos.eventos.interpretadoListo();
-	});
+	modulos.eventos.interpretadoListo();
 }

@@ -59,6 +59,8 @@ Fx.crear = function(propiedad, settings){
 var n = 0;
 Fx.actualizar = function( objeto ){ // Actualiza los fx de un objeto
 	
+	var cambios = {}; // Las propiedades que cambiaron en esta actualizacion
+	
 	for( var propiedad in objeto.fx ){
 		
 		fx = objeto.fx[propiedad];
@@ -70,6 +72,7 @@ Fx.actualizar = function( objeto ){ // Actualiza los fx de un objeto
 				o un array. Una vez resuelto, "hasta" es un numero y significa a donde tiene que llegar
 				el valor de la propiedad.
 			*/
+			var propBackUp = objeto[propiedad];
 			
 			var desde = settings.desde;
 			var hasta = settings.hasta;
@@ -154,9 +157,15 @@ Fx.actualizar = function( objeto ){ // Actualiza los fx de un objeto
 				
 			}
 			
+			if( objeto[propiedad] != propBackUp ){
+				cambios[propiedad] = true;
+			}
+			
 		}
 		
 	}
+	
+	return cambios;
 }
 
 /*
@@ -174,7 +183,7 @@ Fx.agregarMetodos = function(objeto){
 	};
 	
 	objeto.actualizarFx = function(){
-		Fx.actualizar(objeto, objeto.fx);
+		return Fx.actualizar(objeto, objeto.fx);
 	};
 	
 	objeto.removerFx = function(propiedad){

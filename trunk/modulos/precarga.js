@@ -9,6 +9,7 @@ var precarga = {
 	intervalo: null, 	// El intervalo que chequea la carga de las imagenes
 	callBack: null, 	// Los callbacks de porcentaje
 	onComplete: null, 	// La funcion que se corre cuando se terminan de precargar las imagenes
+	recorrerImgs: null, // Recorre las imagenes y llama a un callback por cada una
 	empezar: null, 		// Inicia la precarga
 	check: null, 		// Checkea si las imagenes cargaron
 	crearEfectos: null,			// Crea las filas del efecto de precarga
@@ -18,392 +19,557 @@ var precarga = {
 	domObj: get("precarga"),	// El div que sirve de contendor
 	barra: get("precBarra"),	// La barra de loading
 	
-	urlBase: "http://jsmario.com.ar/2.0/beta/imagenes/", // Url base para las imagenes
 	filaImg: "imagenes/loading.gif", // La imagen de cada fila
 	
-	activa: false,	// Si la precarda se esta realizando
-	largo: 250, 	// El largo en pixels de la consla
+	cargando: false,	// Si la precarda se esta realizando
+	ancho: 250, 	// El ancho en pixels de la consla
 	alto: 20, 		// El alto en pixels de la consla
 	tamTotal: 0, 	// El tamaño total de las iamgenes
 	tamCargado: 0, 	// El tamaño de las imagenes que ya se terminaron de cargar
 	ultimoTam: 0, 	// El ultimo tamaño de imagenes cargado, que sirve para saber si cambio y llamar al callbak
 	tiempo: 0, 		// Para medir el tiempo que tarda
 	
+	efectoActual: false, // El efecto que esta realizando el div de precarga
 	barrasX: 0,			// La posicion X de la barra, que se mueve todo el tiempo para la izquierda
 	filas: [], 			// Array que almacena las filas del efecto visual al precargar
+	velocidad: 1.5,		// La velocidad a la que se mueven para la izquierda las filas
 	dash: 12, 			// El ancho de cada unidad en una fila
 	anguloMouse: 1, 	// El angulo entre el centro del div con el efecto y el mouse
 	angulo: 1, 			// El angulo de las barras, que va con un delay con respecto al del mouse
 	maxAngulo: 1,		// El angulo maximo que pueden tener las filas
-	opacidad: 0,		// La opacidad del div con el efecto, hace un fade in al principio
-	lastOpacidad: 0,	// El ultimo valor de opcidad para saber si cambio.
+	opacidad: 0			// La opacidad del div con el efecto, hace un fade in al principio
+};
+
+/*
+	Lista de imagenes, cada una es un array con su url y su peso en bytes
+*/
+var imgs = {
+	//base: "http://jsmario.com.ar/2.0/beta/imagenes/",
+	base: "imagenes/",
 	
-	imagenes: [ // Lista de imagenes, cada una es un array con su url y su peso en bytes
-		["selector.gif", 99],
-		["figuras/castillo1.gif", 1533],
-		["figuras/castillo1_gris.gif", 1533],
-		["figuras/castillo2.gif", 3900],
-		["figuras/castillo2_gris.gif", 3900],
-		["figuras/fuego.gif", 148],
-		["figuras/montania1.gif", 563],
-		["figuras/montania2.gif", 310],
-		["figuras/nube1.gif", 369],
-		["figuras/nube1_gris.gif", 369],
-		["figuras/nube2.gif", 503],
-		["figuras/nube2_gris.gif", 503],
-		["figuras/nube3.gif", 631],
-		["figuras/nube3_gris.gif", 631],
-		["figuras/planta1.gif", 244],
-		["figuras/planta2.gif", 318],
-		["figuras/planta3.gif", 386],
-		["figuras/poste1.gif", 286],
-		["figuras/poste2.gif", 362],
-		["figuras/poste3.gif", 264],
-		["figuras/poste4.gif", 336],
-		["figuras/princesa.gif", 295],
-		["figuras/reja1.gif", 203],
-		["figuras/riel.gif", 172],
-		["font/mario- .gif", 60],
-		["font/mario-$.gif", 82],
-		["font/mario-+.gif", 73],
-		["font/mario--.gif", 61],
-		["font/mario-0.gif", 73],
-		["font/mario-1.gif", 70],
-		["font/mario-2.gif", 70],
-		["font/mario-3.gif", 70],
-		["font/mario-4.gif", 72],
-		["font/mario-5.gif", 70],
-		["font/mario-6.gif", 70],
-		["font/mario-7.gif", 68],
-		["font/mario-8.gif", 70],
-		["font/mario-9.gif", 71],
-		["font/mario-A.gif", 70],
-		["font/mario-admiracion.gif", 71],
-		["font/mario-asterisco.gif", 68],
-		["font/mario-B.gif", 68],
-		["font/mario-C.gif", 70],
-		["font/mario-D.gif", 72],
-		["font/mario-E.gif", 66],
-		["font/mario-F.gif", 67],
-		["font/mario-G.gif", 71],
-		["font/mario-H.gif", 67],
-		["font/mario-I.gif", 69],
-		["font/mario-J.gif", 70],
-		["font/mario-K.gif", 73],
-		["font/mario-L.gif", 70],
-		["font/mario-M.gif", 67],
-		["font/mario-moneda.gif", 214],
-		["font/mario-N.gif", 67],
-		["font/mario-O.gif", 70],
-		["font/mario-P.gif", 70],
-		["font/mario-Q.gif", 71],
-		["font/mario-R.gif", 70],
-		["font/mario-S.gif", 72],
-		["font/mario-T.gif", 69],
-		["font/mario-U.gif", 69],
-		["font/mario-V.gif", 70],
-		["font/mario-W.gif", 67],
-		["font/mario-X.gif", 70],
-		["font/mario-Y.gif", 73],
-		["font/mario-Z.gif", 65],
-		["mario/chico/brazaleando/derecha.gif", 482],
-		["mario/chico/brazaleando/izquierda.gif", 710],
-		["mario/chico/corriendo/derecha.gif", 565],
-		["mario/chico/corriendo/izquierda.gif", 510],
-		["mario/chico/corriendo_rapido/derecha.gif", 565],
-		["mario/chico/corriendo_rapido/izquierda.gif", 510],
-		["mario/chico/escalando/derecha.gif", 326],
-		["mario/chico/muerto/normal.gif", 203],
-		["mario/chico/nadando/derecha.gif", 326],
-		["mario/chico/nadando/izquierda.gif", 512],
-		["mario/chico/normal/derecha.gif", 181],
-		["mario/chico/normal/izquierda.gif", 185],
-		["mario/chico/patinando/derecha.gif", 194],
-		["mario/chico/patinando/izquierda.gif", 194],
-		["mario/chico/saltando/derecha.gif", 217],
-		["mario/chico/saltando/izquierda.gif", 216],
-		["mario/chico/trepando/derecha.gif", 183],
-		["mario/chico/trepando/izquierda.gif", 203],
-		["mario/grande/agachado/derecha.gif", 447],
-		["mario/grande/agachado/izquierda.gif", 370],
-		["mario/grande/brazaleando/derecha.gif", 857],
-		["mario/grande/brazaleando/izquierda.gif", 1207],
-		["mario/grande/corriendo/derecha.gif", 923],
-		["mario/grande/corriendo/izquierda.gif", 930],
-		["mario/grande/corriendo_rapido/derecha.gif", 923],
-		["mario/grande/corriendo_rapido/izquierda.gif", 930],
-		["mario/grande/escalando/derecha.gif", 544],
-		["mario/grande/nadando/derecha.gif", 567],
-		["mario/grande/nadando/izquierda.gif", 826],
-		["mario/grande/normal/derecha.gif", 335],
-		["mario/grande/normal/izquierda.gif", 374],
-		["mario/grande/patinando/derecha.gif", 368],
-		["mario/grande/patinando/izquierda.gif", 371],
-		["mario/grande/saltando/derecha.gif", 346],
-		["mario/grande/saltando/izquierda.gif", 385],
-		["mario/grande/trepando/derecha.gif", 284],
-		["mario/grande/trepando/izquierda.gif", 323],
-		["mario/super/agachado/derecha.gif", 282],
-		["mario/super/agachado/izquierda.gif", 395],
-		["mario/super/brazaleando/derecha.gif", 1101],
-		["mario/super/brazaleando/izquierda.gif", 1487],
-		["mario/super/corriendo/derecha.gif", 951],
-		["mario/super/corriendo/izquierda.gif", 1434],
-		["mario/super/corriendo_rapido/derecha.gif", 951],
-		["mario/super/corriendo_rapido/izquierda.gif", 1434],
-		["mario/super/disparando/derecha.gif", 307],
-		["mario/super/disparando/izquierda.gif", 437],
-		["mario/super/escalando/derecha.gif", 287],
-		["mario/super/escalando/izquierda.gif", 333],
-		["mario/super/nadando/derecha.gif", 567],
-		["mario/super/nadando/izquierda.gif", 874],
-		["mario/super/normal/derecha.gif", 335],
-		["mario/super/normal/izquierda.gif", 466],
-		["mario/super/patinando/derecha.gif", 343],
-		["mario/super/patinando/izquierda.gif", 497],
-		["mario/super/saltando/derecha.gif", 491],
-		["mario/super/saltando/izquierda.gif", 574],
-		["mario/super/trepando/derecha.gif", 544],
-		["mario/transicion/derecha.gif", 373],
-		["mario/transicion/izquierda.gif", 498],
-		["objetos/agua/skin/cuerpo.gif", 71],
-		["objetos/agua/skin/superficie.gif", 150],
-		["objetos/bandera/skin_cielo/bandera.gif", 169],
-		["objetos/bandera/skin_cielo/mastil.gif", 512],
-		["objetos/bandera/skin_dia/bandera.gif", 169],
-		["objetos/bandera/skin_dia/mastil.gif", 512],
-		["objetos/bandera/skin_noche/bandera.gif", 169],
-		["objetos/bandera/skin_noche/mastil.gif", 512],
-		["objetos/barra/skin_cielo/normal.gif", 96],
-		["objetos/barra/skin_cielo/polea_horizontal.gif", 82],
-		["objetos/barra/skin_cielo/polea_TopLeft.gif", 159],
-		["objetos/barra/skin_cielo/polea_TopRight.gif", 190],
-		["objetos/barra/skin_cielo/polea_vertical.gif", 111],
-		["objetos/barra/skin_dia/normal.gif", 88],
-		["objetos/barra/skin_dia/polea_horizontal.gif", 82],
-		["objetos/barra/skin_dia/polea_TopLeft.gif", 159],
-		["objetos/barra/skin_dia/polea_TopRight.gif", 190],
-		["objetos/barra/skin_dia/polea_vertical.gif", 111],
-		["objetos/barra/skin_gris/normal.gif", 88],
-		["objetos/barra/skin_gris/polea_horizontal.gif", 82],
-		["objetos/barra/skin_gris/polea_TopLeft.gif", 159],
-		["objetos/barra/skin_gris/polea_TopRight.gif", 155],
-		["objetos/barra/skin_gris/polea_vertical.gif", 111],
-		["objetos/castillo1/skin/figura9.gif", 1533],
-		["objetos/cubo/skin_agua/contruccion.gif", 220],
-		["objetos/cubo/skin_agua/piso.gif", 208],
-		["objetos/cubo/skin_agua2/contruccion.gif", 220],
-		["objetos/cubo/skin_agua2/piso.gif", 185],
-		["objetos/cubo/skin_castillo/contruccion.gif", 185],
-		["objetos/cubo/skin_castillo/piso.gif", 185],
-		["objetos/cubo/skin_cielo/construccion.gif", 171],
-		["objetos/cubo/skin_cielo/piso.gif", 227],
-		["objetos/cubo/skin_dia/contruccion.gif", 166],
-		["objetos/cubo/skin_dia/piso.gif", 177],
-		["objetos/cubo/skin_gris/contruccion.gif", 166],
-		["objetos/cubo/skin_gris/piso.gif", 185],
-		["objetos/cubo/skin_subterraneo/contruccion.gif", 166],
-		["objetos/cubo/skin_subterraneo/piso.gif", 185],
-		["objetos/ladrillos/skin_castillo/fragmento.gif", 215],
-		["objetos/ladrillos/skin_castillo/normal.gif", 135],
-		["objetos/ladrillos/skin_dia/fragmento.gif", 199],
-		["objetos/ladrillos/skin_dia/normal.gif", 141],
-		["objetos/ladrillos/skin_subterraneo/fragmento.gif", 135],
-		["objetos/ladrillos/skin_subterraneo/normal.gif", 183],
-		["objetos/moneda/skin/primaria.gif", 364],
-		["objetos/moneda2/skin/secundaria.gif", 239],
-		["objetos/plataforma/skin_cielo/Bottom.gif", 71],
-		["objetos/plataforma/skin_cielo/BottomCenter.gif", 146],
-		["objetos/plataforma/skin_cielo/TopCenter.gif", 128],
-		["objetos/plataforma/skin_cielo/TopLeft.gif", 172],
-		["objetos/plataforma/skin_cielo/TopRight.gif", 168],
-		["objetos/plataforma/skin_dia/Bottom.gif", 125],
-		["objetos/plataforma/skin_dia/BottomCenter.gif", 125],
-		["objetos/plataforma/skin_dia/TopCenter.gif", 111],
-		["objetos/plataforma/skin_dia/TopLeft.gif", 140],
-		["objetos/plataforma/skin_dia/TopRight.gif", 140],
-		["objetos/plataforma/skin_gris/Bottom.gif", 119],
-		["objetos/plataforma/skin_gris/BottomCenter.gif", 119],
-		["objetos/plataforma/skin_gris/TopCenter.gif", 111],
-		["objetos/plataforma/skin_gris/TopLeft.gif", 140],
-		["objetos/plataforma/skin_gris/TopRight.gif", 140],
-		["objetos/puente/skin/cadena.gif", 131],
-		["objetos/puente/skin/hacha.gif", 202],
-		["objetos/puente/skin/piso.gif", 212],
-		["objetos/signo/skin_castillo/cubo.gif", 139],
-		["objetos/signo/skin_castillo/normal.gif", 461],
-		["objetos/signo/skin_dia/normal.gif", 461],
-		["objetos/signo/skin_dia/roto.gif", 139],
-		["objetos/signo/skin_subterraneo/normal.gif", 461],
-		["objetos/signo/skin_subterraneo/roto.gif", 139],
-		["objetos/trampolin/skin_dia/chico.gif", 229],
-		["objetos/trampolin/skin_dia/medio.gif", 268],
-		["objetos/trampolin/skin_dia/normal.gif", 292],
-		["objetos/trampolin/skin_gris/chico.gif", 230],
-		["objetos/trampolin/skin_gris/mediano.gif", 270],
-		["objetos/trampolin/skin_gris/normal.gif", 295],
-		["objetos/tubo1/skin_agua2/BottomLeft.gif", 191],
-		["objetos/tubo1/skin_agua2/BottomRight.gif", 172],
-		["objetos/tubo1/skin_agua2/TopLeft.gif", 180],
-		["objetos/tubo1/skin_agua2/TopRight.gif", 165],
-		["objetos/tubo1/skin_cielo/BottomLeft.gif", 191],
-		["objetos/tubo1/skin_cielo/BottomRight.gif", 172],
-		["objetos/tubo1/skin_cielo/TopLeft.gif", 180],
-		["objetos/tubo1/skin_cielo/TopRight.gif", 165],
-		["objetos/tubo1/skin_dia/BottomLeft.gif", 191],
-		["objetos/tubo1/skin_dia/BottomRight.gif", 199],
-		["objetos/tubo1/skin_dia/TopLeft.gif", 180],
-		["objetos/tubo1/skin_dia/TopRight.gif", 165],
-		["objetos/tubo1/skin_noche/BottomLeft.gif", 191],
-		["objetos/tubo1/skin_noche/BottomRight.gif", 172],
-		["objetos/tubo1/skin_noche/TopLeft.gif", 180],
-		["objetos/tubo1/skin_noche/TopRight.gif", 165],
-		["objetos/tubo1/skin_subterraneo/BottomLeft.gif", 191],
-		["objetos/tubo1/skin_subterraneo/BottomRight.gif", 199],
-		["objetos/tubo1/skin_subterraneo/TopLeft.gif", 180],
-		["objetos/tubo1/skin_subterraneo/TopRight.gif", 165],
-		["objetos/tubo2/skin_agua2/BottomLeft.gif", 217],
-		["objetos/tubo2/skin_agua2/BottomRight.gif", 201],
-		["objetos/tubo2/skin_agua2/TopLeft.gif", 274],
-		["objetos/tubo2/skin_agua2/TopRight.gif", 155],
-		["objetos/tubo2/skin_cielo/BottomLeft.gif", 325],
-		["objetos/tubo2/skin_cielo/BottomRight.gif", 206],
-		["objetos/tubo2/skin_cielo/TopLeft.gif", 263],
-		["objetos/tubo2/skin_cielo/TopRight.gif", 128],
-		["objetos/tubo2/skin_dia/BottomLeft.gif", 191],
-		["objetos/tubo2/skin_dia/BottomRight.gif", 152],
-		["objetos/tubo2/skin_dia/TopLeft.gif", 169],
-		["objetos/tubo2/skin_dia/TopRight.gif", 110],
-		["objetos/tubo2/skin_noche/BottomLeft.gif", 217],
-		["objetos/tubo2/skin_noche/BottomRight.gif", 159],
-		["objetos/tubo2/skin_noche/TopLeft.gif", 209],
-		["objetos/tubo2/skin_noche/TopRight.gif", 132],
-		["objetos/tubo2/skin_subterraneo/BottomLeft.gif", 191],
-		["objetos/tubo2/skin_subterraneo/BottomRight.gif", 152],
-		["objetos/tubo2/skin_subterraneo/TopLeft.gif", 169],
-		["objetos/tubo2/skin_subterraneo/TopRight.gif", 110],
-		["objetos/tubo3/skin_agua2/BottomLeft.gif", 204],
-		["objetos/tubo3/skin_agua2/BottomRight.gif", 172],
-		["objetos/tubo3/skin_agua2/TopLeft.gif", 191],
-		["objetos/tubo3/skin_agua2/TopRight.gif", 172],
-		["objetos/tubo3/skin_cielo/BottomLeft.gif", 204],
-		["objetos/tubo3/skin_cielo/BottomRight.gif", 172],
-		["objetos/tubo3/skin_cielo/TopLeft.gif", 191],
-		["objetos/tubo3/skin_cielo/TopRight.gif", 172],
-		["objetos/tubo3/skin_dia/BottomLeft.gif", 204],
-		["objetos/tubo3/skin_dia/BottomRight.gif", 201],
-		["objetos/tubo3/skin_dia/TopLeft.gif", 191],
-		["objetos/tubo3/skin_dia/TopRight.gif", 201],
-		["objetos/tubo3/skin_noche/BottomLeft.gif", 204],
-		["objetos/tubo3/skin_noche/BottomRight.gif", 172],
-		["objetos/tubo3/skin_noche/TopLeft.gif", 191],
-		["objetos/tubo3/skin_noche/TopRight.gif", 172],
-		["objetos/tubo3/skin_subterraneo/BottomLeft.gif", 204],
-		["objetos/tubo3/skin_subterraneo/BottomRight.gif", 201],
-		["objetos/tubo3/skin_subterraneo/TopLeft.gif", 191],
-		["objetos/tubo3/skin_subterraneo/TopRight.gif", 201],
-		["objetos/tubo4/skin_agua2/BottomLeft.gif", 191],
-		["objetos/tubo4/skin_agua2/BottomRight.gif", 172],
-		["objetos/tubo4/skin_agua2/TopLeft.gif", 191],
-		["objetos/tubo4/skin_agua2/TopRight.gif", 172],
-		["objetos/tubo4/skin_cielo/BottomLeft.gif", 191],
-		["objetos/tubo4/skin_cielo/BottomRight.gif", 172],
-		["objetos/tubo4/skin_cielo/TopLeft.gif", 191],
-		["objetos/tubo4/skin_cielo/TopRight.gif", 172],
-		["objetos/tubo4/skin_dia/BottomLeft.gif", 191],
-		["objetos/tubo4/skin_dia/BottomRight.gif", 199],
-		["objetos/tubo4/skin_dia/TopLeft.gif", 191],
-		["objetos/tubo4/skin_dia/TopRight.gif", 199],
-		["objetos/tubo4/skin_noche/BottomLeft.gif", 191],
-		["objetos/tubo4/skin_noche/BottomRight.gif", 172],
-		["objetos/tubo4/skin_noche/TopLeft.gif", 191],
-		["objetos/tubo4/skin_noche/TopRight.gif", 172],
-		["objetos/tubo4/skin_subterraneo/BottomLeft.gif", 191],
-		["objetos/tubo4/skin_subterraneo/BottomRight.gif", 199],
-		["objetos/tubo4/skin_subterraneo/TopLeft.gif", 191],
-		["objetos/tubo4/skin_subterraneo/TopRIght.gif", 199],
-		["seres/acorazado/skin/cadaver.gif", 154],
-		["seres/acorazado/skin/derecha.gif", 647],
-		["seres/acorazado/skin/izquierda.gif", 375],
-		["seres/acorazado/skin/muerto.gif", 297],
-		["seres/bicho/skin_castillo/cadaver.gif", 138],
-		["seres/bicho/skin_castillo/muerto.gif", 201],
-		["seres/bicho/skin_castillo/normal.gif", 415],
-		["seres/bicho/skin_dia/cadaver.gif", 138],
-		["seres/bicho/skin_dia/muerto.gif", 248],
-		["seres/bicho/skin_dia/normal.gif", 411],
-		["seres/bicho/skin_subterraneo/bicho.gif", 376],
-		["seres/bicho/skin_subterraneo/bicho_muerto.gif", 194],
-		["seres/bicho/skin_subterraneo/cadaver.gif", 138],
-		["seres/burbuja/skin/normal.gif", 55],
-		["seres/cadena/skin/cubo.gif", 139],
-		["seres/cadena/skin/fuego.gif", 396],
-		["seres/canion/skin/Bottom.gif", 218],
-		["seres/canion/skin/Top.gif", 194],
-		["seres/carpincho/skin/derecha.gif", 614],
-		["seres/carpincho/skin/huevo.gif", 188],
-		["seres/carpincho/skin/izquierda.gif", 729],
-		["seres/carpincho/skin/muerto_derecha.gif", 218],
-		["seres/carpincho/skin/muerto_izquierda.gif", 332],
-		["seres/disparo/skin/normal.gif", 396],
-		["seres/disparo2/skin/normal.gif", 274],
-		["seres/disparo3/skin/abajo.gif", 300],
-		["seres/disparo3/skin/arriba.gif", 206],
-		["seres/disparo4/skin/derecha.gif", 194],
-		["seres/disparo4/skin/izquierda.gif", 206],
-		["seres/dragon/skin/derecha.gif", 1771],
-		["seres/dragon/skin/izquierda.gif", 1057],
-		["seres/estrella/skin/normal.gif", 426],
-		["seres/explosion/skin/explocion.gif", 478],
-		["seres/hongo/skin_muerte/normal.gif", 179],
-		["seres/hongo/skin_normal/normal.gif", 195],
-		["seres/hongo/skin_vida/normal.gif", 179],
-		["seres/martillo/skin/derecha.gif", 1031],
-		["seres/martillo/skin/izquierda.gif", 1005],
-		["seres/nube_asesisina/skin/derecha.gif", 465],
-		["seres/nube_asesisina/skin/izquierda.gif", 271],
-		["seres/nube_asesisina/skin/muerta.gif", 403],
-		["seres/nube_asesisina/skin/vacia.gif", 218],
-		["seres/pez/skin_agua/muerto_derecha.gif", 270],
-		["seres/pez/skin_agua/muerto_izquierda.gif", 208],
-		["seres/pez/skin_agua/normal_derecha.gif", 498],
-		["seres/pez/skin_agua/normal_izquierda.gif", 395],
-		["seres/pez/skin_agua2/muerto_derecha.gif", 207],
-		["seres/pez/skin_agua2/muerto_izquierda.gif", 208],
-		["seres/pez/skin_agua2/normal_derecha.gif", 678],
-		["seres/pez/skin_agua2/normal_izquierda.gif", 395],
-		["seres/planta/skin_dia/normal.gif", 556],
-		["seres/planta/skin_noche/normal.gif", 556],
-		["seres/planta2/skin/normal.gif", 151],
-		["seres/pulpo/skin/chico.gif", 225],
-		["seres/pulpo/skin/muerto.gif", 224],
-		["seres/pulpo/skin/normal.gif", 282],
-		["seres/tortuga/skin_dia/cadaver.gif", 196],
-		["seres/tortuga/skin_dia/muerto.gif", 355],
-		["seres/tortuga/skin_dia/normal_derecha.gif", 615],
-		["seres/tortuga/skin_dia/normal_izquierda.gif", 649],
-		["seres/tortuga/skin_dia/volando_derecha.gif", 1046],
-		["seres/tortuga/skin_dia/volando_izquierda.gif", 1180],
-		["seres/tortuga/skin_dia2/cadaver.gif", 196],
-		["seres/tortuga/skin_dia2/muerto.gif", 184],
-		["seres/tortuga/skin_dia2/normal_derecha.gif", 597],
-		["seres/tortuga/skin_dia2/normal_izquierda.gif", 643],
-		["seres/tortuga/skin_dia2/volando_derecha.gif", 1011],
-		["seres/tortuga/skin_dia2/volando_izquierda.gif", 606],
-		["seres/tortuga/skin_subterraneo/cadaver.gif", 196],
-		["seres/tortuga/skin_subterraneo/muerto.gif", 199],
-		["seres/tortuga/skin_subterraneo/normal_derecha.gif", 637],
-		["seres/tortuga/skin_subterraneo/normal_izquierda.gif", 558],
-		["seres/tortuga/skin_subterraneo/volando_derecha.gif", 631],
-		["seres/tortuga/skin_subterraneo/volando_izquierda.gif", 932],
-		["seres/tortuga_asesina/skin/disparo.gif", 273],
-		["seres/tortuga_asesina/skin/disparo_derecha.gif", 448],
-		["seres/tortuga_asesina/skin/disparo_izquierda.gif", 273],
-		["seres/tortuga_asesina/skin/muerto_derecha.gif", 272],
-		["seres/tortuga_asesina/skin/muerto_izquierda.gif", 455],
-		["seres/tortuga_asesina/skin/normal_derecha.gif", 991],
-		["seres/tortuga_asesina/skin/normal_izquierda.gif", 582]
-	]
+	selector: ["selector.gif", 99],
+	
+	figuras: {
+		base: "figuras/",
+		cast1: ["castillo1.gif", 1533],
+		cast1Gris: ["castillo1_gris.gif", 1533],
+		cast2: ["castillo2.gif", 3900],
+		cast2Gris: ["castillo2_gris.gif", 3900],
+		fuego: ["fuego.gif", 148],
+		mon1: ["montania1.gif", 563],
+		mon2: ["montania2.gif", 310],
+		nube1: ["nube1.gif", 369],
+		nube1Gris: ["nube1_gris.gif", 369],
+		nube2: ["nube2.gif", 503],
+		nube2Gris: ["nube2_gris.gif", 503],
+		nube3: ["nube3.gif", 631],
+		nube3Gris: ["nube3_gris.gif", 631],
+		planta1: ["planta1.gif", 244],
+		planta2: ["planta2.gif", 318],
+		planta3: ["planta3.gif", 386],
+		poste1: ["poste1.gif", 286],
+		poste2: ["poste2.gif", 362],
+		poste3: ["poste3.gif", 264],
+		poste4: ["poste4.gif", 336],
+		princesa: ["princesa.gif", 295],
+		reja1: ["reja1.gif", 203],
+		riel: ["riel.gif", 172]
+	},
+	
+	font: {
+		base: "font/",
+		_0: ["0.gif", 73],
+		_1: ["1.gif", 70],
+		_2: ["2.gif", 70],
+		_3: ["3.gif", 70],
+		_4: ["4.gif", 72],
+		_5: ["5.gif", 70],
+		_6: ["6.gif", 70],
+		_7: ["7.gif", 68],
+		_8: ["8.gif", 70],
+		_9: ["9.gif", 71],
+		A: ["A.gif", 70],
+		B: ["B.gif", 68],
+		C: ["C.gif", 70],
+		D: ["D.gif", 72],
+		E: ["E.gif", 66],
+		F: ["F.gif", 67],
+		G: ["G.gif", 71],
+		H: ["H.gif", 67],
+		I: ["I.gif", 69],
+		J: ["J.gif", 70],
+		K: ["K.gif", 73],
+		L: ["L.gif", 70],
+		M: ["M.gif", 67],
+		N: ["N.gif", 67],
+		O: ["O.gif", 70],
+		P: ["P.gif", 70],
+		Q: ["Q.gif", 71],
+		R: ["R.gif", 70],
+		S: ["S.gif", 72],
+		T: ["T.gif", 69],
+		U: ["U.gif", 69],
+		V: ["V.gif", 70],
+		W: ["W.gif", 67],
+		X: ["X.gif", 70],
+		Y: ["Y.gif", 73],
+		Z: ["Z.gif", 65],
+		espacio: ["espacio.gif", 60],
+		add: ["add.gif", 73],
+		sub: ["sub.gif", 61],
+		admiracion: ["admiracion.gif", 71],
+		asterisco: ["asterisco.gif", 68],
+		mira: ["mira.gif", 82],
+		moneda: ["moneda.gif", 214]
+	},
+	
+	marioC: {
+		base: "mario/chico/",
+		brazaleandoD: ["brazaleando/derecha.gif", 482],
+		brazaleandoI: ["brazaleando/izquierda.gif", 710],
+		corriendoD: ["corriendo/derecha.gif", 565],
+		corriendoI: ["corriendo/izquierda.gif", 510],
+		corriendoRapidoD: ["corriendo_rapido/derecha.gif", 565],
+		corriendoRapidoI: ["corriendo_rapido/izquierda.gif", 510],
+		escalandoD: ["escalando/derecha.gif", 326],
+		muerto: ["muerto/normal.gif", 203],
+		nadandoD: ["nadando/derecha.gif", 326],
+		nadandoI: ["nadando/izquierda.gif", 512],
+		normalD: ["normal/derecha.gif", 181],
+		normalI: ["normal/izquierda.gif", 185],
+		patinandoD: ["patinando/derecha.gif", 194],
+		patinandoI: ["patinando/izquierda.gif", 194],
+		saltandoD: ["saltando/derecha.gif", 217],
+		saltandoI: ["saltando/izquierda.gif", 216],
+		trepandoD: ["trepando/derecha.gif", 183],
+		trepandoI: ["trepando/izquierda.gif", 203]
+	},
+	
+	marioG: {
+		base: "mario/grande/",
+		agachadoD: ["agachado/derecha.gif", 447],
+		agachadoI: ["agachado/izquierda.gif", 370],
+		brazaleandoD: ["brazaleando/derecha.gif", 857],
+		brazaleandoI: ["brazaleando/izquierda.gif", 1207],
+		corriendoD: ["corriendo/derecha.gif", 923],
+		corriendoI: ["corriendo/izquierda.gif", 930],
+		corriendoRapidoD: ["corriendo_rapido/derecha.gif", 923],
+		corriendoRapidoI: ["corriendo_rapido/izquierda.gif", 930],
+		escalandoD: ["escalando/derecha.gif", 544],
+		nadandoD: ["nadando/derecha.gif", 567],
+		nadandoI: ["nadando/izquierda.gif", 826],
+		normalD: ["normal/derecha.gif", 335],
+		normalI: ["normal/izquierda.gif", 374],
+		patinandoD: ["patinando/derecha.gif", 368],
+		patinandoI: ["patinando/izquierda.gif", 371],
+		saltandoD: ["saltando/derecha.gif", 346],
+		saltandoI: ["saltando/izquierda.gif", 385],
+		trepandoD: ["trepando/derecha.gif", 284],
+		trepandoI: ["trepando/izquierda.gif", 323]
+	},
+	
+	marioS: {
+		base: "mario/super/",
+		agachadoD: ["agachado/derecha.gif", 282],
+		agachadoI: ["agachado/izquierda.gif", 395],
+		brazaleandoD: ["brazaleando/derecha.gif", 1101],
+		brazaleandoI: ["brazaleando/izquierda.gif", 1487],
+		corriendoD: ["corriendo/derecha.gif", 951],
+		corriendoI: ["corriendo/izquierda.gif", 1434],
+		corriendoRapidoD: ["corriendo_rapido/derecha.gif", 951],
+		corriendoRapidoI: ["corriendo_rapido/izquierda.gif", 1434],
+		disparandoD: ["disparando/derecha.gif", 307],
+		disparandoI: ["disparando/izquierda.gif", 437],
+		escalandoD: ["escalando/derecha.gif", 287],
+		escalandoI: ["escalando/izquierda.gif", 333],
+		nadandoD: ["nadando/derecha.gif", 567],
+		normalI: ["nadando/izquierda.gif", 874],
+		normalD: ["normal/derecha.gif", 335],
+		normalI: ["normal/izquierda.gif", 466],
+		patinandoD: ["patinando/derecha.gif", 343],
+		patinandoI: ["patinando/izquierda.gif", 497],
+		saltandoD: ["saltando/derecha.gif", 491],
+		saltandoI: ["saltando/izquierda.gif", 574],
+		trepandoD: ["trepando/derecha.gif", 544]
+	},
+	
+	marioT: {
+		base: "mario/transicion/",
+		derecha: ["derecha.gif", 373],
+		izquierda: ["izquierda.gif", 498]
+	},
+	
+	objetos: {
+		base: "objetos/",
+		
+		agua: {
+			base: "agua/skin/",
+			cuerpo: ["cuerpo.gif", 71],
+			superficie: ["superficie.gif", 150]
+		},
+		
+		bandera: {
+			base: "bandera/",
+			cielo_bandera: ["skin_cielo/bandera.gif", 169],
+			cielo_mastil: ["skin_cielo/mastil.gif", 512],
+			dia_bandera: ["skin_dia/bandera.gif", 169],
+			dia_mastil: ["skin_dia/mastil.gif", 512],
+			noche_bandera: ["skin_noche/bandera.gif", 169],
+			noche_mastil: ["skin_noche/mastil.gif", 512]
+		},
+		
+		barra: {
+			base: "barra/",
+			cielo_normal: ["skin_cielo/normal.gif", 96],
+			cielo_poleaH: ["skin_cielo/polea_horizontal.gif", 82],
+			cielo_poleaTL: ["skin_cielo/polea_TopLeft.gif", 159],
+			cielo_poleaTR: ["skin_cielo/polea_TopRight.gif", 190],
+			cielo_poleaV: ["skin_cielo/polea_vertical.gif", 111],
+			dia_normal: ["skin_dia/normal.gif", 88],
+			dia_poleaH: ["skin_dia/polea_horizontal.gif", 82],
+			dia_poleaTL: ["skin_dia/polea_TopLeft.gif", 159],
+			dia_poleaTR: ["skin_dia/polea_TopRight.gif", 190],
+			dia_poleaV: ["skin_dia/polea_vertical.gif", 111],
+			gris_normal: ["skin_gris/normal.gif", 88],
+			gris_poleaH: ["skin_gris/polea_horizontal.gif", 82],
+			gris_poleaTL: ["skin_gris/polea_TopLeft.gif", 159],
+			gris_poleaTR: ["skin_gris/polea_TopRight.gif", 155],
+			gris_poleaV: ["skin_gris/polea_vertical.gif", 111]
+		},
+		
+		castillo1: {
+			base: "castillo1/",
+			normal: ["skin/normal.gif", 1533]
+		},
+		
+		cubo: {
+			base: "cubo/",
+			agua_construccion: ["skin_agua/construccion.gif", 220],
+			agua_piso: ["skin_agua/piso.gif", 208],
+			agua2_construccion: ["skin_agua2/construccion.gif", 220],
+			agua2_piso: ["skin_agua2/piso.gif", 185],
+			cast_construccion: ["skin_castillo/construccion.gif", 185],
+			cast_piso: ["skin_castillo/piso.gif", 185],
+			cielo_construccion: ["skin_cielo/construccion.gif", 171],
+			cielo_piso: ["skin_cielo/piso.gif", 227],
+			dia_construccion: ["skin_dia/construccion.gif", 166],
+			dia_piso: ["skin_dia/piso.gif", 177],
+			gris_construccion: ["skin_gris/construccion.gif", 166],
+			gris_piso: ["skin_gris/piso.gif", 185],
+			sub_construccion: ["skin_subterraneo/construccion.gif", 166],
+			sub_piso: ["skin_subterraneo/piso.gif", 185]
+		},
+		
+		ladrillos: {
+			base: "ladrillos/",
+			cast_fragmento: ["skin_castillo/fragmento.gif", 215],
+			cast_normal: ["skin_castillo/normal.gif", 135],
+			dia_fragmento: ["skin_dia/fragmento.gif", 199],
+			dia_normal: ["skin_dia/normal.gif", 141],
+			sub_fragmento: ["skin_subterraneo/fragmento.gif", 135],
+			sub_normal: ["skin_subterraneo/normal.gif", 183]
+		},
+		
+		moneda: ["moneda/skin/primaria.gif", 364],
+		
+		moneda2: ["moneda2/skin/secundaria.gif", 239],
+		
+		plataforma: {
+			base: "plataforma/",
+			cielo_B: ["skin_cielo/Bottom.gif", 71],
+			cielo_BC: ["skin_cielo/BottomCenter.gif", 146],
+			cielo_TC: ["skin_cielo/TopCenter.gif", 128],
+			cielo_TL: ["skin_cielo/TopLeft.gif", 172],
+			cielo_TR: ["skin_cielo/TopRight.gif", 168],
+			dia_B: ["skin_dia/Bottom.gif", 125],
+			dia_BC: ["skin_dia/BottomCenter.gif", 125],
+			dia_TC: ["skin_dia/TopCenter.gif", 111],
+			dia_TL: ["skin_dia/TopLeft.gif", 140],
+			dia_TR: ["skin_dia/TopRight.gif", 140],
+			gris_B: ["skin_gris/Bottom.gif", 119],
+			gris_BC: ["skin_gris/BottomCenter.gif", 119],
+			gris_TC: ["skin_gris/TopCenter.gif", 111],
+			gris_TL: ["skin_gris/TopLeft.gif", 140],
+			gris_TR: ["skin_gris/TopRight.gif", 140]
+		},
+		
+		puente: {
+			base: "puente/skin/",
+			cadena: ["cadena.gif", 131],
+			hacha: ["hacha.gif", 202],
+			piso: ["piso.gif", 212]
+		},
+		
+		signo: {
+			base: "signo/",
+			cast_roto: ["skin_castillo/roto.gif", 139],
+			cast_normal: ["skin_castillo/normal.gif", 461],
+			dia_normal: ["skin_dia/normal.gif", 461],
+			dia_roto: ["skin_dia/roto.gif", 139],
+			sub_normal: ["skin_subterraneo/normal.gif", 461],
+			sub_roto: ["skin_subterraneo/roto.gif", 139]
+		},
+		
+		trampolin: {
+			base: "trampolin/",
+			dia_chico: ["skin_dia/chico.gif", 229],
+			dia_medio: ["skin_dia/medio.gif", 268],
+			dia_normal: ["skin_dia/normal.gif", 292],
+			gris_chico: ["skin_gris/chico.gif", 230],
+			gris_medio: ["skin_gris/medio.gif", 270],
+			gris_normal: ["skin_gris/normal.gif", 295]
+		},
+		
+		tubo1: {
+			base: "tubo1/",
+			agua2_BL: ["skin_agua2/BottomLeft.gif", 191],
+			agua2_BR: ["skin_agua2/BottomRight.gif", 172],
+			agua2_TL: ["skin_agua2/TopLeft.gif", 180],
+			agua2_TR: ["skin_agua2/TopRight.gif", 165],
+			cielo_BL: ["skin_cielo/BottomLeft.gif", 191],
+			cielo_BR: ["skin_cielo/BottomRight.gif", 172],
+			cielo_TL: ["skin_cielo/TopLeft.gif", 180],
+			cielo_TR: ["skin_cielo/TopRight.gif", 165],
+			dia_BL: ["skin_dia/BottomLeft.gif", 191],
+			dia_BR: ["skin_dia/BottomRight.gif", 199],
+			dia_TL: ["skin_dia/TopLeft.gif", 180],
+			dia_TR: ["skin_dia/TopRight.gif", 165],
+			noche_BL: ["skin_noche/BottomLeft.gif", 191],
+			noche_BR: ["skin_noche/BottomRight.gif", 172],
+			noche_TL: ["skin_noche/TopLeft.gif", 180],
+			noche_TR: ["skin_noche/TopRight.gif", 165],
+			sub_BL: ["skin_subterraneo/BottomLeft.gif", 191],
+			sub_BR: ["skin_subterraneo/BottomRight.gif", 199],
+			sub_TL: ["skin_subterraneo/TopLeft.gif", 180],
+			sub_TR: ["skin_subterraneo/TopRight.gif", 165]
+		},
+		
+		tubo2: {
+			base: "tubo2/",
+			agua2_BL: ["skin_agua2/BottomLeft.gif", 217],
+			agua2_BR: ["skin_agua2/BottomRight.gif", 201],
+			agua2_TL: ["skin_agua2/TopLeft.gif", 274],
+			agua2_TR: ["skin_agua2/TopRight.gif", 155],
+			cielo_BL: ["skin_cielo/BottomLeft.gif", 325],
+			cielo_BR: ["skin_cielo/BottomRight.gif", 206],
+			cielo_TL: ["skin_cielo/TopLeft.gif", 263],
+			cielo_TR: ["skin_cielo/TopRight.gif", 128],
+			dia_BL: ["skin_dia/BottomLeft.gif", 191],
+			dia_BR: ["skin_dia/BottomRight.gif", 152],
+			dia_TL: ["skin_dia/TopLeft.gif", 169],
+			dia_TR: ["skin_dia/TopRight.gif", 110],
+			noche_BL: ["skin_noche/BottomLeft.gif", 217],
+			noche_BR: ["skin_noche/BottomRight.gif", 159],
+			noche_TL: ["skin_noche/TopLeft.gif", 209],
+			noche_TR: ["skin_noche/TopRight.gif", 132],
+			sub_BL: ["skin_subterraneo/BottomLeft.gif", 191],
+			sub_BR: ["skin_subterraneo/BottomRight.gif", 152],
+			sub_TL: ["skin_subterraneo/TopLeft.gif", 169],
+			sub_TR: ["skin_subterraneo/TopRight.gif", 110]
+		},
+		
+		tubo3: {
+			base: "tubo3/",
+			agua2_BL: ["skin_agua2/BottomLeft.gif", 204],
+			agua2_BR: ["skin_agua2/BottomRight.gif", 172],
+			agua2_TL: ["skin_agua2/TopLeft.gif", 191],
+			agua2_TR: ["skin_agua2/TopRight.gif", 172],
+			cielo_BL: ["skin_cielo/BottomLeft.gif", 204],
+			cielo_BR: ["skin_cielo/BottomRight.gif", 172],
+			cielo_TL: ["skin_cielo/TopLeft.gif", 191],
+			cielo_TR: ["skin_cielo/TopRight.gif", 172],
+			dia_BL: ["skin_dia/BottomLeft.gif", 204],
+			dia_BR: ["skin_dia/BottomRight.gif", 201],
+			dia_TL: ["skin_dia/TopLeft.gif", 191],
+			dia_TR: ["skin_dia/TopRight.gif", 201],
+			noche_BL: ["skin_noche/BottomLeft.gif", 204],
+			noche_BR: ["skin_noche/BottomRight.gif", 172],
+			noche_TL: ["skin_noche/TopLeft.gif", 191],
+			noche_TR: ["skin_noche/TopRight.gif", 172],
+			sub_BL: ["skin_subterraneo/BottomLeft.gif", 204],
+			sub_BR: ["skin_subterraneo/BottomRight.gif", 201],
+			sub_TL: ["skin_subterraneo/TopLeft.gif", 191],
+			sub_TR: ["skin_subterraneo/TopRight.gif", 201]
+		},
+		
+		tubo4: {
+			base: "tubo4/",
+			agua2_BL: ["skin_agua2/BottomLeft.gif", 191],
+			agua2_BR: ["skin_agua2/BottomRight.gif", 172],
+			agua2_TL: ["skin_agua2/TopLeft.gif", 191],
+			agua2_TR: ["skin_agua2/TopRight.gif", 172],
+			cielo_BL: ["skin_cielo/BottomLeft.gif", 191],
+			cielo_BR: ["skin_cielo/BottomRight.gif", 172],
+			cielo_TL: ["skin_cielo/TopLeft.gif", 191],
+			cielo_TR: ["skin_cielo/TopRight.gif", 172],
+			dia_BL: ["skin_dia/BottomLeft.gif", 191],
+			dia_BR: ["skin_dia/BottomRight.gif", 199],
+			dia_TL: ["skin_dia/TopLeft.gif", 191],
+			dia_TR: ["skin_dia/TopRight.gif", 199],
+			noche_BL: ["skin_noche/BottomLeft.gif", 191],
+			noche_BR: ["skin_noche/BottomRight.gif", 172],
+			noche_TL: ["skin_noche/TopLeft.gif", 191],
+			noche_TR: ["skin_noche/TopRight.gif", 172],
+			sub_BL: ["skin_subterraneo/BottomLeft.gif", 191],
+			sub_BR: ["skin_subterraneo/BottomRight.gif", 199],
+			sub_TL: ["skin_subterraneo/TopLeft.gif", 191],
+			sub_TR: ["skin_subterraneo/TopRIght.gif", 199]
+		}
+	},
+	
+	seres: {
+		base: "seres/",
+		acorazado: {
+			base: "acorazado/skin/",
+			cadaver: ["cadaver.gif", 154],
+			derecha: ["derecha.gif", 647],
+			izquierda: ["izquierda.gif", 375],
+			muerto: ["muerto.gif", 297]
+		},
+		
+		bicho: {
+			base: "bicho/",
+			cast_cadaver: ["skin_castillo/cadaver.gif", 138],
+			cast_normal: ["skin_castillo/muerto.gif", 201],
+			cast_muerto: ["skin_castillo/normal.gif", 415],
+			dia_cadaver: ["skin_dia/cadaver.gif", 138],
+			dia_muerto: ["skin_dia/muerto.gif", 248],
+			dia_normal: ["skin_dia/normal.gif", 411],
+			sub_cadaver: ["skin_subterraneo/cadaver.gif", 138],
+			sub_muerto: ["skin_subterraneo/muerto.gif", 194],
+			sub_normal: ["skin_subterraneo/normal.gif", 376]
+		},
+		
+		burbuja: ["burbuja/skin/normal.gif", 55],
+		
+		cadena: {
+			base: "cadena/skin/",
+			cubo: ["cubo.gif", 139],
+			fuego: ["fuego.gif", 396]
+		},
+		
+		canion: {
+			base: "canion/skin/",
+			_B: ["Bottom.gif", 218],
+			_T: ["Top.gif", 194]
+		},
+		
+		carpincho: {
+			base: "carpincho/skin/",
+			derecha: ["derecha.gif", 614],
+			huevo: ["huevo.gif", 188],
+			izquierda: ["izquierda.gif", 729],
+			muertoD: ["muerto_derecha.gif", 218],
+			muertoI: ["muerto_izquierda.gif", 332]
+		},
+		
+		disparo: ["disparo/skin/normal.gif", 396],
+		
+		disparo2: ["disparo2/skin/normal.gif", 274],
+		
+		disparo3: {
+			base: "disparo3/skin/",
+			abajo: ["abajo.gif", 300],
+			arriba: ["arriba.gif", 206]
+		},
+		
+		disparo4: {
+			base: "disparo4/skin/",
+			derecha: ["derecha.gif", 194],
+			izquierda: ["izquierda.gif", 206]
+		},
+		
+		dragon: {
+			base: "dragon/skin/",
+			derecha: ["derecha.gif", 1771],
+			izquierda: ["izquierda.gif", 1057]
+		},
+		
+		estrella: ["estrella/skin/normal.gif", 426],
+		
+		explosion: ["explosion/skin/explocion.gif", 478],
+		
+		hongo: {
+			base: "hongo/",
+			muerte: ["skin_muerte/normal.gif", 179],
+			normal: ["skin_normal/normal.gif", 195],
+			vida: ["skin_vida/normal.gif", 179]
+		},
+		
+		martillo: {
+			base: "martillo/skin/",
+			derecha: ["derecha.gif", 1031],
+			izquierda: ["izquierda.gif", 1005]
+		},
+		
+		nube_asesisina: {
+			base: "nube_asesisina/skin/",
+			derecha: ["derecha.gif", 465],
+			izquierda: ["izquierda.gif", 271],
+			muerta: ["muerta.gif", 403],
+			vacia: ["vacia.gif", 218]
+		},
+		
+		pez: {
+			base: "pez/",
+			agua_muertoD: ["skin_agua/muerto_derecha.gif", 270],
+			agua_muertoI: ["skin_agua/muerto_izquierda.gif", 208],
+			agua_normalD: ["skin_agua/normal_derecha.gif", 498],
+			agua_normalI: ["skin_agua/normal_izquierda.gif", 395],
+			agua2_muertoD: ["skin_agua2/muerto_derecha.gif", 207],
+			agua2_muertoI: ["skin_agua2/muerto_izquierda.gif", 208],
+			agua2_normalD: ["skin_agua2/normal_derecha.gif", 678],
+			agua2_normalI: ["skin_agua2/normal_izquierda.gif", 395]
+		},
+		
+		planta: {
+			base: "planta/",
+			dia_normal: ["skin_dia/normal.gif", 556],
+			noche_normal: ["skin_noche/normal.gif", 556]
+		},
+		
+		planta2: ["planta2/skin/normal.gif", 151],
+		
+		pulpo: {
+			base: "pulpo/skin/",
+			chico: ["chico.gif", 225],
+			muerto: ["muerto.gif", 224],
+			normal: ["normal.gif", 282]
+		},
+		
+		tortuga: {
+			base: "tortuga/",
+			dia_cadaver: ["skin_dia/cadaver.gif", 196],
+			dia_muerto: ["skin_dia/muerto.gif", 355],
+			dia_normalD: ["skin_dia/normal_derecha.gif", 615],
+			dia_normalI: ["skin_dia/normal_izquierda.gif", 649],
+			dia_volandoD: ["skin_dia/volando_derecha.gif", 1046],
+			dia_volandoI: ["skin_dia/volando_izquierda.gif", 1180],
+			dia2_cadaver: ["skin_dia2/cadaver.gif", 196],
+			dia2_muerto: ["skin_dia2/muerto.gif", 184],
+			dia2_normalD: ["skin_dia2/normal_derecha.gif", 597],
+			dia2_normalI: ["skin_dia2/normal_izquierda.gif", 643],
+			dia2_volandoD: ["skin_dia2/volando_derecha.gif", 1011],
+			dia2_volandoI: ["skin_dia2/volando_izquierda.gif", 606],
+			sub_cadaver: ["skin_subterraneo/cadaver.gif", 196],
+			sub_muerto: ["skin_subterraneo/muerto.gif", 199],
+			sub_normalD: ["skin_subterraneo/normal_derecha.gif", 637],
+			sub_normalI: ["skin_subterraneo/normal_izquierda.gif", 558],
+			sub_volandoD: ["skin_subterraneo/volando_derecha.gif", 631],
+			sub_volandoI: ["skin_subterraneo/volando_izquierda.gif", 932]
+		},
+		
+		tortuga_asesina: {
+			base: "tortuga_asesina/skin/",
+			disparo: ["disparo.gif", 273],
+			disparoD: ["disparo_derecha.gif", 448],
+			disparoI: ["disparo_izquierda.gif", 273],
+			muertoD: ["muerto_derecha.gif", 272],
+			muertoI: ["muerto_izquierda.gif", 455],
+			normalD: ["normal_derecha.gif", 991],
+			normalI: ["normal_izquierda.gif", 582]
+		}
+	}
 };
 
 /*
@@ -424,14 +590,34 @@ precarga.callBack = function(porcentaje){
 	precarga.barra.style.width = (porcentaje * 250 / 100) + "px";
 }
 
-precarga.onComplete = function(tiempo){
+/*
+	Recorre las imagenes y por cada una llama a un callback.
+*/
+precarga.recorrerImgs = function(imagenes, funcion, base){
+	base = base || "";
 	
+	for(var i in imagenes){
+		var datos = imagenes[i];
+
+		if(i == "base"){
+			base += datos;
+		}
+		else if(tipo(datos) == "array"){
+			funcion(base, datos);
+		}
+		else if(tipo(datos) == "object"){
+			precarga.recorrerImgs(datos, funcion, base);
+		}
+		
+	}
 }
 
 /*
 	Empieza la precarga de imagenes.
 */
-precarga.empezar = function(){
+precarga.empezar = function(onComplete){
+	precarga.onComplete = onComplete;
+	
 	consola.separador();
 	
 	if( !general.precarga ){
@@ -460,20 +646,20 @@ precarga.empezar = function(){
 	/*
 		Se crean las imagenes, no es necesario agregarlas al documento, solas empiezan a cargarse.
 	*/
-	for( var i = 0; i < precarga.imagenes.length; i++ ){
-		
-		var url = precarga.urlBase + precarga.imagenes[i][0];
-		var tamanio = precarga.imagenes[i][1];
+	
+	precarga.recorrerImgs(imgs, function(base, img){
+		var url = base +  img[0];
+		var tamanio = img[1];
 		
 		precarga.tamTotal += tamanio;
 		
 		var imagen = dom.crear( "img", {src: url} );
 		
-		precarga.imagenes[i].push(imagen); 	// Se agrega el objeto que las carga
-	}
+		img.push(imagen); 	// Se agrega el objeto que las carga
+	});
 	
 	precarga.tiempo = ( new Date() ).getTime();
-	precarga.activa = true;
+	precarga.cargando = true;
 }
 
 /*
@@ -485,15 +671,13 @@ precarga.check = function(){
 		return false;
 	}
 	
-	precarga.actualizarEfectos();
-	
 	precarga.tamCargado = 0;
 	
-	for( var i = 0; i < precarga.imagenes.length; i++ ){
-		if( precarga.imagenes[i][2].complete ){
-			precarga.tamCargado += precarga.imagenes[i][1];
+	precarga.recorrerImgs(imgs, function(base, img){
+		if( img[2].complete ){
+			precarga.tamCargado += img[1];
 		}
-	}
+	});
 	
 	var porcentaje = Math.round(precarga.tamCargado / precarga.tamTotal * 100);
 	
@@ -507,9 +691,11 @@ precarga.check = function(){
 	if( precarga.tamCargado >= precarga.tamTotal ){
 		clearInterval(precarga.intervalo);
 		eventos.quitar(document, "mousemove", precarga.calcularAngulo);
+		opacidad(precarga.domObj, 100);
 		
 		if( precarga.onComplete ){
-			precarga.activa = false;
+			precarga.cargando = false;
+			precarga.efectoActual = false;
 			precarga.tiempo = ( new Date() ).getTime() - precarga.tiempo;
 			
 			log("Precarga finalizada! (" + Math.round(precarga.tiempo / 1000) + " Segundos)");
@@ -550,6 +736,8 @@ precarga.crearEfectos = function(){
 		tiempo: 1000,
 		efecto: "linear"
 	});
+	
+	precarga.efectoActual = "precargando";
 }
 
 /*
@@ -558,38 +746,55 @@ precarga.crearEfectos = function(){
 */
 precarga.actualizarEfectos = function(){
 	
-	precarga.actualizarFx();
+	var cambios = precarga.actualizarFx();
 	
-	if( precarga.opacidad != precarga.lastOpacidad ){
-		opacidad(precarga.domObj, Math.round(precarga.opacidad));
-		precarga.lastOpacidad = precarga.opacidad;
-	}
-	
-	if( !general.efectos ){
-		return false;
-	}
-	
-	precarga.barrasX -= 1;
-	if( -precarga.barrasX > (precarga.dash * 2) ){
-		precarga.barrasX = 0;
-	}
-	
-	if( precarga.angulo < precarga.anguloMouse ){
-		precarga.angulo += (precarga.anguloMouse - precarga.angulo) / 5;
-	}
-	if( precarga.angulo > precarga.anguloMouse ){
-		precarga.angulo -= (precarga.angulo - precarga.anguloMouse) / 5;
-	}
-	
-	for( var f = 0; f < precarga.filas.length; f++ ){
-		var fila = precarga.filas[f];
+	if( precarga.efectoActual == "precargando" ){
 		
+		/*
+			Fade-in inicial.
+		*/
+		if( cambios.opacidad ){
+			opacidad(precarga.domObj, Math.round(precarga.opacidad));
+		}
 		
-		var x = precarga.barrasX - (precarga.alto * precarga.maxAngulo);
-		x += + ( fila.posY * precarga.angulo );
+		if( !general.efectos ){
+			return false;
+		}
+		/*
+			Si los efectos generales estan activos se mueven las barras segun el mouse.
+		*/
+		precarga.barrasX -= precarga.velocidad;
+		if( -precarga.barrasX > (precarga.dash * 2) ){
+			precarga.barrasX += precarga.dash * 2;
+		}
 		
-		fila.domObj.style.marginLeft = x + "px";
+		if( precarga.angulo < precarga.anguloMouse ){
+			precarga.angulo += (precarga.anguloMouse - precarga.angulo) / 5;
+		}
+		if( precarga.angulo > precarga.anguloMouse ){
+			precarga.angulo -= (precarga.angulo - precarga.anguloMouse) / 5;
+		}
+		
+		for( var f = 0; f < precarga.filas.length; f++ ){
+			var fila = precarga.filas[f];
+			
+			
+			var x = precarga.barrasX - (precarga.alto * precarga.maxAngulo);
+			x += + ( fila.posY * precarga.angulo );
+			
+			fila.domObj.style.marginLeft = x + "px";
+		}
 	}
+	else if(precarga.efectoActual == "implotando"){
+		if( cambios.ancho ){
+			precarga.domObj.style.width = precarga.ancho + "px";
+		}
+		
+		if( cambios.alto ){
+			precarga.domObj.style.height = precarga.alto + "px";
+		}
+	}
+	
 }
 
 /*

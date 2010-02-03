@@ -18,12 +18,23 @@ function get(id){
 	la configuracion guardada previamente en el cliente.
 */
 var general = {
-	efectos: true, 		// Si los efectos estan habilitados
-	comentarios: true, 	// Si estan habilitados los comentarios
-	precarga: true, 	// Si esta habilitada la precarga de imagenes
-	ancho: 510,			// El ancho del juego
-	alto: 450			// El alto del juego
+	efectos: true, 		// Si los efectos estan activados
+	comentarios: true, 	// Si estan activados los comentarios
+	precarga: true, 	// Si esta activada la precarga de imagenes
+	ancho: 1,			// El ancho del juego
+	alto: 1			// El alto del juego
 };
+
+var contenedores = {
+	arriba: 	get("contenedorArriba"),
+	medio: 		get("contenedorMedio"),
+	sombra: 	get("contenedorSombra"),
+	central: 	get("contenedorCentral"),
+	menu: 		get("contenedorMenu"),
+	juego: 		get("contenedorJuego"),
+	editor: 	get("contenedorEditor"),
+	abajo: 		get("contenedorAbajo")
+}
 
 
 /*
@@ -166,16 +177,17 @@ function moduloCBCheck(){
 	"modulos" contiene a los objetos de los modulos.
 */
 var modulos = {
-	debug:			new Modulo("debug.js"),			 // No depende directamente (en su carga) de ningun otro modulo
-	eventos: 		new Modulo("eventos.js"),		 // No depende directamente
-	soporte: 		new Modulo("soporte.js"), 		 // Depende de eventos
-	fx: 			new Modulo("fx.js"),			 // No depende de ningun otro
-	almacenamiento: new Modulo("almacenamiento.js"), // Depende del modulo soporte
-	misc: 			new Modulo("misc.js"),			 
-	precarga: 		new Modulo("precarga.js"),		 
-	resize: 		new Modulo("resize.js"),		 
-	seres: 			new Modulo("seres.js"),			 
-	mapas: 			new Modulo("mapas.js")			 
+	misc: 			new Modulo("misc.js"),		// Funciones independientes, se cargan primero
+	debug:			new Modulo("debug.js"),
+	eventos: 		new Modulo("eventos.js"),
+	soporte: 		new Modulo("soporte.js"),
+	fx: 			new Modulo("fx.js"),
+	almacenamiento: new Modulo("almacenamiento.js"),
+	precarga: 		new Modulo("precarga.js"),
+	resize: 		new Modulo("resize.js"),
+	seres: 			new Modulo("seres.js"),
+	menu: 			new Modulo("menu.js"), 
+	mapas: 			new Modulo("mapas.js") 
 };
 
 
@@ -187,19 +199,22 @@ function modulosEstado(){
 	var estado = "";
 	
 	for( var m in modulos ){
-		var modulo = "\n> " + modulos[m];
+		estado +=  m + ": ";
 		
-		estado += m + ": ";
-		if( modulo.interpretado ){
+		if( modulos[m].interpretado ){
 			estado += "Interpretado";
 		}
-		if( modulo.cargado ){
+		else if( modulos[m].cargado ){
 			estado += "Creado";
 		}
-		if( modulo.creado ){
+		else if( modulos[m].creado ){
 			estado += "Interpretado";
 		}
+		else{
+			estado += "No creado";
+		}
 		
+		estado += ", ";
 	}
 	
 	return estado;
@@ -221,6 +236,7 @@ crearModuloCB("misc", function(){
 	modulos.precarga.cargar();
 	modulos.resize.cargar();
 	modulos.seres.cargar();
+	modulos.menu.cargar();
 	modulos.mapas.cargar();
 });
 
@@ -239,8 +255,26 @@ function actualizar(){
 	if(modulos.debug.interpretado){
 		consola.actualizar();
 	}
-	if( modulos.precarga.interpretado && precarga.activa ){
-		precarga.check();
+	
+	if( modulos.precarga.interpretado ){
+		if(precarga.cargando){
+			/*
+				Si se esta precargando las imagenes se las checkea.
+			*/
+			precarga.check();
+		}
+		if(precarga.efectoActual){
+			/*
+				Si se estan moviendo los efecots se los actualiza.
+			*/
+			precarga.actualizarEfectos();
+		}
+	}
+	
+	if( modulos.menu.interpretado ){
+		if(menu.efectoActual){
+			menu.actualizarEfectos();
+		}
 	}
 }
 
@@ -251,12 +285,27 @@ actualizacion.intevalo = setInterval(actualizar, actualizacion.tiempo);
 	Al terminar de cargar todos los modulos se empieza la precarga de imagenes.
 */
 crearModuloCB(
-	["debug", "eventos", "soporte", "fx", "almacenamiento", "precarga", "resize", "seres", "mapas"],
+	["debug", "eventos", "soporte", "fx", "almacenamiento", "precarga", "resize", "seres", "menu", "mapas"],
 	function(){
 		//almacenamiento.cargarConfig();
 		
 		soporte.test.todo(function(){
-			precarga.empezar();
+			precarga.empezar(function(){
+				
+				get("msgGeneral").style.display = "none";
+				dom.remover(precarga.domObj);
+				
+				if( !consola.oculta ){
+					consola.toogle();
+				}
+				
+				menu.explotar(function(){
+					menu.efectoBordes(function(){
+						menu.generar();
+					});
+				});
+				
+			});
 		});
 		
 	}
