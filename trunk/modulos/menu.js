@@ -25,11 +25,12 @@ var menu = {
 
 
 var sombra = {
-	domObj: null,				// La imagen de la sombra en el documento
-	largo: menu.anchoDef,		// El largo de la sombra
-	alto: menu.altoDef,			// El alto de la sombra
-	anchoDef: 580,				// El ancho final de la sombra
-	altoDef: 519				// El alto final de la sombra
+	domObj: null,			// La imagen de la sombra en el documento
+	ancho: menu.anchoDef,	// El ancho de la sombra
+	alto: menu.altoDef,		// El alto de la sombra
+	anchoDef: 580,			// El ancho final de la sombra
+	altoDef: 519,			// El alto final de la sombra
+	opacidad: 0				// La opacidad de la sombra
 };
 
 /*
@@ -139,11 +140,11 @@ menu.actualizarEfectos = function(){
 		opacidad(contenedores.medio, menu.opacidad);
 	}
 	
-	if( sombraCambios.largo ){
-		sombra.domObj.style.width = sombra.largo + "px";
+	if( sombraCambios.ancho ){
+		sombra.domObj.style.width = sombra.ancho + "px";
 	}
-	if( sombraCambios.largo ){
-		sombra.domObj.style.marginTop = (sombra.altoDef - sombra.alto) + "px";
+	if( sombraCambios.ancho ){
+		sombra.domObj.style.marginTop = ((sombra.altoDef - sombra.alto)/2) + "px";
 		sombra.domObj.style.height = sombra.alto + "px";
 	}
 }
@@ -153,13 +154,14 @@ menu.actualizarEfectos = function(){
 */
 menu.efectoBordes = function(onFinish){
 	
-	contenedores.central.style.marginTop = -(menu.altoDef + (sombra.altoDef - menu.altoDef) / 2) + "px";
-	sombra.domObj.style.width = sombra.largo + "px";
+	contenedores.sombra.style.marginTop = -(menu.altoDef + (sombra.altoDef - menu.altoDef) / 2) + "px";
+	sombra.domObj.style.width = sombra.ancho + "px";
 	sombra.domObj.style.height = sombra.alto + "px";
 	
 	sombra.domObj.style.display = "block";
 	
-	sombra.superponerFx("largo", {
+	
+	sombra.superponerFx("ancho", {
 		hasta: sombra.anchoDef,
 		tiempo: 600,
 		efecto: "quint_reverse"
@@ -171,6 +173,7 @@ menu.efectoBordes = function(onFinish){
 		efecto: "quint_reverse",
 		onFinish: onFinish
 	});
+	
 }
 
 

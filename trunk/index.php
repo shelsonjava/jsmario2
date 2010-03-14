@@ -8,7 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="styles/debug.css" />
 	<link rel="stylesheet" type="text/css" href="styles/precarga.css" />
 </head>
-<body onkeydown="log(event.keyCode);">
+<body>
 	
 	<!-- consola ( flotante ) -->
 	<div id="consola">
@@ -24,7 +24,6 @@
 		<div id="subTitulo">Super Mario Bross totally reconstructed using only javascript.</div>
 	</div>
 	
-	<br />
 	<div id="contenedorMedio">
 		<!-- Precarga, Juego -->
 		<div id="msgGeneral">Loading scripts and stuffs...</div>
@@ -34,8 +33,6 @@
 				
 			</div>
 		</div>
-		
-		<div id="contenedorSombra"></div>
 		
 		<div id="contenedorCentral">
 			<div id="contenedorMenu">
@@ -48,6 +45,8 @@
 				
 			</div>
 		</div>
+		
+		<div id="contenedorSombra"></div>
 		
 	</div>
 	
