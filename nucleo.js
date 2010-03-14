@@ -187,7 +187,7 @@ var modulos = {
 	resize: 		new Modulo("resize.js"),
 	seres: 			new Modulo("seres.js"),
 	menu: 			new Modulo("menu.js"), 
-	mapas: 			new Modulo("mapas.js") 
+	mapas: 			new Modulo("mapas.js")
 };
 
 
@@ -216,6 +216,8 @@ function modulosEstado(){
 		
 		estado += ", ";
 	}
+	
+	estado = estado.substr(0, estado.length - 2);
 	
 	return estado;
 }

@@ -44,8 +44,8 @@ var precarga = {
 	Lista de imagenes, cada una es un array con su url y su peso en bytes
 */
 var imgs = {
-	//base: "http://jsmario.com.ar/2.0/beta/imagenes/",
-	base: "imagenes/",
+	base: "http://jsmario.com.ar/2.0/beta/imagenes/",
+	// base: "imagenes/",
 	
 	selector: ["selector.gif", 99],
 	

@@ -172,17 +172,24 @@ consola.cargarInput = function(){
 	consola.alto += consola.inputAlto;
 	consola.domObj.style.height = consola.alto + "px";
 	
-	eventos.agregar(consola.input, "keydown", function(evento){
-		if( evento.keyCode == 13 ){
+	teclado.crearAtajo("Enter", {
+		down: function(e){
 			consola.evaluar();
 		}
-		else if(evento.keyCode == 38){
+	});
+	
+	teclado.crearAtajo("Up", {
+		down: function(e){
 			consola.inputMemoria(+1);
 		}
-		else if(evento.keyCode == 40){
-			consola.inputMemoria(-1);
+	});
+	
+	teclado.crearAtajo("Down", {
+		down: function(e){
+			consola.inputMemoria(+1);
 		}
 	});
+	
 }
 
 /*
