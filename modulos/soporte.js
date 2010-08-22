@@ -255,8 +255,8 @@ soporte.test.todo = function(onFinish){
 	soporte.css.borderRadius = soporte.test.css3Prop("border-radius", "2px");
 	log("Css -> border-radius: " + soporte.css.borderRadius);
 	
-	soporte.css.boxShadow = soporte.test.css3Prop('box-shadow', '0px #BBB');
-	log("Css -> border-radius: " + soporte.css.borderRadius);
+	soporte.css.boxShadow = soporte.test.css3Prop('box-shadow', '0px 0px 5px #000');
+	log("Css -> box-shadow: " + soporte.css.borderRadius);
 	
 	soporte.test.fontFace(function(){
 		log("Css -> font-face: " + soporte.css.fontFace);

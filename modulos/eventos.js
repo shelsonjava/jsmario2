@@ -149,18 +149,7 @@ teclado.convinacionParse = function(convinacion){
 	
 	return nueva_convinacion;
 }
-/*
 
-1 - Fondo con radial grandiet  http://img59.imageshack.us/img59/7366/temp8063469.jpg
-2 - Luces (Filter -> Render -> Lighting Effects) http://img59.imageshack.us/img59/7366/temp8063469.jpg
-3 - Fondo con luces (quedo medio feo pero hay que toquetear las opciones anteriores nada mas) http://img713.imageshack.us/img713/1128/temp5323603.jpg
-4 - Duplicar el cuadro de mario y con free transfor deformarlo en perspectiva (Ctrl + click en los puntos) http://img535.imageshack.us/img535/4933/temp5688303.jpg http://img96.imageshack.us/img96/5177/temp2735987.jpg
-5 - Hacer negro (Ctrl + U y poner light a 0) y agregar box blur http://img683.imageshack.us/img683/7837/temp3451230.jpg
-6 - Cortar la parte de arriba, acomodarlo, usar una goma gigante para borrar un poco lo que se pase, y "borrar" en degradé con quickmask (no se si sabes hacer eso, sino te muestro despues) http://img300.imageshack.us/img300/67/temp4211254.jpg
-7 - Duplicar la sombra, flipearla y listo http://img693.imageshack.us/img693/3691/temp2158392.jpg
-3e8cc0
-264260
-*/
 teclado.down = function(evento){
 	/*
 		Se corre cuando una tecla es apretada en el documento.

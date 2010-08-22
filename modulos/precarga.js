@@ -44,8 +44,8 @@ var precarga = {
 	Lista de imagenes, cada una es un array con su url y su peso en bytes
 */
 var imgs = {
-	base: "http://jsmario.com.ar/2.0/beta/imagenes/",
-	// base: "imagenes/",
+	// base: "http://jsmario.com.ar/2.0/beta/imagenes/",
+	base: "imagenes/",
 	
 	selector: ["selector.gif", 99],
 	
@@ -613,6 +613,7 @@ precarga.recorrerImgs = function(imagenes, funcion, base){
 }
 
 /*
+	1236
 	Empieza la precarga de imagenes.
 */
 precarga.empezar = function(onComplete){
@@ -656,6 +657,7 @@ precarga.empezar = function(onComplete){
 		var imagen = dom.crear( "img", {src: url} );
 		
 		img.push(imagen); 	// Se agrega el objeto que las carga
+		img.push(url); 	// Se agrega la url absoluta
 	});
 	
 	precarga.tiempo = ( new Date() ).getTime();

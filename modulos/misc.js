@@ -171,6 +171,7 @@ var dom = {
 	Crea un objeto del dom y le pone propiedades.
 */
 dom.crear = function(tipo, propiedades, padre){
+	
 	propiedades = propiedades || {};
 	
 	var objeto = document.createElement(tipo);
@@ -219,6 +220,67 @@ function opacidad( objeto, porcentaje ){
 	else{
 		objeto.style.opacity = porcentaje / 100;
 	}
+}
+
+/*
+	Recive el nombre de una propiedad css3 y devuelve una lista con las posibles notaciones en javascript.
+	Ej: recive "box-shadow" y devuelve ["boxShadow", "MozBoxShadow", "webkitBoxShadow", etc]
+*/
+var css3Props = 	["border-image", "border-radius", "box-shadow", "background-origin", "background-clip", "background-size", "text-shadow",
+					"text-overflow", "box-sizing", "resize"];
+
+function cssToJs(cssProp){
+
+	var letraCapital = function(a){
+		return a.substr(1, 1).toUpperCase();
+	};
+	
+	var jsProp = cssProp.replace(/-./g, letraCapital);
+	
+	if(_indexOf(css3Props, cssProp) != -1){
+		// Si es una propiedad css3
+		var _jsProp = ("-" + cssProp).replace(/-./g, letraCapital);
+		
+		return [
+			jsProp,
+			"Moz" 	+ _jsProp,
+			"moz" 	+ _jsProp,
+			"webkit" + _jsProp,
+			"ms" 	+ _jsProp,
+			"o" 	+ _jsProp
+		];
+	}
+	else{
+		return [jsProp];
+	}
+	
+}
+
+/*
+	Le da un valor a una propiedad css de un objeto.
+*/
+function css(objeto, propiedades){
+
+	for(var p in propiedades){
+		var props = cssToJs(p);
+		
+		for(var i in props){
+			objeto.style[props[i]] = propiedades[p];
+		}
+	}
+	
+}
+
+/*
+	Comprueba si el foco esta sobre un elemento.
+*/
+function isFocused(objeto){
+	log("Focused: ");
+	log(document.activeElement);
+	if(document.activeElement.id){
+		log(document.activeElement.id);
+	}
+	return document.activeElement == objeto;
 }
 
 

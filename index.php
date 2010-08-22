@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="styles/general.css" />
 	<link rel="stylesheet" type="text/css" href="styles/debug.css" />
 	<link rel="stylesheet" type="text/css" href="styles/precarga.css" />
+	
 </head>
 <body>
 	
@@ -35,28 +36,34 @@
 		</div>
 		
 		<div id="contenedorCentral">
-			<div id="contenedorMenu">
-				
-			</div>
 			<div id="contenedorJuego">
 				
 			</div>
 			<div id="contenedorEditor">
 				
 			</div>
+			<div id="contenedorStats">
+				
+			</div>
+			<div id="contenedorMenu">
+				
+			</div>
 		</div>
-		
-		<div id="contenedorSombra"></div>
 		
 	</div>
 	
 	<div id="contenedorAbajo">
 		<!-- Comentarios y footer -->
 	</div>
+	
+	<link rel="stylesheet" type="text/css" href="styles/menu.css" />
+	<link rel="stylesheet" type="text/css" href="styles/juego.css" />
+	
 	<!-- 
 		Luego de que la dom termine de formarse practicamente en su totalidad
 		se empieza a jugar con javascript :)
 	-->
 	<script type="text/javascript" src="nucleo.js"></script>
+	
 </body>
 </html>

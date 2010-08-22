@@ -140,6 +140,7 @@ consola.limpiar = function(){
 	Carga la nueva consola que ya no es provisoria.
 */
 consola.cargar = function(){
+	css(consola.domObj, {"box-shadow": "-10px 0px 10px #888"});
 	consola.limpiar();
 	
 	for( var d in debugArray ){
@@ -174,6 +175,7 @@ consola.cargarInput = function(){
 	
 	teclado.crearAtajo("Enter", {
 		down: function(e){
+			if(!isFocused(consola.input)){return;}
 			consola.evaluar();
 		}
 	});

@@ -1,0 +1,38 @@
+/*
+	Estilo del menu, contenedor de stats, pantalla de vidas, etc.
+*/
+
+#contenedorMenu{
+	background: #5C94FC;
+	top: 191px;
+	height: 144px;
+	/*opacity: 0.4;*/
+}
+
+#contenedorStats{
+	background: #0000FF;
+	opacity: 0.4;
+	top: 16px;
+	height: 30px;
+}
+
+.menuCasillero{
+	position: absolute;
+	overflow: hidden;
+	left: 0px;
+	padding: 0px 0px 0px 176px;
+	height: 16px;
+	width: 336px;
+	
+	
+	background: #4C84EC;
+	font-size: 16px;
+	color: #FFF;
+}
+
+#menuSelector{
+	position: absolute;
+	left: 150px;
+	height: 16px;
+	z-index: 2;
+}
