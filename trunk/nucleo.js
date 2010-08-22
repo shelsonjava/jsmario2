@@ -33,6 +33,7 @@ var contenedores = {
 	menu: 		get("contenedorMenu"),
 	juego: 		get("contenedorJuego"),
 	editor: 	get("contenedorEditor"),
+	stats:	 	get("contenedorStats"),
 	abajo: 		get("contenedorAbajo")
 }
 
@@ -289,7 +290,7 @@ actualizacion.intevalo = setInterval(actualizar, actualizacion.tiempo);
 crearModuloCB(
 	["debug", "eventos", "soporte", "fx", "almacenamiento", "precarga", "resize", "seres", "menu", "mapas"],
 	function(){
-		//almacenamiento.cargarConfig();
+		// almacenamiento.cargarConfig();
 		
 		soporte.test.todo(function(){
 			precarga.empezar(function(){
@@ -298,13 +299,12 @@ crearModuloCB(
 				dom.remover(precarga.domObj);
 				
 				if( !consola.oculta ){
-					consola.toogle();
+					// consola.toogle();
 				}
 				
 				menu.explotar(function(){
-					menu.efectoBordes(function(){
-						menu.generar();
-					});
+					menu.generar();
+					menu.cargar("inicial");
 				});
 				
 			});
