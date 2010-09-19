@@ -3,9 +3,9 @@
 */
 
 #contenedorMenu{
-	background: #5C94FC;
-	top: 191px;
-	height: 144px;
+	/* background: #5C94FC; */
+	top: 223px;
+	height: 160px; /* 16 * 10 */
 	/*opacity: 0.4;*/
 }
 
@@ -21,18 +21,45 @@
 	overflow: hidden;
 	left: 0px;
 	padding: 0px 0px 0px 176px;
-	height: 16px;
+	height: 19px;
 	width: 336px;
 	
+	/* border-top: 1px solid #6A93FF;
+	border-bottom: 1px solid #6A93FF; */
+}
+
+#menuPuntos{
+	position: absolute;
+	overflow: hidden;
+	left: 0px;
+	top: 125px; /* 16 * 8 - 3 */
+	height: 19px;
+	width: 320px;
 	
-	background: #4C84EC;
-	font-size: 16px;
-	color: #FFF;
+	padding: 0px 0px 0px 192px;
 }
 
 #menuSelector{
 	position: absolute;
-	left: 150px;
+	left: 145px;
 	height: 16px;
+	z-index: 2;
+}
+
+#menuFlechaArriba{
+	position: absolute;
+	/*left: 248px; /* 512 / 2 - 16 / 2*/
+	left: 146px;
+	top: 0px;
+	height: 8px;
+	z-index: 2;
+}
+
+#menuFlechaAbajo{
+	position: absolute;
+	/*left: 248px; /* 512 / 2 - 16 / 2*/
+	left: 146px;
+	top: 106px; /* 16 * 6 + (16 - 8) + 2 */
+	height: 8px;
 	z-index: 2;
 }

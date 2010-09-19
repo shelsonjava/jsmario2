@@ -30,7 +30,7 @@ var consola = {
 	lineas: 600, 	// Cantidad de objetos almacenados
 	posY: 0, 		// La posicion Y
 	lastY: 0, 		// La ultima posicion Y (para actualizar el alto solo cuando cambia)
-	alto: 201, 		// El alto de la consola en pixels (sin el input)
+	alto: 202, 		// El alto de la consola en pixels (sin el input)
 	inputAlto: 19, 	// El alto del input de la consola
 	inputArr: [], 	// Donde se guarda lo que se escribe en el input
 	inputArrPos: 0	// La posicion dentro de "inputArray" para poder navegar por este
@@ -175,19 +175,21 @@ consola.cargarInput = function(){
 	
 	teclado.crearAtajo("Enter", {
 		down: function(e){
-			if(!isFocused(consola.input)){return;}
+			if(!foco.enfocadoEn("consola")){return;}
 			consola.evaluar();
 		}
 	});
 	
 	teclado.crearAtajo("Up", {
 		down: function(e){
+			if(!foco.enfocadoEn("consola")){return;}
 			consola.inputMemoria(+1);
 		}
 	});
 	
 	teclado.crearAtajo("Down", {
 		down: function(e){
+			if(!foco.enfocadoEn("consola")){return;}
 			consola.inputMemoria(+1);
 		}
 	});
@@ -214,9 +216,11 @@ consola.toogle = function(){
 	
 	if(consola.oculta){
 		consola.input.blur();
+		foco.enfocar("body");
 	}
 	else{
 		consola.input.focus();
+		foco.enfocar("consola");
 	}
 	
 }

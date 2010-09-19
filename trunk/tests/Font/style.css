@@ -1,0 +1,5 @@
+@font-face {  
+  font-family: "Mario";  
+  src: url( mario.eot ); /* IE */  
+  src: local("Mario"), url(mario.ttf) format("truetype"); /* non-IE */  
+}

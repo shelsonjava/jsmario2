@@ -272,17 +272,12 @@ function css(objeto, propiedades){
 }
 
 /*
-	Comprueba si el foco esta sobre un elemento.
+	Convierte un texto en el html necesario para mostrarlo con la fuente de mario.
 */
-function isFocused(objeto){
-	log("Focused: ");
-	log(document.activeElement);
-	if(document.activeElement.id){
-		log(document.activeElement.id);
-	}
-	return document.activeElement == objeto;
+function escribir(texto, size){
+	size = size || 16;
+	return "<span class='texto'>" + texto + "</span>";
 }
-
 
 // --------------------
 if(window.modulos){
