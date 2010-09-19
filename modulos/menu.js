@@ -13,10 +13,10 @@ var menu = {
 	generarCasilleros: null, // General los espacios para opciones y las flechas de arriba y abajo
 	cargar: null, 			// Carga una cierta lista al menu
 	actualizar: null,		// Actualiza el contenido de los casilleros teniendo en cuenta la lista y la posicion actual
+	moverPos: null,			// Mueve la posicion del selector
 	Lista: null,			// Conviente un array en una lista de opciones que se puede cargar en el menu
 	Casillero: null,		// La clase para los casilleros donde van las opciones
 	
-	foco: false,		// Si el contenedor central tiene el foco
 	activo: false,		// Si se esta usando el menu
 	efectoActual: false, // El efecto actual que tenga el menu
 	ancho: 390,	 		// El ancho del contenedor del menu
@@ -32,6 +32,7 @@ var menu = {
 	selector: null,		// El selector de opciones de la izquierda (hongo)	
 	flechaArriba: null,	// La flecha que indica que arriba hay mas opciones (el objeto del dom)
 	flechaAbajo: null,	// La flecha que indica que abajo hay mas opciones (el objeto del dom)
+	puntos: null,		// El marcador de puntos maximos
 	opcionVacia: null	// Opcion sin ninguna funcion
 };
 
@@ -51,11 +52,11 @@ crearModuloCB("fx", function(){
 menu.Casillero = function(indice, contenido){
 	this.contenido = contenido;
 	this.domObj = null;
-	this.y = 16 + indice * 32;
+	this.y = 16 + indice * 32 - 3;
 	
 	this.crearDomObj = function(){
 		this.domObj = dom.crear("div", {
-			innerHTML: this.contenido.texto,
+			innerHTML: escribir(this.contenido.texto),
 			className: "menuCasillero",
 			style: {
 				top: this.y + "px"
@@ -64,7 +65,7 @@ menu.Casillero = function(indice, contenido){
 	}
 	
 	this.actualizar = function(){
-		this.domObj.innerHTML = this.contenido.texto;
+		this.domObj.innerHTML = escribir(this.contenido.texto);
 	}
 }
 
@@ -77,7 +78,7 @@ menu.Opcion = function(data){
 	}
 }
 
-menu.opcionVacia = new menu.Opcion( ["Empty", function(){}] );
+menu.opcionVacia = new menu.Opcion( ["", function(){}] );
 
 menu.Lista = function(opciones){
 	for( var o in opciones ){
@@ -90,28 +91,19 @@ menu.Lista = function(opciones){
 
 menu.listas = {
 	inicial: menu.Lista([
-		// ["1 player up", function(){log("1 player up")}				],
-		// ["Cargar", 		function(){menu.cargar(menu.listas.carga)} 	],
-		// ["Editar Mapa", function(){log("editor")} 					]
-		["Opcion 1", function(){log("1")}],
-		["Opcion 2", function(){log("2")}],
-		["Opcion 3", function(){log("3")}],
-		["Opcion 4", function(){log("4")}],
-		["Opcion 5", function(){log("5")}],
-		["Opcion 6", function(){log("6")}],
-		["Opcion 7", function(){log("7")}],
-		["Opcion 8", function(){log("8")}],
-		["Opcion 9", function(){log("9")}]
+		["1 player game", function(){log("Start")}			],
+		["load map", 	function(){menu.cargar("carga")}	],
+		["map editor", 	function(){log("Editor")} 			]
 	]),
 	carga: menu.Lista([
-		["Mapa", 		function(){log("crear mapa")}					],
-		["Personaje",	function(){log("cargar personaje")}				],
-		["Otros", 		function(){menu.cargar(menu.listas.cargaOtros)}	],
-		["Volver", 		function(){menu.cargar(menu.listas.inicial)}	]
+		["show list", 		function(){log("crear mapa")}		],
+		["load list",	function(){log("cargar personaje")}		],
+		["other", 		function(){menu.cargar("cargaOtros")}	],
+		["back", 		function(){menu.cargar("inicial")}		]
 	]),
 	cargaOtros: menu.Lista([
-		["No hay nada aca", function(){}, {habilitado: false}	],
-		["Volver", 			function(){menu.volver(1)}			]
+		["nothing here", function(){}, {habilitado: false}	],
+		["back", 			function(){menu.cargar("carga")}	]
 	])
 };
 
@@ -180,14 +172,29 @@ menu.generar = function(lista){
 
 menu.generarCasilleros = function(){
 	
-	for( var n = 0; n < 4; n++ ){
+	for( var n = 0; n < 3; n++ ){
 		menu.casilleros[n] = new menu.Casillero(n, menu.opcionVacia);
 		menu.casilleros[n].crearDomObj();
 	}
 	
+	menu.puntos = dom.crear("div", {
+		innerHTML: escribir("TOP- 000000"),
+		id: "menuPuntos"
+	}, contenedores.menu);
+	
 	menu.selector = dom.crear("img", {
 		src: imgs.selector[3],
 		id: "menuSelector"
+	}, contenedores.menu);
+	
+	menu.flechaArriba = dom.crear("img", {
+		src: imgs.flechaArriba[3],
+		id: "menuFlechaArriba"
+	}, contenedores.menu);
+	
+	menu.flechaAbajo = dom.crear("img", {
+		src: imgs.flechaAbajo[3],
+		id: "menuFlechaAbajo"
 	}, contenedores.menu);
 }
 
@@ -199,15 +206,12 @@ menu.cargar = function(lista){
 }
 
 menu.actualizar = function(){
-	for(var l = menu.posLista; l < menu.posLista + 4; l++){
+	for(var l = menu.posLista; l < menu.posLista + 3; l++){
 		var opcion = menu.listas[menu.lActual][l];
 		var casillero = l - menu.posLista;
 		
 		if(opcion){
 			menu.casilleros[casillero].contenido = opcion;
-			if(casillero == 4){
-				alert("cuarto");
-			}
 		}
 		else{
 			menu.casilleros[casillero].contenido = menu.opcionVacia;
@@ -217,47 +221,42 @@ menu.actualizar = function(){
 	}
 	
 	menu.selector.style.top = (16 + (menu.posActual - menu.posLista) * 32) + "px";
+	menu.flechaArriba.style.display = menu.listas[menu.lActual][menu.posLista - 1] ? "block" : "none";
+	menu.flechaAbajo.style.display = menu.listas[menu.lActual][menu.posLista + 3] ? "block" : "none";
+}
+
+menu.moverPos = function(n){
+	if(menu.listas[menu.lActual][menu.posActual + n]){
+		menu.posActual += n;
+		
+		if(menu.posLista > menu.posActual){
+			menu.posLista = menu.posActual;
+		}
+		if(menu.posActual - menu.posLista >= 3){
+			menu.posLista = menu.posActual - 2;
+		}
+		menu.actualizar();
+	}
 }
 
 crearModuloCB("eventos", function(){
 	teclado.crearAtajo("Down", {
 		down: function(e){
-			if(!menu.foco){return;}
-			if(menu.listas[menu.lActual][menu.posActual + 1]){
-				menu.posActual++;
-				if(menu.posActual - menu.posLista >= 4){
-					menu.posLista = menu.posActual - 3;
-				}
-				menu.actualizar();
-			}
+			if(!foco.enfocadoEn("menu")){return;}
+			menu.moverPos(1);
 		}
 	});
 	teclado.crearAtajo("Up", {
 		down: function(e){
-			if(!menu.foco){return;}
-			if(menu.listas[menu.lActual][menu.posActual - 1]){
-				menu.posActual--;
-				if(menu.posLista > menu.posActual){
-					menu.posLista = menu.posActual;
-				}
-				menu.actualizar();
-			}
+			if(!foco.enfocadoEn("menu")){return;}
+			menu.moverPos(-1);
 		}
 	});
-	
-	/*
-		Deteccion de foco del juego.
-	*/
-	eventos.agregar(document.body, "click", function(){
-		menu.foco = false;
-		contenedores.central.style.borderBottom = "none";
-	});
-	
-	eventos.agregar(contenedores.central, "click", function(){
-		setTimeout(function(){
-			menu.foco = true;
-			contenedores.central.style.borderBottom = "2px dashed #99D5FF";
-		}, 20);
+	teclado.crearAtajo("Enter", {
+		down: function(e){
+			if(!foco.enfocadoEn("menu")){return;}
+			menu.listas[menu.lActual][menu.posActual].accion();
+		}
 	});
 });
 

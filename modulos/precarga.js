@@ -48,6 +48,8 @@ var imgs = {
 	base: "imagenes/",
 	
 	selector: ["selector.gif", 99],
+	flechaArriba: ["flechaArriba.gif", 61],
+	flechaAbajo: ["flechaAbajo.gif", 61],
 	
 	figuras: {
 		base: "figuras/",

@@ -166,15 +166,13 @@ soporte.test.fontFace = function(onFinish){
 	log("*** $fontFaceTest:Font Face Test ***");
 	
 	var object = get("fontFaceTest");
-	object.style.fontFamily = "";
+	object.style.fontFamily = "unknown";
 	
 	var offsetWidth = object.offsetWidth;
-	
 	object.style.fontFamily = "Mario";
-	
+		
 	setTimeout(function(){
 		var newOffsetWidth = object.offsetWidth;
-		
 		soporte.css.fontFace = offsetWidth != newOffsetWidth;
 		
 		if( onFinish ){
@@ -247,7 +245,7 @@ soporte.test.todo = function(onFinish){
 	log("Audio: " + soporte.html5.audio.basico);
 	
 	soporte.test.pngTrans();
-	log("Png Transparent: " + soporte.global.pngTrans);
+	log("Png Transparency: " + soporte.global.pngTrans);
 	
 	soporte.css.zoom = soporte.test.cssProp("zoom", "zoom", "200%");
 	log("Css -> zoom: " + soporte.css.zoom);

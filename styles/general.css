@@ -1,3 +1,9 @@
+@font-face{
+  font-family: "Mario";
+  src: url( ../imagenes/font/mario.eot ); /* IE */  
+  src: local("Mario"), url(../imagenes/font/mario.ttf) format("truetype"); /* non-IE */  
+}
+
 html{ /* IE auto scroll */
 	overflow: auto;
 }
@@ -48,15 +54,13 @@ body{
 }
 
 #contenedorCentral{
+	background: #5C94FC url("../imagenes/backgroundTemp.gif");
 	position: relative;
 	overflow: hidden;
 	width: 390px;
 	height: 346px;
 	padding: 0px;
 	margin: 34px auto 0px auto;
-	
-	/* background: #5C94FC; */
-	background: #FFF;
 	
 	display: none;
 }
@@ -70,4 +74,10 @@ body{
 	height: 448px;
 	
 	display: none;
+}
+
+.texto{
+	font-family: 'Mario', 'Lucida Console';
+	font-size: 16px;
+	color: #FFF;
 }

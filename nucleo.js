@@ -187,7 +187,9 @@ var modulos = {
 	precarga: 		new Modulo("precarga.js"),
 	resize: 		new Modulo("resize.js"),
 	seres: 			new Modulo("seres.js"),
-	menu: 			new Modulo("menu.js"), 
+	menu: 			new Modulo("menu.js"),
+	foco:			new Modulo("foco.js"),
+	juego:			new Modulo("juego.js"),
 	mapas: 			new Modulo("mapas.js")
 };
 
@@ -240,7 +242,9 @@ crearModuloCB("misc", function(){
 	modulos.resize.cargar();
 	modulos.seres.cargar();
 	modulos.menu.cargar();
+	modulos.foco.cargar();
 	modulos.mapas.cargar();
+	modulos.juego.cargar();
 });
 
 
@@ -268,7 +272,7 @@ function actualizar(){
 		}
 		if(precarga.efectoActual){
 			/*
-				Si se estan moviendo los efecots se los actualiza.
+				Si se estan moviendo los efectos se los actualiza.
 			*/
 			precarga.actualizarEfectos();
 		}
@@ -288,7 +292,7 @@ actualizacion.intevalo = setInterval(actualizar, actualizacion.tiempo);
 	Al terminar de cargar todos los modulos se empieza la precarga de imagenes.
 */
 crearModuloCB(
-	["debug", "eventos", "soporte", "fx", "almacenamiento", "precarga", "resize", "seres", "menu", "mapas"],
+	["debug", "eventos", "soporte", "fx", "almacenamiento", "precarga", "resize", "seres", "menu", "foco", "juego", "mapas"],
 	function(){
 		// almacenamiento.cargarConfig();
 		
